@@ -1,0 +1,361 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="IT_PIC.master.cs" Inherits="HelpDeskVG.IT_PIC_Portal.IT_PIC" %>
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <%--<title><%= Page.Title %></title>--%>
+
+                <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- CSS files -->
+    <link href="../tabler/dist/css/tabler.min.css" rel="stylesheet" />
+    <link href="../tabler/dist/css/demo.min.css" rel="stylesheet" />
+    <link href="../tabler/dist/css/tabler-flags.min.css" rel="stylesheet" />
+    <link href="../tabler/dist/css/tabler-payments.min.css" rel="stylesheet" />
+    <link href="../tabler/dist/css/tabler-vendors.min.css" rel="stylesheet" />
+
+    <link href="./Content/toastr.css" rel="stylesheet"/>
+
+    <script src="../Scripts/toastr.js"></script>
+  
+        <!-- Tabler Core -->
+    <script src="../tabler/dist/js/tabler.min.js"></script>
+   <%-- <script src="../tabler/dist/js/demo.min.js"></script>--%>
+    <style>
+        @import url('https://rsms.me/inter/inter.css');
+
+
+        :root {
+            --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+        }
+
+        .custom-header{
+              background-color: #B22222;
+        }
+        .form-control:focus {
+            color: #B22222; /* Firebrick color for the text */
+            background-color: #fff; /* White background */
+            border-color: #B22222; /* Firebrick color for the border */
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem rgba(178, 34, 34, 0.25); /* Lighter Firebrick for the box shadow */
+        }
+        body {
+            font-feature-settings: "cv03", "cv04", "cv11";
+        }
+
+        /* Default nav-link styles */
+          .nav-link {
+            color: white; /* Default text color */
+            background-color: transparent; /* No background by default */
+            transition: all 0.3s ease; /* Smooth transition for hover effects */
+          }
+
+          /* Hover effect for nav-link */
+          .nav-link:hover {
+            color: black; /* Change text color on hover */
+            background-color: white; /* Light gray background on hover */
+            text-decoration: none; /* Remove underline */
+          }
+
+          /* Active nav-link */
+          .nav-link.active {
+            color: black !important; /* Text color when active */
+            background-color: #e0e0e0; /* Slightly darker background for active state */
+          }
+
+          /* Default icon style */
+          .icon-tabler {
+            stroke: white; /* Default SVG icon color */
+            transition: stroke 0.3s ease; /* Smooth transition for stroke color */
+          }
+
+          /* Hover effect for icon inside nav-link */
+          .nav-link:hover .icon-tabler {
+            stroke: black; /* Change SVG icon color on hover */
+          }
+
+          /* Active icon style */
+          .nav-link.active .icon-tabler {
+            stroke: black; /* Change SVG icon color when active */
+          }
+
+          /* Optional: Add a hover effect to the entire nav-item */
+          .nav-item:hover {
+            background-color: #f8f8f8; /* Light background for hover */
+          }
+    </style>
+        <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <%--<script src="../tabler/dist/js/demo-theme.min.js"></script>--%>
+    <div class="page">
+        <form runat="server">
+            <asp:ScriptManager runat="server">
+               
+            </asp:ScriptManager>
+            <!-- Header -->
+     <header class="navbar navbar-expand-md d-print-none" data-bs-theme="">
+       <div class="container-fluid">
+         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+         </button>
+         <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+             <img src="../img/logoVGnewpng.png" width="300" height="100" alt="VG" class="navbar-brand"> 
+         </h1>
+         <div class="navbar-nav flex-row order-md-last">
+           <div class="nav-item d-none d-md-flex me-3">
+           </div>
+             <div class="nav-item dropdown d-none d-md-flex me-3">
+               <a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications">
+                 <!-- Download SVG icon from http://tabler-icons.io/i/bell -->
+                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" /><path d="M9 17v1a3 3 0 0 0 6 0v-1" /></svg>
+                 <span class="badge bg-red"></span>
+               </a>
+               <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
+                 <div class="card">
+                   <div class="card-header">
+                     <h3 class="card-title">Last updates</h3>
+                   </div>
+                   <div class="list-group list-group-flush list-group-hoverable">
+                     <div class="list-group-item">
+                       <div class="row align-items-center">
+                         <div class="col-auto"><span class="status-dot status-dot-animated bg-red d-block"></span></div>
+                         <div class="col text-truncate">
+                           <a href="#" class="text-body d-block">Example 1</a>
+                           <div class="d-block text-secondary text-truncate mt-n1">
+                             Change deprecated html tags to text decoration classes (#29604)
+                           </div>
+                         </div>
+                         <div class="col-auto">
+                           <a href="#" class="list-group-item-actions">
+                             <!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                             <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
+                           </a>
+                         </div>
+                       </div>
+                     </div>
+                     <div class="list-group-item">
+                       <div class="row align-items-center">
+                         <div class="col-auto"><span class="status-dot d-block"></span></div>
+                         <div class="col text-truncate">
+                           <a href="#" class="text-body d-block">Example 2</a>
+                           <div class="d-block text-secondary text-truncate mt-n1">
+                             justify-content:between ⇒ justify-content:space-between (#29734)
+                           </div>
+                         </div>
+                         <div class="col-auto">
+                           <a href="#" class="list-group-item-actions show">
+                             <!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                             <svg xmlns="http://www.w3.org/2000/svg" class="icon text-yellow" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
+                           </a>
+                         </div>
+                       </div>
+                     </div>
+                     <div class="list-group-item">
+                       <div class="row align-items-center">
+                         <div class="col-auto"><span class="status-dot d-block"></span></div>
+                         <div class="col text-truncate">
+                           <a href="#" class="text-body d-block">Example 3</a>
+                           <div class="d-block text-secondary text-truncate mt-n1">
+                             Update change-version.js (#29736)
+                           </div>
+                         </div>
+                         <div class="col-auto">
+                           <a href="#" class="list-group-item-actions">
+                             <!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                             <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
+                           </a>
+                         </div>
+                       </div>
+                     </div>
+                     <div class="list-group-item">
+                       <div class="row align-items-center">
+                         <div class="col-auto"><span class="status-dot status-dot-animated bg-green d-block"></span></div>
+                         <div class="col text-truncate">
+                           <a href="#" class="text-body d-block">Example 4</a>
+                           <div class="d-block text-secondary text-truncate mt-n1">
+                             Regenerate package-lock.json (#29730)
+                           </div>
+                         </div>
+                         <div class="col-auto">
+                           <a href="#" class="list-group-item-actions">
+                             <!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                             <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
+                           </a>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           <div class="nav-item dropdown">
+             <a href="#" class="nav-link d-flex lh-1 text-reset p-0 me-5" data-bs-toggle="dropdown" aria-label="Open user menu">
+               <div class="d-none d-xl-block ps-2">
+                 <div><%= Session["FirstName"] ?? "Guest" %></div>
+                 <div class="mt-1 small text-secondary"><%=Session["EmployeePosition"] ?? "Guest" %></div>
+               </div>
+             </a>
+             <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" data-bs-theme="light">
+               <a href="./profile.html" class="dropdown-item">Profile</a>
+               <div class="dropdown-divider"></div>
+               <asp:LinkButton ID="btnLogout" runat="server" OnClick="btnLogout_Click" class="dropdown-item">Logout
+
+               </asp:LinkButton>
+
+             </div>
+           </div>
+         </div>
+       </div>
+     </header>
+            <!-- Header-->
+
+            <!-- Navbar Header -->
+            <header class="navbar-expand-md">
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <div class="navbar custom-header">
+                        <div class="container-fluid">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <asp:LinkButton ID="lnkHome" runat="server" OnClick="lnkHome_Click" CssClass="nav-link" role="button">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/home -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l-2 0l9 -9l9 9l-2 0"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path></svg>
+                                        </span>
+                                        <span class="nav-link-title text-white">Home
+                                        </span>
+                                        </asp:LinkButton>
+                                </li>
+                                <li class="nav-item">
+                                    <asp:LinkButton ID="lnkCreateTicket" runat="server" OnClick="lnkCreateTicket_Click" CssClass="nav-link" role="button">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/package -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5"></path><path d="M12 12l8 -4.5"></path><path d="M12 12l0 9"></path><path d="M12 12l-8 -4.5"></path><path d="M16 5.25l-8 4.5"></path></svg>
+                                        </span>
+                                        <span class="nav-link-title text-white"> Create New Ticket
+                                        </span>
+                                    </asp:LinkButton>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/checkbox -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 11l3 3l8 -8"></path><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9"></path></svg>
+                                        </span>
+                                        <span class="nav-link-title text-white">Ticket List
+                                        </span>
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <div class="dropdown-menu-columns">
+                                                <div class="dropdown-menu-column">
+                                                    <a class="dropdown-item" href="./empty.html">My Created Ticket List
+                                                    </a>
+                                                    <a class="dropdown-item" href="./cookie-banner.html">Ticket/s Assigned
+                          <span class="badge badge-sm bg-green-lt text-uppercase ms-auto">New</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="./">
+                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                <!-- Download SVG icon from http://tabler-icons.io/i/home -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l-2 0l9 -9l9 9l-2 0"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path></svg>
+                                            </span>
+                                            <span class="nav-link-title text-white">Report
+                                            </span>
+                                        </a>
+                                    </li>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!--Navbar Hedaer -->
+            <div class="page-wrapper">
+                <div class="page-header d-print-none">
+                    <div class="container-fluid">
+                        <div class="row g-2 align-items-center">
+                            <div class="col">
+                                <!-- Page pre-title -->
+                                <div class="page-pretitle">
+                                 HELPDESK
+                                </div>
+                                  <div class="page-pretitle">
+                                      VG SUPPLY CHAIN, INC.
+                                  </div>
+                                <%--<h2 class="page-title"><%= Page.Title %> </h2>--%>
+                            </div>
+                            <!-- Page title actions -->
+       
+                        </div>
+                    </div>
+                </div>
+                <!--Body -->
+                   <div class="page-body">
+                        <div class="container-fluid">
+
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                    </asp:ContentPlaceHolder>
+                    <hr />
+                            </div>
+                       </div>
+
+     
+
+                    <!--Footer-->
+                    <footer class="footer footer-transparent d-print-none">
+                        <div class="container-xl">
+                            <div class="row text-center align-items-center flex-row-reverse">
+                                <div class="col-lg-auto ms-lg-auto">
+                                    <ul class="list-inline list-inline-dots mb-0">
+                                        <li class="list-inline-item"><a href="https://tabler.io/docs" target="_blank" class="link-secondary" rel="noopener">Documentation</a></li>
+                                        <li class="list-inline-item"><a href="./license.html" class="link-secondary">License</a></li>
+                                        <li class="list-inline-item"><a href="https://github.com/tabler/tabler" target="_blank" class="link-secondary" rel="noopener">Source code</a></li>
+                                        <li class="list-inline-item">
+                                            <a href="https://github.com/sponsors/codecalm" target="_blank" class="link-secondary" rel="noopener">
+                                                <!-- Download SVG icon from http://tabler-icons.io/i/heart -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon text-pink icon-filled icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+                                                </svg>
+                                                Sponsor
+            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+                                    <ul class="list-inline list-inline-dots mb-0">
+                                        <li class="list-inline-item">Copyright &copy; 2023
+           
+                                            <a href="." class="link-secondary">Tabler</a>.
+            All rights reserved.
+          </li>
+                                        <li class="list-inline-item">
+                                            <a href="./changelog.html" class="link-secondary" rel="noopener">v1.0.0-beta20
+            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            
+        </form>
+    </div>
+</body>
+</html>
