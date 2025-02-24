@@ -122,9 +122,77 @@
 
     <main>
         <section class="row" aria-labelledby="aspnetTitle">
-<%--                        <h1><%=Page.Title %></h1>--%>
+                        <h1><%=Page.Title %></h1>
+
         </section>
-       
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row  align-items-end">
+                        <div class="col-md-2 mb-3">
+                            <asp:Label ID="lblFilterByDateTicketFrom" runat="server" CssClass="form-label status status-primary">Creation Date From:</asp:Label>
+                            <asp:TextBox ID="txtFilterDateFrom" runat="server" CssClass="form-control text text-reset mt-2" TextMode="Date"></asp:TextBox>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <asp:Label ID="lblFilterByDateTicketTo" runat="server" CssClass="form-label status status-primary">Creation Date To:</asp:Label>
+                            <asp:TextBox ID="txtFilterDateTo" runat="server" CssClass="form-control text text-reset mt-2" TextMode="Date"></asp:TextBox>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <asp:Label ID="lblSearchTicket" runat="server" CssClass="form-label status status-primary">Ticket Code:</asp:Label>
+                            <asp:TextBox ID="txtSearchTicket" CssClass="form-control text text-reset mt-2" Placeholder="Search Ticket Code.." runat="server"></asp:TextBox>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary">Filter Created By:</asp:Label>
+                            <asp:DropDownList ID="ddlEmployeeVg" CssClass="form-select text text-reset mt-2" runat="server">
+                            </asp:DropDownList>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <asp:Label ID="lblPriorityFilter" runat="server" CssClass="form-label status status-primary">Priority:</asp:Label>
+                            <asp:DropDownList ID="ddlPriorityFilter" runat="server" CssClass="form-select mt-2"></asp:DropDownList>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row align-items-end">
+                        <div class="col-md-3 mb-3">
+                            <asp:Label ID="lblSectionFilter" runat="server" CssClass="form-label status status-primary">Section:</asp:Label>
+                            <asp:DropDownList ID="ddlSectionFilter" runat="server" OnSelectedIndexChanged="ddlSectionFilter_SelectedIndexChanged" Enabled="true" AutoPostBack="true" CssClass="form-select text text-reset mt-2"></asp:DropDownList>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <asp:Label ID="lblCategoryFilter" runat="server" CssClass="form-label status status-primary">Category:</asp:Label>
+                            <asp:DropDownList ID="ddlCategoryFilter" runat="server" OnSelectedIndexChanged="ddlCategoryFilter_SelectedIndexChanged" AutoPostBack="true" Enabled="false" CssClass="form-select text text-reset mt-2"></asp:DropDownList>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <asp:Label ID="lblNatureOfProbFilter" runat="server" CssClass="form-label status status-primary">Nature Of Problem:</asp:Label>
+                            <asp:DropDownList ID="ddlNatureOfProbFilter" runat="server" OnSelectedIndexChanged="ddlNatureOfProbFilter_SelectedIndexChanged" AutoPostBack="true" Enabled="false" CssClass="form-select text text-reset mt-2"></asp:DropDownList>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <asp:Label ID="lblTicketStatusFilter" CssClass="form-label status status-primary" runat="server">Ticket Status</asp:Label>
+                            <asp:DropDownList ID="ddlTicketStatus" runat="server" CssClass="form-select mt-2">
+                                <asp:ListItem Text="Please Select" Value="" />
+                                <asp:ListItem Text="Draft" Value="0" />
+                                <asp:ListItem Text="For Assigning" Value="1" />
+                                <asp:ListItem Text="Rejected Ticket" Value="2" />
+                                <asp:ListItem Text="Assignment Confirmation" Value="3" />
+                                <asp:ListItem Text="Assigned" Value="4" />
+                                <asp:ListItem Text="For Re-Assigning" Value="5" />
+                                <asp:ListItem Text="Resolved" Value="6" />
+                                <asp:ListItem Text="Not Resolved" Value="7" />
+                                <asp:ListItem Text="Closed" Value="8" />
+                                <asp:ListItem Text="Auto Closed" Value="9" />
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <asp:LinkButton ID="lnkFilterMyTicket" OnClick="lnkFilterMyTicket_Click" runat="server" CssClass="form-control btn btn-primary">
+                               <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-filter"><path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                   <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" /></svg>
+                               Filter</asp:LinkButton>
+                </div>
+            </div>
+        </div>
+
 <div class="page-wrapper">
     <div class="page-body">
         <div class="card">
@@ -185,12 +253,9 @@
                                         <asp:LinkButton ID="lnkDetailsUserListTicket" OnClick="lnkDetailsUserListTicket_Click" CssClass="btn btn-info" runat="server">
                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                                                 View Details</asp:LinkButton>
-                                    <asp:LinkButton ID="lnkDeleteDraft" runat="server" ToolTip="Delete Draft" Visible='<%# (Eval("is_draft").ToString() == "True" ? true : false) %>' CommandArgument='<%# Eval("ticket_id")%>' OnClick="lnkDeleteDraft_Click" CssClass="btn btn-warning position--relative w-50">
-                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x">
-                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                         <path d="M18 6l-12 12" />
-                                                         <path d="M6 6l12 12" />
-                                                     </svg>
+                                    <asp:LinkButton ID="lnkDeleteDraft" runat="server" ToolTip="Delete Draft" Visible='<%# (Eval("is_draft").ToString() == "True" ? true : false) %>' CommandArgument='<%# Eval("ticket_id")%>' OnClick="lnkDeleteDraft_Click" CssClass="btn btn-danger position--relative w-50">
+                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />
+                                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
                                                      Delete
                                     </asp:LinkButton>
                                     </ItemTemplate>

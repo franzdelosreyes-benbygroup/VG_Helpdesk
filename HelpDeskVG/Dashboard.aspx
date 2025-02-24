@@ -50,18 +50,82 @@
     <section class="row" aria-labelledby="aspnetTitle">
         <h1><%=Page.Title %></h1>
     </section>
-    <%--        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title"></h3>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row  align-items-end">
+                    <div class="col-md-2 mb-3">
+                        <asp:Label ID="lblFilterByDateTicketFrom" runat="server" CssClass="form-label status status-primary">Creation Date From:</asp:Label>
+                        <asp:TextBox ID="txtFilterDateFrom" runat="server" CssClass="form-control text text-reset mt-2" TextMode="Date"></asp:TextBox>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <asp:Label ID="lblFilterByDateTicketTo" runat="server" CssClass="form-label status status-primary">Creation Date To:</asp:Label>
+                        <asp:TextBox ID="txtFilterDateTo" runat="server" CssClass="form-control text text-reset mt-2" TextMode="Date"></asp:TextBox>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <asp:Label ID="lblSearchTicket" runat="server" CssClass="form-label status status-primary">Ticket Code:</asp:Label>
+                        <asp:TextBox ID="txtSearchTicket" CssClass="form-control text text-reset mt-2" Placeholder="Search Ticket Code.." runat="server"></asp:TextBox>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary">Filter Created By:</asp:Label>
+                        <asp:DropDownList ID="ddlEmployeeVg" CssClass="form-select text text-reset mt-2" runat="server">
+                        </asp:DropDownList>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <asp:Label ID="Label3" runat="server" CssClass="form-label status status-primary">Filter Created For:</asp:Label>
+                        <asp:DropDownList ID="ddlCreatedForVg" CssClass="form-select text text-reset mt-2" runat="server">
+                        </asp:DropDownList>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <asp:Label ID="lblPriorityFilter" runat="server" CssClass="form-label status status-primary">Priority:</asp:Label>
+                        <asp:DropDownList ID="ddlPriorityFilter" runat="server" CssClass="form-select mt-2"></asp:DropDownList>
+                    </div>
                 </div>
-            </div>--%>
-
-
-<div class="page-wrapper">
-    <div class="page-body">
-        <div class="card">
-            <div class="card-header bg-red">
+            </div>
+            <div class="col-md-12">
+                <div class="row align-items-end">
+                    <div class="col-md-3 mb-3">
+                        <asp:Label ID="lblSectionFilter" runat="server" CssClass="form-label status status-primary">Section:</asp:Label>
+                        <asp:DropDownList ID="ddlSectionFilter" runat="server" OnSelectedIndexChanged="ddlSectionFilter_SelectedIndexChanged" Enabled="true" AutoPostBack="true" CssClass="form-select text text-reset mt-2"></asp:DropDownList>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <asp:Label ID="lblCategoryFilter" runat="server" CssClass="form-label status status-primary">Category:</asp:Label>
+                        <asp:DropDownList ID="ddlCategoryFilter" runat="server" OnSelectedIndexChanged="ddlCategoryFilter_SelectedIndexChanged" AutoPostBack="true" Enabled="false" CssClass="form-select text text-reset mt-2"></asp:DropDownList>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <asp:Label ID="lblNatureOfProbFilter" runat="server" CssClass="form-label status status-primary">Nature Of Problem:</asp:Label>
+                        <asp:DropDownList ID="ddlNatureOfProbFilter" runat="server" OnSelectedIndexChanged="ddlNatureOfProbFilter_SelectedIndexChanged" AutoPostBack="true" Enabled="false" CssClass="form-select text text-reset mt-2"></asp:DropDownList>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <asp:Label ID="lblTicketStatusFilter" CssClass="form-label status status-primary" runat="server">Ticket Status</asp:Label>
+                        <asp:DropDownList ID="ddlTicketStatus" runat="server" CssClass="form-select mt-2">
+                            <asp:ListItem Text="Please Select" Value="" />
+                            <asp:ListItem Text="Draft" Value="0" />
+                            <asp:ListItem Text="For Assigning" Value="1" />
+                            <asp:ListItem Text="Rejected Ticket" Value="2" />
+                            <asp:ListItem Text="Assignment Confirmation" Value="3" />
+                            <asp:ListItem Text="Assigned" Value="4" />
+                            <asp:ListItem Text="For Re-Assigning" Value="5" />
+                            <asp:ListItem Text="Resolved" Value="6" />
+                            <asp:ListItem Text="Not Resolved" Value="7" />
+                            <asp:ListItem Text="Closed" Value="8" />
+                            <asp:ListItem Text="Auto Closed" Value="9" />
+                        </asp:DropDownList>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <asp:LinkButton ID="lnkFilterMyTicket" OnClick="lnkFilterMyTicket_Click" runat="server" CssClass="form-control btn btn-primary">
+                               <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-filter"><path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                   <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" /></svg>
+                               Filter</asp:LinkButton>
+            </div>
+        </div>
+    </div>
+    <div class="page-wrapper">
+        <div class="page-body">
+            <div class="card">
+                <div class="card-header bg-red">
                     <ul class="nav nav-tabs card-header-tabs bg-red nav-fill" data-bs-toggle="tabs" role="tablist">
                         <li class="nav-item text-black" role="presentation">
                             <a class="nav-link active" data-bs-toggle="tab" href="#myCreatedTicket" aria-selected="false" role="tab">
@@ -79,9 +143,9 @@
                             <a class="nav-link " data-bs-toggle="tab" href="#userTickets" aria-selected="false" role="tab">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path></svg>
-                                   Assign Ticket                    
-                                </a>
-                            </li>
+                                Assign Ticket                    
+                            </a>
+                        </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" data-bs-toggle="tab" href="#forReassignITPIC" aria-selected="false" role="tab" tabindex="-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-align-left-2">
@@ -94,236 +158,178 @@
                                 Reassign Ticket IT PIC
                             </a>
                         </li>
-                    
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#assignedTickets" aria-selected="false" role="tab" tabindex="-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-list-check">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
-                            <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
-                            <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
-                            <path d="M11 6l9 0" />
-                            <path d="M11 12l9 0" />
-                            <path d="M11 18l9 0" />
-                        </svg>
-                            IT PIC Assigned Tickets
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#rejectedTicketAdmin" aria-selected="false" role="tab" tabindex="-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-xbox-x">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z" />
-                            <path d="M9 8l6 8" />
-                            <path d="M15 8l-6 8" />
-                        </svg>
-                            Admin Rejected Tickets to User
-                        </a>
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" data-bs-toggle="tab" href="#assignedTickets" aria-selected="false" role="tab" tabindex="-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-list-check">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
+                                    <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
+                                    <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
+                                    <path d="M11 6l9 0" />
+                                    <path d="M11 12l9 0" />
+                                    <path d="M11 18l9 0" />
+                                </svg>
+                                IT PIC Assigned Tickets
+                            </a>
                         </li>
-                </ul>
-            </div>
-            <div class="card-body">
-            <div class="tab-content">
-                <div class="tab-pane active show" id="myCreatedTicket" role="tabpanel">
-                    <div class="col-md-12">
-                        <div class="row">
-                                <div class="col-md-12">
-                                        <div class="row align-items-end"> 
-                                        <div class="col-md-2 mb-3">
-                                            <asp:Label ID="lblFilterByDateTicketFrom" runat="server" CssClass="form-label status status-primary">Creation Date From:</asp:Label>
-                                            <asp:TextBox ID="txtFilterDateFrom" runat="server" CssClass="form-control text text-reset mt-2" TextMode="Date"></asp:TextBox>
-                                        </div>
-                                        <div class="col-md-2 mb-3">
-                                            <asp:Label ID="lblFilterByDateTicketTo" runat="server" CssClass="form-label status status-primary">Creation Date To:</asp:Label>
-                                            <asp:TextBox ID="txtFilterDateTo" runat="server" CssClass="form-control text text-reset mt-2" TextMode="Date"></asp:TextBox>
-                                        </div>
-                                        <div class="col-md-2 mb-3">
-                                            <asp:Label ID="lblSearchTicket" runat="server" CssClass="form-label status status-primary">Search:</asp:Label>
-                                            <asp:TextBox ID="txtSearchTicket" CssClass="form-control text text-reset mt-2" Placeholder="Search Ticket Code.." runat="server"></asp:TextBox>
-                                        </div>
-                                         <div class="col-md-2 mb-3 mt-5">
-                                            <asp:LinkButton ID="lnkSearchTicket" OnClick="lnkSearchTicket_Click" CssClass="btn btn-primary" runat="server">+
-                                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  
-                                                     class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" />
-                                                 </svg> Search Information                              
-                                            </asp:LinkButton>
-                                        </div>
-                                        <div class="col-md-2 mb-3">
-                                         <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary">Filter Created By:</asp:Label>
-                                            <asp:DropDownList ID="ddlEmployeeVg" CssClass="form-select text text-reset mt-2" runat="server">
-                                            </asp:DropDownList>
-                                        </div>
-                                        <div class="col-md-2 mb-3 mt-5">
-                                            <asp:LinkButton ID="lnkSearchByCreatedBy" OnClick="lnkSearchByCreatedBy_Click" runat="server" CssClass="btn btn-primary">
-                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-filter"><path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                                <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" />
-                                            </svg>Filter By Created By:
-                                            </asp:LinkButton>
-                                        </div>
-                                   </div>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" data-bs-toggle="tab" href="#rejectedTicketAdmin" aria-selected="false" role="tab" tabindex="-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-xbox-x">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z" />
+                                    <path d="M9 8l6 8" />
+                                    <path d="M15 8l-6 8" />
+                                </svg>
+                                Admin Rejected Tickets to User
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active show" id="myCreatedTicket" role="tabpanel">
+                            <div class="col-md-12 mt-2">
+                                <asp:Label ID="lblMyCreatedTicket" runat="server" CssClass="h4" Text="My Created Tickets"></asp:Label>
                             </div>
-                            <div class="col-md-12">
-                                <div class="row align-items-end">
-                                    <div class="col-md-3 mb-3">
-                                        <asp:Label ID="lblSectionFilter" runat="server" CssClass="form-label status status-primary">Section</asp:Label>
-                                        <asp:DropDownList ID="ddlSectionFilter" runat="server" CssClass="form-select text text-reset mt-2"></asp:DropDownList>
-                                    </div>
-                                    <div class="col-md-3 mb-3">
-                                        <asp:Label ID="lblCategoryFilter" runat="server" CssClass="form-label status status-primary">Category</asp:Label>
-                                        <asp:DropDownList ID="ddlCategoryFilter" runat="server" CssClass="form-select text text-reset mt-2"></asp:DropDownList>
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <asp:Label ID="lblNatureOfProbFilter" runat="server" CssClass="form-label status status-primary">Nature Of Problem</asp:Label>
-                                        <asp:DropDownList ID="ddlNatureOfProbFilter" runat="server" CssClass="form-select text text-reset mt-2"></asp:DropDownList>
-                                    </div>
-                                    <div class="col-md-2 mb-3 mt-5">
 
-                                    </div>
-                                </div>
-                            </div>
+                            <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvAdminTicketList_PageIndexChanged" EmptyDataTe="No Data Found">
+                                <Columns>
+                                    <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                    <asp:BoundField DataField="status" HeaderText="Status" />
+                                    <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                    <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                    <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                    <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                    <asp:BoundField DataField="created_by" HeaderText="Created By" />
+                                    <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                                    <asp:TemplateField HeaderText="Actions">
+                                        <ItemTemplate>
+                                            <asp:HiddenField ID="hfTicketHeaderMyTicket" Value='<%# Eval("ticket_id")%>' runat="server" />
+                                            <asp:HiddenField ID="hfIsDraftId" Value='<%# Eval("approval_transactional_level") %>' runat="server" />
+                                            <asp:LinkButton ID="lnkDetailsMyTicket" OnClick="lnkDetailsMyTicket_Click" CssClass="btn btn-info" runat="server">
+                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+                                                        View Details
+                                            </asp:LinkButton>
+                                            <asp:LinkButton ID="lnkDeleteDraft" runat="server" ToolTip="Delete Draft" Visible='<%# (Eval("is_draft").ToString() == "True" ? true : false) %>' CommandArgument='<%# Eval("ticket_id")%>' OnClick="lnkDeleteDraft_Click" CssClass="btn btn-danger position--relative w-50">
+                                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x">
+                                                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                   <path d="M18 6l-12 12" />
+                                                   <path d="M6 6l12 12" />
+                                               </svg>
+                                               Delete
+                                            </asp:LinkButton>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
                         </div>
-                    </div>
-                    <div class="col-md-12 mt-2">
-                        <asp:Label ID="lblMyCreatedTicket" runat="server" CssClass="h4" Text="My Created Tickets"></asp:Label>
-                    </div>
-                </div>
 
-                <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvAdminTicketList_PageIndexChanged" EmptyDataTe="No Data Found">
-                        <Columns>
-                            <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
-                            <asp:BoundField DataField="status" HeaderText="Status" />
-                            <asp:BoundField DataField="description_section" HeaderText="Section" />
-                            <asp:BoundField DataField="description_category" HeaderText="Category" />
-                            <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
-                            <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                            <asp:BoundField DataField="created_by" HeaderText="Created By" />
-                            <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
-                            <asp:TemplateField HeaderText="Actions">
-                                <ItemTemplate>
-                                    <asp:HiddenField ID="hfTicketHeaderMyTicket" Value='<%# Eval("ticket_id")%>' runat="server" />
-                                    <asp:HiddenField ID ="hfIsDraftId" Value='<%# Eval("approval_transactional_level") %>' runat="server" />
-                                    <asp:LinkButton ID="lnkDetailsMyTicket" OnClick="lnkDetailsMyTicket_Click" CssClass="btn btn-info" runat="server">
-                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
-                                                    View Details
-                                    </asp:LinkButton>
-                                    <asp:LinkButton ID="lnkDeleteDraft" runat="server" ToolTip="Delete Draft" Visible='<%# (Eval("is_draft").ToString() == "True" ? true : false) %>' CommandArgument='<%# Eval("ticket_id")%>' OnClick="lnkDeleteDraft_Click" CssClass="btn btn-danger position--relative w-50">
-                                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x">
-                                               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                               <path d="M18 6l-12 12" />
-                                               <path d="M6 6l12 12" />
-                                           </svg>
-                                           Delete
-                                    </asp:LinkButton>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                        </Columns>
-                    </asp:GridView>
-                </div>
 
-                <div class="tab-pane fade" id="userTickets" role="tabpanel">
-                    <asp:Label ID="lblUserTicketsContent" runat="server" CssClass="h4" Text="User's tickets"></asp:Label>
-                    <asp:GridView ID="gvAdminTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvAdminTicketList_PageIndexChanged" EmptyDataTe="No Data Found">
-                        <Columns>
-                            <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
-                            <asp:BoundField DataField="description_section" HeaderText="Section" />
-                            <asp:BoundField DataField="description_category" HeaderText="Category" />
-                            <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
-                            <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                            <asp:BoundField DataField="created_for" HeaderText="Created For" />
-                            <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                        <div class="tab-pane fade" id="userTickets" role="tabpanel">
+                            <asp:Label ID="lblUserTicketsContent" runat="server" CssClass="h4" Text="User's tickets"></asp:Label>
+                            <asp:GridView ID="gvAdminTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvAdminTicketList_PageIndexChanged" EmptyDataTe="No Data Found">
+                                <Columns>
+                                    <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                    <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                    <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                    <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                    <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                    <asp:BoundField DataField="created_for" HeaderText="Created For" />
+                                    <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
 
-                            <asp:TemplateField HeaderText="Actions">
-                                <ItemTemplate>
-                                    <asp:HiddenField ID="hfTicketHeaderId" Value='<%# Eval("ticket_id")%>' runat="server" />
-                                    <asp:LinkButton ID="lnkDetailsUserListTicket" OnClick="lnkDetailsUserListTicket_Click" CssClass="btn btn-info" runat="server">
+                                    <asp:TemplateField HeaderText="Actions">
+                                        <ItemTemplate>
+                                            <asp:HiddenField ID="hfTicketHeaderId" Value='<%# Eval("ticket_id")%>' runat="server" />
+                                            <asp:LinkButton ID="lnkDetailsUserListTicket" OnClick="lnkDetailsUserListTicket_Click" CssClass="btn btn-info" runat="server">
                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                         View Details</asp:LinkButton>
 
-                                    <%--   <asp:LinkButton ID="btnAssignTo" OnClick="btnAssignTo_Click" CssClass="btn btn-success w-25" runat="server">Assign</asp:LinkButton>
+                                            <%--   <asp:LinkButton ID="btnAssignTo" OnClick="btnAssignTo_Click" CssClass="btn btn-success w-25" runat="server">Assign</asp:LinkButton>
                                             <asp:LinkButton ID="btnRejectTicket" OnClick="btnRejectTicket_Click" CssClass="btn btn-danger w-25" runat="server">Reject Ticket</asp:LinkButton>--%>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                        </Columns>
-                    </asp:GridView>
-                </div>
-                <div class="tab-content">
-                    <div class="tab-pane fade" id="forReassignITPIC" role="tabpanel">
-                        <asp:Label ID="lblForReassignITPIC" runat="server" CssClass="h4" Text="Reassign Ticket will be displayed here."></asp:Label>
-                        <asp:GridView ID="gvAdminForReassignTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvAdminForReassignTicketList_PageIndexChanged" EmptyDataTe="No Data Found">
-                            <Columns>
-                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
-                                <asp:BoundField DataField="description_section" HeaderText="Section" />
-                                <asp:BoundField DataField="description_category" HeaderText="Category" />
-                                <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
-                                <asp:BoundField DataField="assigned_emp_no_log" HeaderText="Previous IT PIC" />
-                                <asp:BoundField DataField="itpic_recent_reject_remarks" HeaderText="IT PIC Reject Remarks" />
-                                <asp:BoundField DataField="created_at" HeaderText="Rejected At" />
-                                <asp:BoundField DataField="created_for" HeaderText="Created For" />
-                                <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade" id="forReassignITPIC" role="tabpanel">
+                                <asp:Label ID="lblForReassignITPIC" runat="server" CssClass="h4" Text="Reassign Ticket will be displayed here."></asp:Label>
+                                <asp:GridView ID="gvAdminForReassignTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvAdminForReassignTicketList_PageIndexChanged" EmptyDataTe="No Data Found">
+                                    <Columns>
+                                        <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                        <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                        <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                        <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                        <asp:BoundField DataField="assigned_emp_no_log" HeaderText="Previous IT PIC" />
+                                        <asp:BoundField DataField="itpic_recent_reject_remarks" HeaderText="IT PIC Reject Remarks" />
+                                        <asp:BoundField DataField="created_at" HeaderText="Rejected At" />
+                                        <asp:BoundField DataField="created_for" HeaderText="Created For" />
+                                        <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
 
-                                <asp:TemplateField HeaderText="Actions">
-                                    <ItemTemplate>
-                                        <asp:HiddenField ID="hfTicketHeaderIdReassignITPIC" runat="server" Value='<%# Eval("ticket_id")%>' />
-                                        <asp:LinkButton ID="lnkDetailsReassignITPIC" OnClick="lnkDetailsReassignITPIC_Click" CssClass="btn btn-info w-50" runat="server">
+                                        <asp:TemplateField HeaderText="Actions">
+                                            <ItemTemplate>
+                                                <asp:HiddenField ID="hfTicketHeaderIdReassignITPIC" runat="server" Value='<%# Eval("ticket_id")%>' />
+                                                <asp:LinkButton ID="lnkDetailsReassignITPIC" OnClick="lnkDetailsReassignITPIC_Click" CssClass="btn btn-info w-50" runat="server">
                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                             View Details</asp:LinkButton>
-                                        <%--  <asp:LinkButton ID="btnAssignToReassign" OnClick="btnAssignToReassign_Click" CssClass="btn btn-success w-25" runat="server">Assign</asp:LinkButton>
+                                                <%--  <asp:LinkButton ID="btnAssignToReassign" OnClick="btnAssignToReassign_Click" CssClass="btn btn-success w-25" runat="server">Assign</asp:LinkButton>
                                                 <asp:LinkButton ID="btnRejectTicketReassign" OnClick="btnRejectTicketReassign_Click" CssClass="btn btn-danger w-25" runat="server">Reject Ticket</asp:LinkButton>--%>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                        </asp:GridView>
-                    </div>
-                    <div class="tab-pane fade" id="assignedTickets" role="tabpanel">
-                        <asp:Label ID="Label2" runat="server" CssClass="h4" Text="Assigned Tickets."></asp:Label>
-                        <asp:GridView ID="gvAdminAssignedTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvAdminAssignedTicketList_PageIndexChanged" EmptyData="No Data Found">
-                            <Columns>
-                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
-                               <asp:BoundField DataField="description_section" HeaderText="Section" />
-                               <asp:BoundField DataField="description_category" HeaderText="Category" />
-                               <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
-                               <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                               <asp:BoundField DataField="created_by" HeaderText="Created At" />
-                               <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
+                            <div class="tab-pane fade" id="assignedTickets" role="tabpanel">
+                                <asp:Label ID="Label2" runat="server" CssClass="h4" Text="Assigned Tickets."></asp:Label>
+                                <asp:GridView ID="gvAdminAssignedTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvAdminAssignedTicketList_PageIndexChanged" EmptyData="No Data Found">
+                                    <Columns>
+                                        <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                        <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                        <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                        <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                        <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                        <asp:BoundField DataField="created_by" HeaderText="Created At" />
+                                        <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
 
-                                <asp:TemplateField HeaderText="Actions">
-                                    <ItemTemplate>
-                                        <asp:HiddenField ID="hfTicketHeaderIdAssignedTicketList" runat="server" Value='<%#Eval("ticket_id")%>' />
-                                        <asp:LinkButton ID="lnkDetailsAssignedTicketList" OnClick="lnkDetailsAssignedTicketList_Click" CssClass="btn btn-info w-50" runat="server">
+                                        <asp:TemplateField HeaderText="Actions">
+                                            <ItemTemplate>
+                                                <asp:HiddenField ID="hfTicketHeaderIdAssignedTicketList" runat="server" Value='<%#Eval("ticket_id")%>' />
+                                                <asp:LinkButton ID="lnkDetailsAssignedTicketList" OnClick="lnkDetailsAssignedTicketList_Click" CssClass="btn btn-info w-50" runat="server">
                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>                        
                                             View Details
-                                        </asp:LinkButton>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                        </asp:GridView>
-                    </div>
-                    <div class="tab-pane fade" id="rejectedTicketAdmin" role="tabpanel">
-                        <asp:Label ID="Label1" runat="server" CssClass="h4" Text="Rejected Tickets due to incomplete details."></asp:Label>
-                        <asp:GridView ID="gvAdminForRejectedTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvAdminForRejectedTicketList_PageIndexChanged" EmptyDataTe="No Data Found">
-                            <Columns>
-                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
-                                <asp:BoundField DataField="admin_recent_reject_remarks" HeaderText="Admin Reject Remarks" />
-                                <asp:BoundField DataField="created_at" HeaderText="Rejected At" />
-                                <asp:BoundField DataField="created_by" HeaderText="Created At" /> 
-                                <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
-                                <asp:TemplateField HeaderText="Actions">
-                                    <ItemTemplate>
-                                        <asp:HiddenField ID="hfTicketHeaderIdRejectedList" runat="server" Value='<%#Eval("ticket_id") %>' />
-                                        <asp:LinkButton ID="lnkDetailsRejectedTicketList" OnClick="lnkDetailsRejectedTicketList_Click" CssClass="btn btn-info w-50" runat="server">
+                                                </asp:LinkButton>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
+                            <div class="tab-pane fade" id="rejectedTicketAdmin" role="tabpanel">
+                                <asp:Label ID="Label1" runat="server" CssClass="h4" Text="Rejected Tickets due to incomplete details."></asp:Label>
+                                <asp:GridView ID="gvAdminForRejectedTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvAdminForRejectedTicketList_PageIndexChanged" EmptyDataTe="No Data Found">
+                                    <Columns>
+                                        <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                        <asp:BoundField DataField="admin_recent_reject_remarks" HeaderText="Admin Reject Remarks" />
+                                        <asp:BoundField DataField="created_at" HeaderText="Rejected At" />
+                                        <asp:BoundField DataField="created_by" HeaderText="Created At" />
+                                        <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                                        <asp:TemplateField HeaderText="Actions">
+                                            <ItemTemplate>
+                                                <asp:HiddenField ID="hfTicketHeaderIdRejectedList" runat="server" Value='<%#Eval("ticket_id") %>' />
+                                                <asp:LinkButton ID="lnkDetailsRejectedTicketList" OnClick="lnkDetailsRejectedTicketList_Click" CssClass="btn btn-info w-50" runat="server">
                                          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                             View Details</asp:LinkButton>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                        </asp:GridView>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
- </div>
 
     <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdDetailsUsersTicket">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">

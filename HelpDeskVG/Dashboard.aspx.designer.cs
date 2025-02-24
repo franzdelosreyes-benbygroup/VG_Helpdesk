@@ -69,15 +69,6 @@ namespace HelpDeskVG
         protected global::System.Web.UI.WebControls.TextBox txtSearchTicket;
 
         /// <summary>
-        /// lnkSearchTicket control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkSearchTicket;
-
-        /// <summary>
         /// lblSearchByCreatedBy control.
         /// </summary>
         /// <remarks>
@@ -96,13 +87,40 @@ namespace HelpDeskVG
         protected global::System.Web.UI.WebControls.DropDownList ddlEmployeeVg;
 
         /// <summary>
-        /// lnkSearchByCreatedBy control.
+        /// Label3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkSearchByCreatedBy;
+        protected global::System.Web.UI.WebControls.Label Label3;
+
+        /// <summary>
+        /// ddlCreatedForVg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCreatedForVg;
+
+        /// <summary>
+        /// lblPriorityFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPriorityFilter;
+
+        /// <summary>
+        /// ddlPriorityFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlPriorityFilter;
 
         /// <summary>
         /// lblSectionFilter control.
@@ -157,6 +175,33 @@ namespace HelpDeskVG
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlNatureOfProbFilter;
+
+        /// <summary>
+        /// lblTicketStatusFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTicketStatusFilter;
+
+        /// <summary>
+        /// ddlTicketStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTicketStatus;
+
+        /// <summary>
+        /// lnkFilterMyTicket control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkFilterMyTicket;
 
         /// <summary>
         /// lblMyCreatedTicket control.

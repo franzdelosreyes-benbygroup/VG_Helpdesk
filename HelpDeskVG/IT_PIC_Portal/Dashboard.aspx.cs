@@ -20,6 +20,9 @@ namespace HelpDeskVG.IT_PIC_Portal
         {
             if (!IsPostBack)
             {
+                DisplaySectionFilter();
+                DisplayPriority();
+                DisplayEmployees();
 
                 DisplayAcceptOrRejectTicket();
                 DisplayAcceptedTicket();
@@ -32,15 +35,17 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected void DisplayMyTickets()
         {
             string sql = "";
-            sql = @"SELECT a.[description], a.[status], a.ticket_id, a.approval_transactional_level, a.ticket_code, a.created_at, b.description_category, c.description_section, d.description_natureofprob, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_for, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level,
-                    CASE WHEN a.approval_transactional_level = 0 THEN 'True' ELSE 'False' END AS is_draft
-                    FROM t_TicketHeader AS a
-                    LEFT JOIN m_Category AS b ON b.category_id = a.category_id
-                    LEFT JOIN m_Section AS c ON c.section_id = a.section_id
-                    LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
-                    LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_for
-					LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
-                    WHERE a.created_for =" + Session["EmployeeNo"].ToString();
+            sql = "EXEC sp_vgHelpDesk_ITPIC_DisplayMyTicket ";
+            sql += "@DateTo='" + txtFilterDateTo.Text.ToString() + "',";
+            sql += "@DateFrom='" + txtFilterDateFrom.Text.ToString() + "',";
+            sql += "@ApprovalStatus='" + ddlTicketStatus.SelectedValue.ToString() + "',";
+            sql += "@Priority='" + ddlPriorityFilter.SelectedValue.ToString() + "',";
+            sql += "@TixCode='" + txtSearchTicket.Text.ToString() + "',";
+            sql += "@NatureOfProb='" + ddlNatureOfProbFilter.SelectedValue.ToString() + "',";
+            sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
+            sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
+            sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
+            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -54,13 +59,17 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected void DisplayAcceptOrRejectTicket()
         {
             string sql = "";
-            sql = @"SELECT a.[description], ticket_id ,ticket_code, a.created_at, b.description_category, c.description_section, d.description_natureofprob, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_for, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a
-                    LEFT JOIN m_Category AS b ON b.category_id = a.category_id
-                    LEFT JOIN m_Section AS c ON c.section_id = a.section_id
-                    LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
-                    LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_for
-					LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
-                    WHERE a.approval_transactional_level = '3' AND a.is_active ='1' AND a.assigned_emp_no = " + Session["EmployeeNo"].ToString();
+            sql = "EXEC sp_vgHelpDesk_ITPIC_DisplayAcceptOrRejectTicket ";
+            sql += "@DateTo='" + txtFilterDateTo.Text.ToString() + "',";
+            sql += "@DateFrom='" + txtFilterDateFrom.Text.ToString() + "',";
+            sql += "@ApprovalStatus='" + ddlTicketStatus.SelectedValue.ToString() + "',";
+            sql += "@Priority='" + ddlPriorityFilter.SelectedValue.ToString() + "',";
+            sql += "@TixCode='" + txtSearchTicket.Text.ToString() + "',";
+            sql += "@NatureOfProb='" + ddlNatureOfProbFilter.SelectedValue.ToString() + "',";
+            sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
+            sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
+            sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
+            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -73,14 +82,17 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected void DisplayAcceptedTicket()
         {
             string sql = "";
-            sql = @"SELECT a.third_party_name, a.third_party_date_given, a.[description], ticket_id ,ticket_code, a.created_at, b.description_category, c.description_section, d.description_natureofprob, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_for, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a
-                    LEFT JOIN m_Category AS b ON b.category_id = a.category_id
-                    LEFT JOIN m_Section AS c ON c.section_id = a.section_id
-                    LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
-                    LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_for
-					LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
-
-                    WHERE a.approval_transactional_level = '4' AND a.assigned_emp_no = " + Session["EmployeeNo"].ToString();
+            sql = "EXEC sp_vgHelpDesk_ITPIC_DisplayAcceptedTicket ";
+            sql += "@DateTo='" + txtFilterDateTo.Text.ToString() + "',";
+            sql += "@DateFrom='" + txtFilterDateFrom.Text.ToString() + "',";
+            sql += "@ApprovalStatus='" + ddlTicketStatus.SelectedValue.ToString() + "',";
+            sql += "@Priority='" + ddlPriorityFilter.SelectedValue.ToString() + "',";
+            sql += "@TixCode='" + txtSearchTicket.Text.ToString() + "',";
+            sql += "@NatureOfProb='" + ddlNatureOfProbFilter.SelectedValue.ToString() + "',";
+            sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
+            sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
+            sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
+            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -93,13 +105,17 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected void DisplayRejectedTicket()
         {
             string sql = "";
-            sql = @"SELECT a.third_party_name, a.third_party_date_given, a.[description], ticket_id ,ticket_code, a.created_at, b.description_category, c.description_section, d.description_natureofprob, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_for, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a
-                    LEFT JOIN m_Category AS b ON b.category_id = a.category_id
-                    LEFT JOIN m_Section AS c ON c.section_id = a.section_id
-                    LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
-                    LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_for
-					LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
-                    WHERE a.approval_transactional_level = '5' AND a.[assigned_emp_no_log] = " + Session["EmployeeNo"].ToString();
+            sql = "EXEC sp_vgHelpDesk_ITPIC_DisplayRejectedTicket ";
+            sql += "@DateTo='" + txtFilterDateTo.Text.ToString() + "',";
+            sql += "@DateFrom='" + txtFilterDateFrom.Text.ToString() + "',";
+            sql += "@ApprovalStatus='" + ddlTicketStatus.SelectedValue.ToString() + "',";
+            sql += "@Priority='" + ddlPriorityFilter.SelectedValue.ToString() + "',";
+            sql += "@TixCode='" + txtSearchTicket.Text.ToString() + "',";
+            sql += "@NatureOfProb='" + ddlNatureOfProbFilter.SelectedValue.ToString() + "',";
+            sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
+            sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
+            sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
+            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -112,13 +128,17 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected void DisplayRejectedSolution()
         {
             string sql = "";
-            sql = @"SELECT a.third_party_name, a.third_party_date_given, a.[description], ticket_id ,ticket_code, a.created_at, b.description_category, c.description_section, d.description_natureofprob, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_for, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a
-                    LEFT JOIN m_Category AS b ON b.category_id = a.category_id
-                    LEFT JOIN m_Section AS c ON c.section_id = a.section_id
-                    LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
-                    LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_for
-					LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
-                    WHERE a.approval_transactional_level = '7' AND a.[assigned_emp_no] = " + Session["EmployeeNo"].ToString();
+            sql = "EXEC sp_vgHelpDesk_ITPIC_DisplayRejectedSolution ";
+            sql += "@DateTo='" + txtFilterDateTo.Text.ToString() + "',";
+            sql += "@DateFrom='" + txtFilterDateFrom.Text.ToString() + "',";
+            sql += "@ApprovalStatus='" + ddlTicketStatus.SelectedValue.ToString() + "',";
+            sql += "@Priority='" + ddlPriorityFilter.SelectedValue.ToString() + "',";
+            sql += "@TixCode='" + txtSearchTicket.Text.ToString() + "',";
+            sql += "@NatureOfProb='" + ddlNatureOfProbFilter.SelectedValue.ToString() + "',";
+            sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
+            sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
+            sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
+            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -127,6 +147,59 @@ namespace HelpDeskVG.IT_PIC_Portal
             gvRejectedSolution.DataBind();
             gvRejectedSolution.Dispose();
         }
+
+        protected void DisplaySectionFilter()
+        {
+            clsQueries.DisplaySection(ddlSectionFilter);
+        }
+
+        protected void DisplayPriority()
+        {
+            clsQueries.DisplayPriority(ddlPriorityFilter);
+        }
+
+        protected void DisplayEmployees()
+        {
+            clsQueries.DisplayEmployee(ddlEmployeeVg);
+        }
+
+        protected void DisplayCategoryFilter()
+        {
+            string sql = "";
+            sql = @"SELECT category_id, section_id, [description_category] FROM m_Category WHERE is_active = '1' AND section_id = " + ddlSectionFilter.SelectedValue;
+
+            DataTable dt = new DataTable();
+            dt = clsQueries.fetchData(sql);
+
+            ddlCategoryFilter.DataSource = dt;
+            ddlCategoryFilter.DataTextField = "description_category";
+            ddlCategoryFilter.DataValueField = "category_id";
+
+            ddlCategoryFilter.DataBind();
+
+            dt.Dispose();
+
+            ddlCategoryFilter.Items.Insert(0, new ListItem("Please Select", ""));
+        }
+
+        protected void DisplayNatureOfProblemFilter()
+        {
+            string sql = "";
+            sql = @"SELECT nature_of_prob_id, [description_natureofprob], [category_id], [section_id] FROM m_NatureOfProblem WHERE is_active = '1' AND category_id = " + ddlCategoryFilter.SelectedValue + "AND section_id =" + ddlSectionFilter.SelectedValue;
+
+            DataTable dt = new DataTable();
+            dt = clsQueries.fetchData(sql);
+
+            ddlNatureOfProbFilter.DataSource = dt;
+            ddlNatureOfProbFilter.DataTextField = "description_natureofprob";
+            ddlNatureOfProbFilter.DataValueField = "nature_of_prob_id";
+            ddlNatureOfProbFilter.DataBind();
+
+            dt.Dispose();
+
+            ddlNatureOfProbFilter.Items.Insert(0, new ListItem("Please Select", ""));
+        }
+
 
         protected void DisplayCategory()
         {
@@ -1345,6 +1418,103 @@ namespace HelpDeskVG.IT_PIC_Portal
                 dt.Dispose();
 
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+            }
+        }
+
+        protected void lnkFilterMyTicket_Click(object sender, EventArgs e)
+        {
+            DisplayMyTickets();
+            DisplayAcceptedTicket();
+            DisplayRejectedTicket();
+            DisplayRejectedSolution();
+            DisplayMyTickets();
+        }
+
+        protected void ddlSectionFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (ddlSectionFilter.SelectedValue == "")
+            {
+                ddlNatureOfProbFilter.SelectedValue = "";
+                ddlCategoryFilter.SelectedValue = "";
+
+                ddlCategoryFilter.Enabled = false;
+                ddlNatureOfProbFilter.Enabled = false;
+            }
+
+            else
+            {
+                DisplayCategoryFilter();
+                ddlNatureOfProbFilter.SelectedValue = "";
+
+                ddlCategoryFilter.Enabled = true;
+                ddlNatureOfProbFilter.Enabled = false;
+            }
+        }
+
+        protected void ddlCategoryFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlCategoryFilter.SelectedValue == "")
+            {
+                ddlNatureOfProbFilter.SelectedValue = "";
+
+                ddlCategoryFilter.Enabled = false;
+                ddlNatureOfProbFilter.Enabled = false;
+
+            }
+            else
+            {
+
+                DisplayNatureOfProblemFilter();
+
+                ddlNatureOfProbFilter.SelectedValue = "";
+                ddlSectionFilter.Enabled = true;
+                ddlNatureOfProbFilter.Enabled = true;
+
+                string sql = "";
+
+
+                sql = @"SELECT category_id, section_id, [description_category] FROM m_Category WHERE is_active = '1' AND section_id = " + ddlSectionFilter.SelectedValue;
+
+                DataTable dt = new DataTable();
+
+                dt = clsQueries.fetchData(sql);
+
+                if (dt.Rows.Count > 0)
+                {
+                    ddlSectionFilter.SelectedValue = dt.Rows[0]["section_id"].ToString();
+                }
+
+                dt.Dispose();
+            }
+        }
+
+        protected void ddlNatureOfProbFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string sql = "";
+
+            if (ddlNatureOfProbFilter.SelectedValue == "")
+            {
+                ddlNatureOfProbFilter.Enabled = false;
+
+                DisplayNatureOfProblemFilter();
+            }
+            else
+            {
+                sql = "SELECT * FROM m_NatureOfProblem WHERE is_active = '1' AND nature_of_prob_id = " + ddlNatureOfProbFilter.SelectedValue;
+
+                DataTable dt = new DataTable();
+
+                dt = clsQueries.fetchData(sql);
+
+                if (dt.Rows.Count > 0)
+                {
+                    ddlSectionFilter.SelectedValue = dt.Rows[0]["section_id"].ToString();
+                    ddlCategoryFilter.SelectedValue = dt.Rows[0]["category_id"].ToString();
+                }
+
+                dt.Dispose();
+
             }
         }
     }
