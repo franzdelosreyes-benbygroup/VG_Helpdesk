@@ -48,6 +48,11 @@
             });
         }
 
+        function received3rdPartyITPIC() {
+            $(document).ready(function () {
+                $("#mdITPICReceivedTicket3rdParty").modal('show');
+            });
+        }
 
 
         function saveActiveTab() {
@@ -425,10 +430,11 @@
                                 <Columns>
                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                 <asp:BoundField DataField="third_party_name" HeaderText="Third Party" />
+                                <asp:BoundField DataField="third_party_date_given" HeaderText="Given Date to 3rd Party" />
+                                <asp:BoundField DataField="third_party_date_received" HeaderText="Date Received 3rd Party" />
                                 <asp:BoundField DataField="description_section" HeaderText="Section" />
                                 <asp:BoundField DataField="description_category" HeaderText="Category" />
                                 <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
-                                <asp:BoundField DataField="third_party_date_given" HeaderText="Given Date to 3rd Party" />
                                 <asp:BoundField DataField="created_at" HeaderText="Created At" />
                                 <asp:BoundField DataField="created_for" HeaderText="Created By" />
                                 <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
@@ -647,13 +653,15 @@
                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4c.96 0 1.84 .338 2.53 .901" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
                                         Update Tag to Third Party
                                             </asp:LinkButton>
+                                    <asp:LinkButton ID="lnkSaveReceivedDate" runat="server" CssClass="btn btn-azure" OnClick="lnkSaveReceivedDate_Click">
+                                       <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-navigation-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16.573 12.914l-4.573 -9.914l-7.97 17.275c-.07 .2 -.017 .424 .135 .572c.15 .148 .374 .193 .57 .116l7.265 -2.463" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
+                                        Save 3rd Party Received
+                                    </asp:LinkButton>
+                                            
                                             <asp:LinkButton ID="lnkProposedTicketResolution" runat="server" CssClass="btn btn-info" OnClick="lnkProposedTicketResolution_Click">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>                               
                                         Save as Resolved
                                             </asp:LinkButton>
-                                            <asp:LinkButton ID="lnkSaveReceivedDate" runat="server" CssClass="btn btn-azure" OnClick="lnkSaveReceivedDate_Click">
-
-                                            Save 3rd Party Received Date</asp:LinkButton>
                                         </div>
                                     </div>
                                 </div>
@@ -697,8 +705,7 @@
                 </div>
                 <div class="modal-body">
                     <asp:Label ID="Label12" runat="server" Text="Given Date" CssClass="form-label status status-primary required mt-2"></asp:Label>
-                    <asp:TextBox ID="txtReceivedDate3rdPt" CssClass="form-control mt-2" TextMode="Date" placeholder="Select a date" runat="server"></asp:TextBox>
-
+                    <asp:TextBox ID="txt3rdPtReceivedDate" runat="server" CssClass="form-control text-reset mt-2" TextMode="Date" Placeholder="Select a Date"></asp:TextBox>
                     <div class="modal-footer">
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
                         <asp:LinkButton ID="lnkSaveDateReceived3rdPt" runat="server" OnClick="lnkSaveDateReceived3rdPt_Click" OnClientClick="return validateReceivedDateWith3rdPt();" CssClass="btn btn-success">Save Received Ticket</asp:LinkButton>

@@ -617,7 +617,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptedTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.[subject], a.created_for ,a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.description AS descriptionreport, g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -636,26 +636,27 @@ namespace HelpDeskVG.IT_PIC_Portal
                 if (hfTicketHeaderId.ToString() == "")
                 {
                     clsUtil.ShowToastr(this.Page, "There is no Transaction Existing", "warning");
-
                 }
                 else
                 {
                     txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
-                    txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
+                    txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
                     txtOthers.Text = dt.Rows[0]["others"].ToString();
-                    txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
+                    txtAttachmentDescriptionMd.Text = dt.Rows[0]["descriptionreport"].ToString();
 
                     try
                     {
-                        ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString(); //all ddl pa try catch
-                        ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString(); //try catch mo to tapos dapat blank value mangyari pag viewing  
+                        ddlCreatedForMd.SelectedValue = dt.Rows[0]["created_for"].ToString();
+                        ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString(); 
+                        ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
                         ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
                         ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
 
                     }
                     catch
                     {
+                        ddlCreatedForMd.SelectedValue = "";
                         ddlSectionMd.SelectedValue = "";
                         ddlCategoryMd.SelectedValue = "";
                         ddlNatureofprobMd.SelectedValue = "";
@@ -663,7 +664,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     }
 
 
-                hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
+                    hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
 
                     string ticketHeader = hfMdTicketHeaderId.Value.ToString();
 
@@ -686,14 +687,18 @@ namespace HelpDeskVG.IT_PIC_Portal
                     ddlCategoryMd.Enabled = false;
                     ddlNatureofprobMd.Enabled = false;
 
+                    txtAttachmentDescriptionMd.Enabled = false;
+                    lblAttachNewAttachment.Visible = false;
+                    fuUploadAttachmentInEdit.Visible = false;
+                    lblNewAttachmentInEdit.Visible = false;
+                    txtNewAttachmentInEdit.Visible = false;
                     lnkAcceptTicket.Visible = false;
                     lnkRejectTicketUser.Visible = false;
                     lnkAcceptWithThirdParty.Visible = false;
                     lnkProposedTicketResolution.Visible = true;
                     lnkEditDetails.Visible = false;
                     lnkTagThisToThirdParty.Visible = true;
-                  
-
+                 
 
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
             }
@@ -868,6 +873,9 @@ namespace HelpDeskVG.IT_PIC_Portal
             DisplayAcceptedTicket();
             DisplayRejectedTicket();
             DisplayRejectedSolution();
+            DisplayMyTickets();
+            DisplayPendingApprovalResolved();
+            DisplayRejectedTicketsByAdmin();
 
             clsUtil.ShowToastr(this.Page, "Successfully Saved as Resolved Ticket", "success");
         }
@@ -1912,7 +1920,7 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             string sql = "EXEC sp_vgHelpDesk_ITPIC_ReceivedTicketThirdParty ";
             sql += "@TicketHeaderId = '" + ticketHeader + "',";
-            sql += "@ThirdPartyDateReceived = '" + txtReceivedDate3rdPt.Text + "',";
+            sql += "@ThirdPartyDateReceived = '" + txt3rdPtReceivedDate.Text + "',";
             sql += "@Transacted_By = '" + Session["EmployeeNo"].ToString() + "'";
 
             clsQueries.executeQuery(sql);
@@ -1930,7 +1938,7 @@ namespace HelpDeskVG.IT_PIC_Portal
 
         protected void lnkSaveReceivedDate_Click(object sender, EventArgs e)
         {
-
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "received3rdPartyITPIC();", true);
         }
     }
 }

@@ -519,15 +519,6 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected global::System.Web.UI.WebControls.LinkButton lnkTagThisToThirdParty;
 
         /// <summary>
-        /// lnkProposedTicketResolution control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkProposedTicketResolution;
-
-        /// <summary>
         /// lnkSaveReceivedDate control.
         /// </summary>
         /// <remarks>
@@ -535,6 +526,15 @@ namespace HelpDeskVG.IT_PIC_Portal
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lnkSaveReceivedDate;
+
+        /// <summary>
+        /// lnkProposedTicketResolution control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkProposedTicketResolution;
 
         /// <summary>
         /// lblThirdPtName control.
@@ -600,13 +600,13 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected global::System.Web.UI.WebControls.Label Label12;
 
         /// <summary>
-        /// txtReceivedDate3rdPt control.
+        /// txt3rdPtReceivedDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtReceivedDate3rdPt;
+        protected global::System.Web.UI.WebControls.TextBox txt3rdPtReceivedDate;
 
         /// <summary>
         /// lnkSaveDateReceived3rdPt control.
