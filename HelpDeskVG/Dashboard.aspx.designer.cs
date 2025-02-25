@@ -420,24 +420,6 @@ namespace HelpDeskVG
         protected global::System.Web.UI.WebControls.GridView gvDownloadableAttachment;
 
         /// <summary>
-        /// lblAttachNewAttachment control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAttachNewAttachment;
-
-        /// <summary>
-        /// fuUploadAttachmentInEdit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fuUploadAttachmentInEdit;
-
-        /// <summary>
         /// lblAttachmentDescription control.
         /// </summary>
         /// <remarks>
@@ -454,6 +436,24 @@ namespace HelpDeskVG
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAttachmentDescriptionMd;
+
+        /// <summary>
+        /// lblAttachNewAttachment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAttachNewAttachment;
+
+        /// <summary>
+        /// fuUploadAttachmentInEdit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fuUploadAttachmentInEdit;
 
         /// <summary>
         /// ddlPriorityMd control.
@@ -490,6 +490,15 @@ namespace HelpDeskVG
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lnkEditDetails;
+
+        /// <summary>
+        /// lblRemarksRejectAdmin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblRemarksRejectAdmin;
 
         /// <summary>
         /// txtRejectTicketRemarks control.

@@ -20,6 +20,36 @@
         }
 
 
+        function saveActiveTab() {
+            localStorage.setItem("activeTab", document.querySelector(".nav-link.active").getAttribute("href"));
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let activeTab = localStorage.getItem("activeTab");
+
+            if (activeTab) {
+                let tabElement = document.querySelector(`[href="${activeTab}"]`);
+                if (tabElement) {
+                    let tab = new bootstrap.Tab(tabElement);
+                    tab.show();
+                }
+            }
+
+            // Save modal state when opened
+            //document.getElementById("addNatureOfProb").addEventListener("shown.bs.modal", function () {
+            //    localStorage.setItem("modalOpen", "true");
+            //});
+
+            // Listen for tab changes and update localStorage
+            document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {
+                tab.addEventListener("shown.bs.tab", function (event) {
+                    let selectedTab = event.target.getAttribute("href");
+                    localStorage.setItem("activeTab", selectedTab);
+                });
+            });
+        });
+
+
         function validateForm() {
             var natureOfProblem = document.getElementById('<%= ddlNatureofprobMd.ClientID %>').value;
             var priority = document.getElementById('<%= ddlPriorityMd.ClientID %>').value;
@@ -27,10 +57,20 @@
             var section = document.getElementById('<%= ddlSectionMd.ClientID %>').value;
                 var subject = document.getElementById('<%= txtSubjectMd.ClientID %>').value.trim();
                 var description = document.getElementById('<%= txtDescriptionMd.ClientID %>').value.trim();
-            var requestId = '<%= Request.QueryString["Id"] != null ? Request.QueryString["Id"].ToString() : "" %>';
 
             if (natureOfProblem === "" || priority === "" || category === "" || section === "" ||
-                subject === "" || description === "" || requestId === "") {
+                subject === "" || description === "") {
+                alert("Please fill up the field that is Required.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function validateAssignTo() {
+            var assignToEmp = document.getElementById('<%= ddlMdEmployeeITPIC.ClientID %>').value;
+
+            if (assignToEmp === "") {
                 alert("Please fill up the field that is Required.");
                 return false;
             }
@@ -40,6 +80,20 @@
 
         function validateDateFilter() {
            
+        }
+
+
+
+
+        function validateRejectTicketToUser() {
+            var remarks = document.getElementById('<%= txtRejectTicketRemarks.ClientID%>').value;
+
+            if (remarks === "") {
+                alert("Please fill up the field that is Required.");
+                return false;
+            }
+
+            return true;
         }
 
     </script>
@@ -270,7 +324,7 @@
                                         <asp:TemplateField HeaderText="Actions">
                                             <ItemTemplate>
                                                 <asp:HiddenField ID="hfTicketHeaderIdReassignITPIC" runat="server" Value='<%# Eval("ticket_id")%>' />
-                                                <asp:LinkButton ID="lnkDetailsReassignITPIC" OnClick="lnkDetailsReassignITPIC_Click" CssClass="btn btn-info w-50" runat="server">
+                                                <asp:LinkButton ID="lnkDetailsReassignITPIC" OnClick="lnkDetailsReassignITPIC_Click" CssClass="btn btn-info" runat="server">
                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                             View Details</asp:LinkButton>
                                                 <%--  <asp:LinkButton ID="btnAssignToReassign" OnClick="btnAssignToReassign_Click" CssClass="btn btn-success w-25" runat="server">Assign</asp:LinkButton>
@@ -351,7 +405,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label status status-pink">Created For:</label>
-                                    <asp:TextBox ID="txtCreatedFor" runat="server" CssClass="form-control text-reset" Value='<%# Eval("created_for")%>' Enabled="true"></asp:TextBox>
+                                    <asp:TextBox ID="txtCreatedFor" runat="server" CssClass="form-control text-reset" Visible="false" Value='<%# Eval("created_for")%>' Enabled="true"></asp:TextBox>
                                     <asp:DropDownList ID="ddlCreatedForMd" runat="server" CssClass="form-select text-reset mt-2">
                                     </asp:DropDownList>
                                 </div>
@@ -435,17 +489,17 @@
                                         </asp:TemplateField>
                                     </Columns>
                                 </asp:GridView>
-                                <div class="col-md-12 mt-2">
-                                    <asp:Label ID="lblAttachNewAttachment" CssClass="form-label status status-pink mt-2" runat="server">Upload an Attachment</asp:Label>
-                                </div>
-                                <div class="col-md-12 mt-2">
-                                    <asp:FileUpload ID="fuUploadAttachmentInEdit" CssClass="form-control" runat="server" />
-                                </div>
                                 <div class="mb-2 mt-2">
                                     <asp:Label ID="lblAttachmentDescription" runat="server" CssClass="form-label status status-pink">Attachment Description:</asp:Label>
                                 </div>
                                 <div class="col-md-12">
                                     <asp:TextBox ID="txtAttachmentDescriptionMd" runat="server" CssClass="form-control text-reset mt-2" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>
+                                </div>
+                                <div class="col-md-12 mt-2">
+                                    <asp:Label ID="lblAttachNewAttachment" CssClass="form-label status status-pink mt-2" runat="server">Upload an Attachment</asp:Label>
+                                </div>
+                                <div class="col-md-12 mt-2">
+                                    <asp:FileUpload ID="fuUploadAttachmentInEdit" CssClass="form-control" runat="server" />
                                 </div>
                             </div>
                         </div>
@@ -459,22 +513,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <asp:LinkButton ID="lnkAssignTicketToITPIC" runat="server" CssClass="btn btn-success" OnClick="lnkAssignTicketToITPIC_Click">
+                <div class="col-md-12 modal-footer d-block justify-content-between gap-1">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <asp:LinkButton ID="lnkAssignTicketToITPIC" runat="server" CssClass="btn btn-success" OnClick="lnkAssignTicketToITPIC_Click">
                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M16 19h6" /><path d="M19 16v6" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4" /></svg>
                         Assign Ticket
-                    </asp:LinkButton>
-                    <asp:LinkButton ID="lnkRejectTicketUser" runat="server" CssClass="btn btn-danger" OnClick="lnkRejectTicketUser_Click">
+                            </asp:LinkButton>
+                        </div>
+                        <div class="col-md-4">
+
+                            <asp:LinkButton ID="lnkRejectTicketUser" runat="server" CssClass="btn btn-danger" OnClick="lnkRejectTicketUser_Click">
                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                                 Reject Ticket
-                    </asp:LinkButton>
-                    <asp:LinkButton ID="lnkEditDetails" runat="server" CssClass="btn btn-primary" OnClick="lnkEditDetails_Click" OnClientClick="return validateForm();">
+                            </asp:LinkButton>
+                        </div>
+                        <div class="col-md-4">
+
+                            <asp:LinkButton ID="lnkEditDetails" runat="server" CssClass="btn btn-primary" OnClick="lnkEditDetails_Click" OnClientClick="return validateForm();">
                                 <!-- Download SVG icon from http://tabler.io/icons/icon/plus -->
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
                               Save Edited Details
-                    </asp:LinkButton>
+                            </asp:LinkButton>
                         </div>
+                    </div>
                 </div>
+            </div>
             </div>
         </div>
 
@@ -486,11 +550,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <asp:TextBox ID="txtRejectTicketRemarks" runat="server" CssClass="form-control text-area text-reset" TextMode="MultiLine" Rows="6"></asp:TextBox>
+                <asp:Label ID="lblRemarksRejectAdmin" runat="server" CssClass="form-label status status-primary required">Remarks</asp:Label>
+                <asp:TextBox ID="txtRejectTicketRemarks" runat="server" CssClass="form-control text-area text-reset mt-2" TextMode="MultiLine" Rows="6"></asp:TextBox>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                <asp:LinkButton ID="lnkMdRejectTicketAdminToUser" runat="server" OnClick="lnkMdRejectTicketAdminToUser_Click" CssClass="btn btn-danger">Reject Ticket</asp:LinkButton>
+                <asp:LinkButton ID="lnkMdRejectTicketAdminToUser" runat="server" OnClick="lnkMdRejectTicketAdminToUser_Click" OnClientClick="return validateRejectTicketToUser();" CssClass="btn btn-danger">Reject Ticket</asp:LinkButton>
             </div>
         </div>
       </div>
@@ -508,7 +573,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                    <asp:LinkButton ID="lnkAssignITPICTicket" runat="server" OnClick="lnkAssignITPICTicket_Click" CssClass="btn btn-success">Save changes</asp:LinkButton>
+                    <asp:LinkButton ID="lnkAssignITPICTicket" runat="server" OnClick="lnkAssignITPICTicket_Click" OnClientClick="return validateAssignTo();" CssClass="btn btn-success">Save changes</asp:LinkButton>
                 </div>
             </div>
         </div>

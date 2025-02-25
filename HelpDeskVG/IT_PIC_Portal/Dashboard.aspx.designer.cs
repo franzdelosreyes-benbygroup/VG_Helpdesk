@@ -204,6 +204,42 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected global::System.Web.UI.WebControls.GridView gvMyTicketList;
 
         /// <summary>
+        /// lblforPendingApproval control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblforPendingApproval;
+
+        /// <summary>
+        /// gvMyTicketPendingApproval control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvMyTicketPendingApproval;
+
+        /// <summary>
+        /// Label9 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label9;
+
+        /// <summary>
+        /// gvMyTicketRejectedByAdmin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvMyTicketRejectedByAdmin;
+
+        /// <summary>
         /// lblITPIC control.
         /// </summary>
         /// <remarks>
@@ -375,6 +411,24 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected global::System.Web.UI.WebControls.GridView gvDownloadableAttachment;
 
         /// <summary>
+        /// Label8 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label8;
+
+        /// <summary>
+        /// txtAttachmentDescriptionMd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAttachmentDescriptionMd;
+
+        /// <summary>
         /// lblAttachNewAttachment control.
         /// </summary>
         /// <remarks>
@@ -393,22 +447,22 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected global::System.Web.UI.WebControls.FileUpload fuUploadAttachmentInEdit;
 
         /// <summary>
-        /// Label8 control.
+        /// lblNewAttachmentInEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label8;
+        protected global::System.Web.UI.WebControls.Label lblNewAttachmentInEdit;
 
         /// <summary>
-        /// txtAttachmentDescriptionMd control.
+        /// txtNewAttachmentInEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAttachmentDescriptionMd;
+        protected global::System.Web.UI.WebControls.TextBox txtNewAttachmentInEdit;
 
         /// <summary>
         /// ddlPriorityMd control.
@@ -474,6 +528,15 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected global::System.Web.UI.WebControls.LinkButton lnkProposedTicketResolution;
 
         /// <summary>
+        /// lnkSaveReceivedDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkSaveReceivedDate;
+
+        /// <summary>
         /// lblThirdPtName control.
         /// </summary>
         /// <remarks>
@@ -526,6 +589,33 @@ namespace HelpDeskVG.IT_PIC_Portal
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lnkUpdateToThirdPartyMd;
+
+        /// <summary>
+        /// Label12 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label12;
+
+        /// <summary>
+        /// txtReceivedDate3rdPt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtReceivedDate3rdPt;
+
+        /// <summary>
+        /// lnkSaveDateReceived3rdPt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkSaveDateReceived3rdPt;
 
         /// <summary>
         /// txtITPICRejectTicketRemarks control.
@@ -778,5 +868,140 @@ namespace HelpDeskVG.IT_PIC_Portal
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lnkResolveAgain;
+
+        /// <summary>
+        /// hfTicketHeaderIdforResolved control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfTicketHeaderIdforResolved;
+
+        /// <summary>
+        /// txtProposedRemarksMd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtProposedRemarksMd;
+
+        /// <summary>
+        /// gvDownloadAttachmentInResolved control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvDownloadAttachmentInResolved;
+
+        /// <summary>
+        /// txtDescriptionAttachmentProposed control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDescriptionAttachmentProposed;
+
+        /// <summary>
+        /// lnkAcceptResolvedTicket control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkAcceptResolvedTicket;
+
+        /// <summary>
+        /// lnkRejectResolvedTicket control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkRejectResolvedTicket;
+
+        /// <summary>
+        /// hfUserRejectHeaderID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfUserRejectHeaderID;
+
+        /// <summary>
+        /// lblRejectRemarks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblRejectRemarks;
+
+        /// <summary>
+        /// txtRejectRemarks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtRejectRemarks;
+
+        /// <summary>
+        /// lblRejectAttachment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblRejectAttachment;
+
+        /// <summary>
+        /// fuUploadAttachmentReject control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fuUploadAttachmentReject;
+
+        /// <summary>
+        /// Label10 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label10;
+
+        /// <summary>
+        /// txtAttachmentDescReject control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAttachmentDescReject;
+
+        /// <summary>
+        /// gvHDUploadedAttachmentReject control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvHDUploadedAttachmentReject;
+
+        /// <summary>
+        /// lnkUserRejectProposedSolution control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkUserRejectProposedSolution;
     }
 }

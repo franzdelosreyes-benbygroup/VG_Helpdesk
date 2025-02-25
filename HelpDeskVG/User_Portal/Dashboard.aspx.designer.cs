@@ -339,6 +339,24 @@ namespace HelpDeskVG.User_Portal
         protected global::System.Web.UI.WebControls.GridView gvDownloadableAttachment;
 
         /// <summary>
+        /// Label2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label2;
+
+        /// <summary>
+        /// txtAttachmentDescriptionMd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAttachmentDescriptionMd;
+
+        /// <summary>
         /// lblAttachNewAttachment control.
         /// </summary>
         /// <remarks>
@@ -357,22 +375,22 @@ namespace HelpDeskVG.User_Portal
         protected global::System.Web.UI.WebControls.FileUpload fuUploadAttachmentInEdit;
 
         /// <summary>
-        /// Label2 control.
+        /// lblNewAttachmentEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.WebControls.Label lblNewAttachmentEdit;
 
         /// <summary>
-        /// txtAttachmentDescriptionMd control.
+        /// txtNewAttachmentInEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAttachmentDescriptionMd;
+        protected global::System.Web.UI.WebControls.TextBox txtNewAttachmentInEdit;
 
         /// <summary>
         /// ddlPriorityMd control.

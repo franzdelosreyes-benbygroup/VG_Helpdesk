@@ -192,11 +192,8 @@ namespace HelpDeskVG.User_Portal
         protected void DisplayRejectedTicketsByAdmin()
         {
             string sql = "";
-            sql = @"SELECT a.ticket_id, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, a.created_at, a.ticket_code, a.admin_recent_reject_remarks, a.itpic_recent_reject_remarks, a.[description], a.itpic_recent_reject_remarks, a.admin_recent_reject_remarks, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id 
-            LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_by
-			LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
-            
-            WHERE a.approval_transactional_level = '2' AND a.created_for =" + Session["EmployeeNo"].ToString();
+            sql = "EXEC sp_vgHelpDesk_User_DisplayMyRejectedTicket ";
+            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -302,46 +299,36 @@ namespace HelpDeskVG.User_Portal
                 gvDownloadableAttachment.DataBind();
                 gvDownloadableAttachment.Dispose();
 
-                if (approvalLevel == "4")
+                if (approvalLevel == "0")
                 {
-                    ddlCategoryMd.Enabled = false;
-                    lblAttachNewAttachment.Visible = false;
-                    fuUploadAttachmentInEdit.Visible = false;
-                    lnkEditDetails.Visible = false;
-                }
-                else if (approvalLevel == "8")
-                {
-                    ddlCategoryMd.Enabled = false;
-                    lblAttachNewAttachment.Visible = false;
-                    fuUploadAttachmentInEdit.Visible = false;
-                    lnkEditDetails.Visible = false;
-                }
-                else if(approvalLevel == "1")
-                {
-                    ddlCategoryMd.Enabled = false;
-                    lblAttachNewAttachment.Visible = false;
-                    fuUploadAttachmentInEdit.Visible = false;
-                    lnkEditDetails.Visible = false;
-                }
-                else if (approvalLevel == "9")
-                {
-                    ddlCategoryMd.Enabled = false;
-                    lblAttachNewAttachment.Visible = false;
-                    fuUploadAttachmentInEdit.Visible = false;
-                    lnkEditDetails.Visible = false;
-                }
-                else if(approvalLevel == "3")
-                {
-                    ddlCategoryMd.Enabled = false;
-                    lblAttachNewAttachment.Visible = false;
-                    fuUploadAttachmentInEdit.Visible = false;
-                    lnkEditDetails.Visible = false;
-                }
-                else 
-                {
+                    lblAttachNewAttachment.Visible = true;
+                    lblNewAttachmentEdit.Visible = true;
+                    txtNewAttachmentInEdit.Visible = true;
+                    lblAttachNewAttachment.Visible = true;
+                    fuUploadAttachmentInEdit.Visible = true;
                     lnkEditDetails.Visible = true;
                 }
 
+                else if (approvalLevel == "2")
+                {
+                    lblAttachNewAttachment.Visible = true;
+                    lblNewAttachmentEdit.Visible = true;
+                    txtNewAttachmentInEdit.Visible = true;
+                    lblAttachNewAttachment.Visible = true;
+                    fuUploadAttachmentInEdit.Visible = true;
+                    lnkEditDetails.Visible = true;
+                }
+
+                else
+                {
+                    ddlCategoryMd.Enabled = false;
+                    lblNewAttachmentEdit.Visible = false;
+                    lblAttachNewAttachment.Visible = false;
+                    txtNewAttachmentInEdit.Visible = false;
+                    lblAttachNewAttachment.Visible = false;
+                    fuUploadAttachmentInEdit.Visible = false;
+                    lnkEditDetails.Visible = false;
+                }
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
             }
             dt.Dispose();
@@ -455,9 +442,9 @@ namespace HelpDeskVG.User_Portal
             txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
             ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
 
-
+            ddlCreatedForMd.Visible = false;
             txtCreatedBy.Enabled = true;
-            txtCreatedFor.Enabled = true;
+            txtCreatedFor.Enabled = false;
             txtSubjectMd.Enabled = true;
             txtOthers.Enabled = true;
             txtDescriptionMd.Enabled = true;
@@ -548,7 +535,7 @@ namespace HelpDeskVG.User_Portal
                                 cmd.Connection = con;
                                 cmd.Parameters.AddWithValue("@FileName", filename);
                                 cmd.Parameters.AddWithValue("@FileContentType", contentType);
-                                cmd.Parameters.AddWithValue("@Description", clsUtil.replaceQuote(txtAttachmentDescriptionMd.Text));
+                                cmd.Parameters.AddWithValue("@Description", clsUtil.replaceQuote(txtNewAttachmentInEdit.Text));
                                 cmd.Parameters.AddWithValue("@HDheaderId", ticketHeader);
                                 cmd.Parameters.AddWithValue("@Uploaded_By", Session["EmployeeNo"].ToString());
                                 cmd.Parameters.AddWithValue("@FileBin", bytes);
@@ -735,7 +722,7 @@ namespace HelpDeskVG.User_Portal
                 string sql = "";
                 sql = "EXEC sp_vgHelpDesk_User_RejectResolvedTicket ";
                 sql += "@Ticket_Header_Id='" + ticketHeaderId + "',";
-                sql += "@UserRejectSolutionRemarks='" + clsUtil.replaceQuote(txtAttachmentDescription.Text) + "',";
+                sql += "@UserRejectSolutionRemarks='" + clsUtil.replaceQuote(txtRejectRemarks.Text) + "',";
                 sql += "@Transacted_By='" + Session["EmployeeNo"].ToString() + "'";
 
                 clsQueries.executeQuery(sql);
@@ -750,7 +737,7 @@ namespace HelpDeskVG.User_Portal
                 string sql = "";
                 sql = "EXEC sp_vgHelpDesk_User_RejectResolvedTicket ";
                 sql += "@Ticket_Header_Id='" + ticketHeaderId + "'";
-                sql += "@UserRejectSolutionRemarks='" + clsUtil.replaceQuote(txtAttachmentDescription.Text) + "',";
+                sql += "@UserRejectSolutionRemarks='" + clsUtil.replaceQuote(txtRejectRemarks.Text) + "',";
                 sql += "@Transacted_By='" + Session["EmployeeNo"].ToString() + "'";
 
 

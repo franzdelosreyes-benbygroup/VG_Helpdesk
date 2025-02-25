@@ -28,7 +28,8 @@ namespace HelpDeskVG
                 DisplayPriority();
                 DisplayEmployees();
                 DisplayEmployeesCreatedFor();
-
+                DisplayEmployeeITPIC();
+                DisplayITPICAssignTo();
 
 
                 DisplayMyTickets();
@@ -53,6 +54,11 @@ namespace HelpDeskVG
         protected void DisplayEmployeeITPIC()
         {
             clsQueries.DisplayITPICEmployee(ddlAssignToEmpITMd);
+        }
+
+        protected void DisplayITPICAssignTo()
+        {
+            clsQueries.DisplayITPICEmployee(ddlMdEmployeeITPIC);
         }
 
         protected void DisplayAttachments()
@@ -214,7 +220,7 @@ namespace HelpDeskVG
             sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
             sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
             sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
-            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
+            sql += "@CreatedFor='" + ddlCreatedForVg.SelectedValue.ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -328,11 +334,12 @@ namespace HelpDeskVG
             clsQueries.DisplayCategory(ddlCategoryMd);
             clsQueries.DisplayNatureOfProblem(ddlNatureofprobMd);
             clsQueries.DisplayPriority(ddlPriorityMd);
+            clsQueries.DisplayEmployee(ddlCreatedForMd);
 
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderId") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.created_for, a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, g.attachment_id, g.description AS description_attachmentreport, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -373,11 +380,13 @@ namespace HelpDeskVG
                         ddlPriorityMd.SelectedValue = "";
                     }
 
+
                     txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
-                    txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
                     txtOthers.Text = dt.Rows[0]["others"].ToString();
                     txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
+                    txtAttachmentDescriptionMd.Text = dt.Rows[0]["description_attachmentreport"].ToString();
+
 
                     hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
 
@@ -396,6 +405,9 @@ namespace HelpDeskVG
                     gvDownloadableAttachment.DataBind();
                     gvDownloadableAttachment.Dispose();
 
+                    txtAttachmentDescriptionMd.Enabled = false;
+                    lblassigntomd.Visible = false;
+                    ddlAssignToEmpITMd.Visible = false;
                     lnkEditDetails.Visible = true;
                     lnkAssignTicketToITPIC.Visible = true;
                     lnkRejectTicketUser.Visible = true;
@@ -413,19 +425,23 @@ namespace HelpDeskVG
             clsQueries.DisplaySection(ddlSectionMd);
             clsQueries.DisplayCategory(ddlCategoryMd);
             clsQueries.DisplayNatureOfProblem(ddlNatureofprobMd);
+            clsQueries.DisplayPriority(ddlPriorityMd);
+            clsQueries.DisplayEmployee(ddlCreatedForMd);
+
+
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdReassignITPIC") as HiddenField;
 
             hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
 
             string sql = "";
-            sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, a.created_for, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
                     LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_by
                     LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_for
                     LEFT JOIN t_AttachmentReport AS g ON a.ticket_id  =  g.ticket_header_id
-.                   LEFT JOIN m_Priority AS h ON h.priority_id = a.priority_id
+                    LEFT JOIN m_Priority AS h ON h.priority_id = a.priority_id
 					WHERE a.approval_transactional_level = '5' AND a.ticket_id =" + hfTicketHeaderId.Value.ToString();
 
             DataTable dt = new DataTable();
@@ -433,15 +449,28 @@ namespace HelpDeskVG
 
             if (dt.Rows.Count > 0)
             {
+                try
+                {
+                    ddlCreatedForMd.SelectedValue = dt.Rows[0]["created_for"].ToString();
+                    ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
+                    ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
+                    ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
+                    ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
+
+                }
+                catch
+                {
+                    ddlCreatedForMd.SelectedValue = "";
+                    ddlSectionMd.SelectedValue = "";
+                    ddlCategoryMd.SelectedValue = "";
+                    ddlNatureofprobMd.SelectedValue = "";
+                    ddlPriorityMd.SelectedValue = "";
+                }
+
                 txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
-                txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
-                ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
-                ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
-                ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
                 txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
                 txtOthers.Text = dt.Rows[0]["others"].ToString();
                 txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
-                ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
 
 
                 string ticketHeader = hfMdTicketHeaderId.Value.ToString();
@@ -698,6 +727,11 @@ namespace HelpDeskVG
 
                 clsUtil.ShowToastr(this.Page, "Successfully Edited the Ticket!", "success");
             }
+
+            DisplayMyTickets();
+            DisplayUsersTickets();
+            DisplayITPICReassignTickets();
+            DisplayAssignedTickets();
         }
 
         protected void lnkRejectTicketUser_Click(object sender, EventArgs e)
@@ -914,6 +948,7 @@ namespace HelpDeskVG
                         ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
                         ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
                         ddlAssignToEmpITMd.SelectedValue = dt.Rows[0]["assigned_emp_no"].ToString();
+                     
                     }
                     catch
                     {

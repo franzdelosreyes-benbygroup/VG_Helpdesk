@@ -51,7 +51,7 @@
         });
 
 
-        function validateForm() {
+<%--        function validateForm() {
             var natureOfProblem = document.getElementById('<%= ddlNatureofprobMd.ClientID %>').value;
             var priority = document.getElementById('<%= ddlPriorityMd.ClientID %>').value;
             var category = document.getElementById('<%= ddlCategoryMd.ClientID %>').value;
@@ -62,6 +62,26 @@
 
             if (natureOfProblem === "" || priority === "" || category === "" || section === "" ||
                 subject === "" || description === "" || requestId === "") {
+                alert("Please fill up the field that is Required.");
+                return false;
+            }
+
+            return true;
+        }--%>
+
+
+        function validateFormEdited() {
+            var natureOfProblem = document.getElementById('<%= ddlNatureofprobMd.ClientID %>').value;
+            var priority = document.getElementById('<%= ddlPriorityMd.ClientID %>').value;
+            var category = document.getElementById('<%= ddlCategoryMd.ClientID %>').value;
+            var section = document.getElementById('<%= ddlSectionMd.ClientID %>').value;
+            var subject = document.getElementById('<%= txtSubjectMd.ClientID %>').value.trim();
+            var description = document.getElementById('<%= txtDescriptionMd.ClientID %>').value.trim();
+            var newdescription = document.getElementById('<%= txtNewAttachmentInEdit.ClientID %>').value.trim();
+
+            if (natureOfProblem === "" || priority === "" || category === "" || section === "" ||
+                subject === "" || description === "" || newdescription === "") {
+
                 alert("Please fill up the field that is Required.");
                 return false;
             }
@@ -336,13 +356,13 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label status status-pink mb-2">Created By:</label>
+                                        <label class="form-label status status-primary mb-2">Created By:</label>
                                         <asp:TextBox ID="txtCreatedBy" runat="server" CssClass="form-control text-reset" Value='<%# Eval("created_by") %>' Enabled="false"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label status status-pink mb-2">Created For:</label>
+                                        <label class="form-label status status-primary mb-2">Created For:</label>
                                         <asp:TextBox ID="txtCreatedFor" runat="server" CssClass="form-control text-reset" Value='<%# Eval("created_for")%>' Enabled="false"></asp:TextBox>
                                         <asp:DropDownList ID="ddlCreatedForMd" runat="server" CssClass="form-select text-reset">
                                         </asp:DropDownList>
@@ -353,20 +373,20 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label class="form-label status status-pink mb-2">Subject:</label>
+                                    <label class="form-label status status-primary mb-2 required">Subject:</label>
                                     <asp:TextBox ID="txtSubjectMd" runat="server" CssClass="form-control text-reset" Value='<%# Eval("subject") %>'></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label class="form-label status status-pink mb-2">Description:</label>
+                                    <label class="form-label status status-primary mb-2 required">Description:</label>
                                     <asp:TextBox ID="txtDescriptionMd" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset" Value='<%# Eval("description")%>'></asp:TextBox>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12 mt-2">
-                                <label class="form-label status status-pink mb-2">Others:</label>
+                                <label class="form-label status status-primary mb-2">Others:</label>
                                 <div class="mb-3">
                                     <asp:TextBox ID="txtOthers" runat="server" CssClass="form-control text-reset" TextMode="MultiLine" Rows="3"></asp:TextBox>
                                 </div>
@@ -375,13 +395,13 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label class="form-label status status-pink mb-2">Section</label>
+                                    <label class="form-label status status-primary mb-2 required">Section</label>
                                     <asp:DropDownList ID="ddlSectionMd" CssClass="form-select text-reset" OnSelectedIndexChanged="ddlSectionMd_SelectedIndexChanged" AutoPostBack="true" runat="server"></asp:DropDownList>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label class="form-label status status-pink mb-2">Category</label>
+                                    <label class="form-label status status-primary mb-2 required">Category</label>
                                     <asp:DropDownList ID="ddlCategoryMd" CssClass="form-select text-reset" OnSelectedIndexChanged="ddlCategoryMd_SelectedIndexChanged" AutoPostBack="true"  Enabled="false" runat="server"></asp:DropDownList>
                                 </div>
                             </div>
@@ -389,14 +409,14 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="mb-3">
-                                    <label class="form-label status status-pink mb-2">Nature Of Problem</label>
+                                    <label class="form-label status status-primary mb-2 required">Nature Of Problem</label>
                                 </div>
                                 <asp:DropDownList ID="ddlNatureofprobMd" OnSelectedIndexChanged="ddlNatureofprobMd_SelectedIndexChanged" Enabled="false" CssClass="form-select text-reset mb-3" runat="server"></asp:DropDownList>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <label class="form-label status status-pink mb-2">Attachment</label>
+                                <label class="form-label status status-primary mb-2">Attachment</label>
                                 <div class="table-responsive">
                                     <asp:GridView ID="gvDownloadableAttachment" runat="server" CssClass="table table-hover table-bordered table-striped no-wrap" GridLines="None" AutoGenerateColumns="false">
                                         <Columns>
@@ -415,17 +435,23 @@
                                             </asp:TemplateField>
                                         </Columns>
                                     </asp:GridView>
+                                        <div class="mb-2 mt-2">
+                                            <asp:Label ID="Label2" runat="server" CssClass="form-label status status-primary">Attachment Description:</asp:Label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <asp:TextBox ID="txtAttachmentDescriptionMd" runat="server" CssClass="form-control text-reset mt-2" Enabled="false" TextMode="MultiLine" Rows="3" placeholder="Precvious Attachment Description"></asp:TextBox>
+                                        </div>
                                     <div class="col-md-12 mt-2">
-                                        <asp:Label ID="lblAttachNewAttachment" CssClass="form-label status status-pink mt-2" runat="server">Upload an Attachment</asp:Label>
+                                        <asp:Label ID="lblAttachNewAttachment" CssClass="form-label status status-primary mt-2 required" runat="server">Upload an Attachment</asp:Label>
                                     </div>
                                         <div class="col-md-12 mt-2">
                                             <asp:FileUpload ID="fuUploadAttachmentInEdit" CssClass="form-control" runat="server" />
                                         </div>
-                                        <div class="mb-2 mt-2">
-                                            <asp:Label ID="Label2" runat="server" CssClass="form-label status status-pink">Attachment Description:</asp:Label>
-                                        </div>
+                                             <div class="mb-2 mt-2">
+                                                 <asp:Label ID="lblNewAttachmentEdit" runat="server" CssClass="form-label status status-primary required">New Attachment Description:</asp:Label>
+                                             </div>
                                         <div class="col-md-12">
-                                            <asp:TextBox ID="txtAttachmentDescriptionMd" runat="server" CssClass="form-control text-reset mt-2" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>
+                                            <asp:TextBox ID="txtNewAttachmentInEdit" runat="server" CssClass="form-control text-reset mt-2" TextMode="MultiLine" Rows="3" placeholder="New Attachment Description"></asp:TextBox>
                                         </div>
                                 </div>
                             </div>
@@ -433,14 +459,14 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="mb-3 mt-2">
-                                    <label class="form-label status status-pink mt-2">Priority Level</label>
+                                    <label class="form-label status status-primary mt-2 required">Priority Level</label>
                                 </div>
                                 <asp:DropDownList ID="ddlPriorityMd" CssClass="form-select text-reset mb-3" runat="server"></asp:DropDownList>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
-                        <asp:LinkButton ID="lnkEditDetails" runat="server" CssClass="btn btn-primary" OnClick="lnkEditDetails_Click" OnClientClick="return validateForm();">
+                        <asp:LinkButton ID="lnkEditDetails" runat="server" CssClass="btn btn-primary" OnClick="lnkEditDetails_Click" OnClientClick="return validateFormEdited();">
                                 <!-- Download SVG icon from http://tabler.io/icons/icon/plus -->
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
                                 Save Edited Ticket
