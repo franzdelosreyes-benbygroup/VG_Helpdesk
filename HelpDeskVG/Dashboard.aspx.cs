@@ -33,6 +33,8 @@ namespace HelpDeskVG
 
 
                 DisplayMyTickets();
+                DisplayPendingApprovalResolved();
+                DisplayRejectedTicketsByAdmin();
                 DisplayUsersTickets();
                 DisplayITPICReassignTickets();
                 DisplayAssignedTickets();
@@ -180,6 +182,42 @@ namespace HelpDeskVG
             dt.Dispose();
 
 
+        }
+        protected void DisplayPendingApprovalResolved()
+        {
+
+            string sql = "";
+            sql = @"SELECT a.[description], [status], ticket_id ,ticket_code, a.created_at, b.description_category, c.description_section, d.description_natureofprob, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_for, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a
+                    LEFT JOIN m_Category AS b ON b.category_id = a.category_id
+                    LEFT JOIN m_Section AS c ON c.section_id = a.section_id
+                    LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
+                    LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_for 
+					LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
+                    WHERE a.approval_transactional_level = '6' AND a.created_for =" + Session["EmployeeNo"].ToString();
+
+            DataTable dt = new DataTable();
+            dt = clsQueries.fetchData(sql);
+
+            gvMyTicketPendingApproval.DataSource = dt;
+            gvMyTicketPendingApproval.DataBind();
+            gvMyTicketPendingApproval.Dispose();
+
+        }
+
+        protected void DisplayRejectedTicketsByAdmin()
+        {
+            string sql = "";
+            sql = @"SELECT a.ticket_id, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, a.created_at, a.ticket_code, a.admin_recent_reject_remarks, a.itpic_recent_reject_remarks, a.[description], a.itpic_recent_reject_remarks, a.admin_recent_reject_remarks, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id 
+            LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_by
+			LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
+            WHERE a.approval_transactional_level = '2' AND a.created_for =" + Session["EmployeeNo"].ToString();
+
+            DataTable dt = new DataTable();
+            dt = clsQueries.fetchData(sql);
+
+            gvMyTicketRejectedByAdmin.DataSource = dt;
+            gvMyTicketRejectedByAdmin.DataBind();
+            gvMyTicketRejectedByAdmin.Dispose();
         }
 
         protected void DisplayUsersTickets()
@@ -411,6 +449,9 @@ namespace HelpDeskVG
                     lnkEditDetails.Visible = true;
                     lnkAssignTicketToITPIC.Visible = true;
                     lnkRejectTicketUser.Visible = true;
+                    lnkAcceptTicketProposal.Visible = false;
+                    lnkRejectTicketProposal.Visible = false;
+
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
                 }
                 dt.Dispose();
@@ -675,7 +716,7 @@ namespace HelpDeskVG
                                 cmd.Connection = con;
                                 cmd.Parameters.AddWithValue("@FileName", filename);
                                 cmd.Parameters.AddWithValue("@FileContentType", contentType);
-                                cmd.Parameters.AddWithValue("@Description", clsUtil.replaceQuote(txtAttachmentDescriptionMd.Text));
+                                cmd.Parameters.AddWithValue("@Description", clsUtil.replaceQuote(txtNewAttachmentInEdit.Text));
                                 cmd.Parameters.AddWithValue("@HDheaderId", ticketHeader);
                                 cmd.Parameters.AddWithValue("@Uploaded_By", Session["EmployeeNo"].ToString());
                                 cmd.Parameters.AddWithValue("@FileBin", bytes);
@@ -984,60 +1025,35 @@ namespace HelpDeskVG
                     gvDownloadableAttachment.DataBind();
 
 
-                    if (approvalLevel == "4")
+                    if (approvalLevel == "0")
                     {
-                        txtCreatedFor.Visible = false;
-                        lblAttachNewAttachment.Visible = false;
-                        fuUploadAttachmentInEdit.Visible = false;
+                        lnkAcceptTicketProposal.Visible = false;
+                        lnkRejectTicketProposal.Visible = false;
                         lnkAssignTicketToITPIC.Visible = false;
                         lnkRejectTicketUser.Visible = false;
-                        lnkEditDetails.Visible = false;
+                        txtAttachmentDescriptionMd.Enabled = false;
+                        lnkEditDetails.Visible = true;
                     }
-                    else if (approvalLevel == "8")
+                    else if (approvalLevel == "2")
                     {
-                        txtCreatedFor.Visible = false;
-                        lblAttachNewAttachment.Visible = false;
-                        fuUploadAttachmentInEdit.Visible = false;
+                        lnkAcceptTicketProposal.Visible = false;
+                        lnkRejectTicketProposal.Visible = false;
+                        txtAttachmentDescriptionMd.Enabled = false;
                         lnkAssignTicketToITPIC.Visible = false;
-                        lnkRejectTicketUser.Visible = false;
-                        lnkEditDetails.Visible = false;
-                    }
-                    else if (approvalLevel == "1")
-                    {
-                        txtCreatedFor.Visible = false;
-                        lblAttachNewAttachment.Visible = false;
-                        fuUploadAttachmentInEdit.Visible = false;
-                        lnkAssignTicketToITPIC.Visible = false;
-                        lnkRejectTicketUser.Visible = false;
-                        lnkEditDetails.Visible = false;
-                    }
-                    else if (approvalLevel == "9")
-                    {
-                        txtCreatedFor.Visible = false;
-                        lblAttachNewAttachment.Visible = false;
-                        fuUploadAttachmentInEdit.Visible = false;
-                        lnkAssignTicketToITPIC.Visible = false;
-                        lnkRejectTicketUser.Visible = false;
-                        lnkEditDetails.Visible = false;
-                    }
-                    else if (approvalLevel == "3")
-                    {
-                        txtCreatedFor.Visible = false;
-                        lblAttachNewAttachment.Visible = false;
-                        fuUploadAttachmentInEdit.Visible = false;
-                        lnkAssignTicketToITPIC.Visible = false;
-                        lnkRejectTicketUser.Visible = false;
-                        lnkEditDetails.Visible = false;
+                        lnkRejectTicketUser.Visible=false;
+                        lnkEditDetails.Visible = true;
                     }
                     else
                     {
-                        txtCreatedFor.Visible = true;
+                        lnkAcceptTicketProposal.Visible = false;
+                        lnkRejectTicketProposal.Visible = false;
+                        txtCreatedFor.Visible = false;
+                        lblAttachNewAttachment.Visible = false;
+                        fuUploadAttachmentInEdit.Visible = false;
                         lnkAssignTicketToITPIC.Visible = false;
                         lnkRejectTicketUser.Visible = false;
-                        lnkEditDetails.Visible = true;
+                        lnkEditDetails.Visible = false;
                     }
-
-                    txtCreatedFor.Visible = false;
 
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
                 }
@@ -1255,6 +1271,397 @@ namespace HelpDeskVG
                 dt.Dispose();
 
             }
+        }
+
+        protected void gvMyTicketPendingApproval_PageIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void lnkTicketApprovalUser_Click(object sender, EventArgs e)
+        {
+            clsQueries.DisplaySection(ddlSectionMd);
+            clsQueries.DisplayCategory(ddlCategoryMd);
+            clsQueries.DisplayNatureOfProblem(ddlNatureofprobMd);
+            clsQueries.DisplayPriority(ddlPriorityMd);
+            clsQueries.DisplayEmployee(ddlCreatedForMd);
+
+            HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptTicket") as HiddenField;
+
+            string sql = "";
+            sql = @"SELECT a.ticket_id, a.approval_transactional_level ,a.[subject], a.created_for, a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+                    LEFT JOIN m_Category AS b ON b.category_id = a.category_id
+                    LEFT JOIN m_Section AS c ON c.section_id = a.section_id
+                    LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
+                    LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_by
+                    LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_for
+                    LEFT JOIN t_AttachmentReport AS g ON a.ticket_id  =  g.ticket_header_id
+					LEFT JOIN m_Priority AS h ON h.priority_id = a.priority_id
+					WHERE a.approval_transactional_level = '6' AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND a.ticket_id=" + hfTicketHeaderId.Value.ToString();
+
+            DataTable dt = new DataTable();
+            dt = clsQueries.fetchData(sql);
+
+
+            try
+            {
+                ddlCreatedForMd.SelectedValue = dt.Rows[0]["created_for"].ToString();
+                ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
+                ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
+                ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
+                ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
+
+            }
+            catch
+            {
+                ddlCreatedForMd.SelectedValue = "";
+                ddlSectionMd.SelectedValue = "";
+                ddlCategoryMd.SelectedValue = "";
+                ddlNatureofprobMd.SelectedValue = "";
+                ddlPriorityMd.SelectedValue = "";
+            }
+
+            txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
+            txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
+            txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
+            txtOthers.Text = dt.Rows[0]["others"].ToString();
+            txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
+
+
+            txtCreatedBy.Enabled = false;
+            txtCreatedFor.Enabled = false;
+            txtSubjectMd.Enabled = false;
+            txtOthers.Enabled = false;
+            txtDescriptionMd.Enabled = false;
+            ddlSectionMd.Enabled = false;
+            ddlCategoryMd.Enabled = false;
+            ddlNatureofprobMd.Enabled = false;
+            ddlPriorityMd.Enabled = false;
+
+            hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
+
+            string ticketHeader = hfMdTicketHeaderId.Value.ToString();
+
+            sql = "EXEC sp_vgHelpDesk_Admin_GetAttachmentDetails ";
+            sql += "@TicketHeaderId ='" + ticketHeader + "'";
+
+            clsQueries.executeQuery(sql);
+
+            DataTable dtAttachment = new DataTable();
+            dtAttachment = clsQueries.fetchData(sql);
+
+            gvDownloadableAttachment.DataSource = dtAttachment;
+            gvDownloadableAttachment.DataBind();
+            gvDownloadableAttachment.Dispose();
+
+
+            lnkEditDetails.Visible = false;
+            lnkRejectTicketUser.Visible = false;
+            lnkAssignTicketToITPIC.Visible = false;
+            lnkRejectTicketProposal.Visible = false;
+            lnkAcceptTicketProposal.Visible = false;
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+
+            dt.Dispose();
+        }
+
+        protected void lnkTicketApprovalResolvedDetails_Click(object sender, EventArgs e)
+        {
+            clsQueries.DisplaySection(ddlSectionMd);
+            clsQueries.DisplayCategory(ddlCategoryMd);
+            clsQueries.DisplayNatureOfProblem(ddlNatureofprobMd);
+
+            HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptTicket") as HiddenField;
+
+            string sql = "";
+            sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, a.proposed_remarks, h.attachment_proposed_id, h.[data], h.description AS description_attachment, h.[file_name], h.content_type FROM t_TicketHeader AS a 
+                    INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id
+					LEFT JOIN t_ProposedAttachment AS h ON a.ticket_id  =  h.ticket_header_id
+					WHERE a.approval_transactional_level = '6' AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND a.ticket_id=" + hfTicketHeaderId.Value.ToString();
+
+            DataTable dt = new DataTable();
+            dt = clsQueries.fetchData(sql);
+            txtDescriptionAttachmentProposed.Text = dt.Rows[0]["description_attachment"].ToString();
+            txtProposedRemarksMd.Text = dt.Rows[0]["proposed_remarks"].ToString();
+
+
+            txtProposedRemarksMd.Enabled = false;
+            txtDescriptionAttachmentProposed.Enabled = false;
+
+            hfTicketHeaderIdforResolved.Value = hfTicketHeaderId.Value;
+
+            string ticketHeader = hfTicketHeaderIdforResolved.Value.ToString();
+
+            sql = "EXEC sp_vgHelpDesk_User_GetProposedAttachmentDetails ";
+            sql += "@TicketHeaderId ='" + ticketHeader + "'";
+
+            clsQueries.executeQuery(sql);
+
+            DataTable dtAttachment = new DataTable();
+            dtAttachment = clsQueries.fetchData(sql);
+
+
+            gvDownloadAttachmentInResolved.DataSource = dtAttachment;
+            gvDownloadAttachmentInResolved.DataBind();
+            gvDownloadAttachmentInResolved.Dispose();
+
+            lnkAcceptResolvedTicket.Visible = true;
+            lnkRejectResolvedTicket.Visible = true;
+            
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "resolvedDetailsModal();", true);
+
+            dt.Dispose();
+
+
+        }
+
+        protected void lnkAcceptResolvedTicket_Click(object sender, EventArgs e)
+        {
+            string ticketHeader = hfTicketHeaderIdforResolved.Value.ToString();
+
+            string sql = "";
+
+            sql = "EXEC sp_vgHelpDesk_User_AcceptResolvedTicket";
+            sql += " @TicketHeaderId ='" + ticketHeader + "',";
+            sql += " @Transacted_By ='" + Session["EmployeeNo"].ToString() + "'";
+
+            clsQueries.executeQuery(sql);
+
+            DisplayMyTickets();
+            DisplayPendingApprovalResolved();
+            DisplayRejectedTicketsByAdmin();
+            DisplayUsersTickets();
+            DisplayITPICReassignTickets();
+            DisplayAssignedTickets();
+            DisplayRejectedList();
+        }
+
+        protected void lnkRejectResolvedTicket_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "rejectSolutionModal();", true);
+
+        }
+
+        protected void lnkUserRejectProposedSolution_Click(object sender, EventArgs e)
+        {
+            hfUserRejectHeaderID.Value = hfTicketHeaderIdforResolved.Value;
+
+            string ticketHeaderId = hfUserRejectHeaderID.Value.ToString();
+
+            if (fuUploadAttachmentReject.HasFile)
+            {
+                int iFileSize = fuUploadAttachmentReject.PostedFile.ContentLength;
+
+                if (iFileSize > 5048576)
+                {
+                    clsUtil.ShowToastr(this.Page, "The file uploaded is less than 5mb, Please Upload again!", "warning");
+                }
+
+                using (Stream fs = fuUploadAttachmentReject.PostedFile.InputStream)
+                {
+                    using (BinaryReader br = new BinaryReader(fs))
+                    {
+                        byte[] bytes = br.ReadBytes((Int32)fs.Length);
+                        string constr = ConfigurationManager.ConnectionStrings["con_VG_Helpdesk"].ConnectionString;
+
+                        using (SqlConnection con = new SqlConnection(constr))
+                        {
+
+                            string query = "insert into t_AttachmentReport(ticket_header_id,file_name,description,content_type,data,uploaded_by,created_at) values (@HDheaderId ,@FileName,@Description,@FileContentType,@FileBin,@Uploaded_By,CURRENT_TIMESTAMP)";
+                            using (SqlCommand cmd = new SqlCommand(query))
+                            {
+                                string filename = fuUploadAttachmentReject.PostedFile.FileName.Replace(",", "");
+                                string contentType = fuUploadAttachmentReject.PostedFile.ContentType;
+
+                                cmd.Connection = con;
+                                cmd.Parameters.AddWithValue("@FileName", filename);
+                                cmd.Parameters.AddWithValue("@FileContentType", contentType);
+                                cmd.Parameters.AddWithValue("@Description", clsUtil.replaceQuote(txtAttachmentDescReject.Text));
+                                cmd.Parameters.AddWithValue("@HDheaderId", ticketHeaderId);
+                                cmd.Parameters.AddWithValue("@Uploaded_By", Session["EmployeeNo"].ToString());
+                                cmd.Parameters.AddWithValue("@FileBin", bytes);
+
+                                con.Open();
+                                cmd.CommandTimeout = 600;
+                                cmd.ExecuteNonQuery();
+                                con.Close();
+                            }
+                            gvHDUploadedAttachmentReject.DataBind();
+
+                        }
+                    }
+                }
+                string sql = "";
+                sql = "EXEC sp_vgHelpDesk_User_RejectResolvedTicket ";
+                sql += "@Ticket_Header_Id='" + ticketHeaderId + "',";
+                sql += "@UserRejectSolutionRemarks='" + clsUtil.replaceQuote(txtRejectRemarks.Text) + "',";
+                sql += "@Transacted_By='" + Session["EmployeeNo"].ToString() + "'";
+
+                clsQueries.executeQuery(sql);
+
+                DisplayMyTickets();
+                DisplayPendingApprovalResolved();
+                DisplayRejectedTicketsByAdmin();
+                DisplayUsersTickets();
+                DisplayITPICReassignTickets();
+                DisplayAssignedTickets();
+                DisplayRejectedList();
+            }
+
+            else
+            {
+                string sql = "";
+                sql = "EXEC sp_vgHelpDesk_User_RejectResolvedTicket ";
+                sql += "@Ticket_Header_Id='" + ticketHeaderId + "'";
+                sql += "@UserRejectSolutionRemarks='" + clsUtil.replaceQuote(txtRejectRemarks.Text) + "',";
+                sql += "@Transacted_By='" + Session["EmployeeNo"].ToString() + "'";
+
+                clsQueries.executeQuery(sql);
+
+                DisplayMyTickets();
+                DisplayPendingApprovalResolved();
+                DisplayRejectedTicketsByAdmin();
+                DisplayUsersTickets();
+                DisplayITPICReassignTickets();
+                DisplayAssignedTickets();
+                DisplayRejectedList();
+            }
+        }
+
+        protected void lnkMyTicketRejectedTicketList_Click(object sender, EventArgs e)
+        {
+            clsQueries.DisplaySection(ddlSectionMd);
+            clsQueries.DisplayCategory(ddlCategoryMd);
+            clsQueries.DisplayNatureOfProblem(ddlNatureofprobMd);
+            clsQueries.DisplayPriority(ddlPriorityMd);
+            clsQueries.DisplayEmployee(ddlCreatedForMd);
+
+            HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdRejectedList") as HiddenField;
+
+            string sql = "";
+            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.ticket_code, a.created_for, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+                    LEFT JOIN m_Category AS b ON b.category_id = a.category_id
+                    LEFT JOIN m_Section AS c ON c.section_id = a.section_id
+                    LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
+                    LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_by
+                    LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_for
+                    LEFT JOIN t_AttachmentReport AS g ON a.ticket_id  =  g.ticket_header_id
+					LEFT JOIN m_Priority AS h ON h.priority_id = a.priority_id
+					WHERE a.approval_transactional_level = '2' AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND a.ticket_id=" + hfTicketHeaderId.Value.ToString();
+
+            DataTable dt = new DataTable();
+            dt = clsQueries.fetchData(sql);
+
+            if (hfTicketHeaderId.ToString() == "")
+            {
+                clsUtil.ShowToastr(this.Page, "There is no Transaction Existing", "warning");
+            }
+
+            else
+            {
+                try
+                {
+                    ddlCreatedForMd.SelectedValue = dt.Rows[0]["created_for"].ToString();
+                    ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
+                    ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
+                    ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
+                    ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
+                }
+
+                catch
+                {
+                    ddlCreatedForMd.SelectedValue = "";
+                    ddlSectionMd.SelectedValue = "";
+                    ddlCategoryMd.SelectedValue = "";
+                    ddlNatureofprobMd.SelectedValue = "";
+                    ddlPriorityMd.SelectedValue = "";
+                }
+
+                txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
+                txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
+                txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
+                txtOthers.Text = dt.Rows[0]["others"].ToString();
+                txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
+
+                txtCreatedBy.Enabled = true;
+                txtCreatedFor.Enabled = true;
+                txtSubjectMd.Enabled = true;
+                txtOthers.Enabled = true;
+                txtDescriptionMd.Enabled = true;
+                txtAttachmentDescriptionMd.Enabled = false;
+                ddlSectionMd.Enabled = true;
+                ddlCategoryMd.Enabled = true;
+                ddlNatureofprobMd.Enabled = true;
+                ddlPriorityMd.Enabled = true;
+
+
+                //lnkAcceptTicket.Visible = false;
+                //lnkRejectTicketUser.Visible = false;
+                //lnkAcceptWithThirdParty.Visible = false;
+                //lnkProposedTicketResolution.Visible = false;
+                //lnkTagThisToThirdParty.Visible = false;
+                //lnkAcceptTicket.Visible = false;
+                //lnkRejectTicketUser.Visible = false;
+                //lnkSaveReceivedDate.Visible = false;
+
+                hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
+
+                string ticketHeader = hfMdTicketHeaderId.Value.ToString();
+
+                sql = "EXEC sp_vgHelpDesk_Admin_GetAttachmentDetails ";
+                sql += "@TicketHeaderId ='" + ticketHeader + "'";
+
+                clsQueries.executeQuery(sql);
+
+                DataTable dtAttachment = new DataTable();
+                dtAttachment = clsQueries.fetchData(sql);
+
+                gvDownloadableAttachment.DataSource = dtAttachment;
+                gvDownloadableAttachment.DataBind();
+                gvDownloadableAttachment.Dispose();
+
+
+                lnkEditDetails.Visible = true;
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+            }
+            dt.Dispose();
+        }
+
+        protected void lnkAcceptTicketProposal_Click(object sender, EventArgs e)
+        {
+
+            string ticketHeader = hfTicketHeaderIdforResolved.Value.ToString();
+
+            string sql = "";
+
+            sql = "EXEC sp_vgHelpDesk_User_AcceptResolvedTicket";
+            sql += " @TicketHeaderId ='" + ticketHeader + "',";
+            sql += " @Transacted_By ='" + Session["EmployeeNo"].ToString() + "'";
+
+            clsQueries.executeQuery(sql);
+
+            DisplayMyTickets();
+            DisplayPendingApprovalResolved();
+            DisplayRejectedTicketsByAdmin();
+            DisplayUsersTickets();
+            DisplayITPICReassignTickets();
+            DisplayAssignedTickets();
+            DisplayRejectedList();
+
+            clsUtil.ShowToastr(this.Page, "Successfully Accepted the Ticket!", "success");
+        }
+
+        protected void lnkRejectTicketProposal_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "rejectSolutionModal();", true);
+        }
+
+        protected void gvMyTicketRejectedByAdmin_PageIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

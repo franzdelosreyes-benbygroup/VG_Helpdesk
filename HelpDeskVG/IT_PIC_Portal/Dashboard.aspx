@@ -18,6 +18,19 @@
                 $("#mdAssignTicketToITPIC").modal('show');
             });
         }
+        function resolvedDetailsModal() {
+           $(document).ready(function () {
+               $("#mdResolvedDetailsUsersTicket").modal("show");
+           });
+       }
+
+        function rejectSolutionModal() {
+            $(document).ready(function () {
+                $("#mdUserRejectProposedTicket").modal("show");
+            });
+        }
+
+
         function rejectITPICTicketRemarks() {
             $(document).ready(function () {
                 $("#mdITPICRejectTicketRemarks").modal('show');
@@ -53,6 +66,7 @@
                 $("#mdITPICReceivedTicket3rdParty").modal('show');
             });
         }
+
 
 
         function saveActiveTab() {
@@ -91,10 +105,9 @@
                 var section = document.getElementById('<%= ddlSectionMd.ClientID %>').value;
                 var subject = document.getElementById('<%= txtSubjectMd.ClientID %>').value.trim();
                 var description = document.getElementById('<%= txtDescriptionMd.ClientID %>').value.trim();
-                var requestId = '<%= Request.QueryString["Id"] != null ? Request.QueryString["Id"].ToString() : "" %>';
 
                 if (natureOfProblem === "" || priority === "" || category === "" || section === "" ||
-                    subject === "" || description === "" || requestId === "") {
+                    subject === "" || description === "") {
                     alert("Please fill up the field that is Required.");
                     return false; 
                 }
@@ -149,6 +162,18 @@
             }
 
             return true;
+        }
+
+        function validateRejectSolution(){
+              var remarks = document.getElementById('<%= txtRejectRemarks.ClientID%>').value;
+              var attachmentdesc = document.getElementById('<%= txtAttachmentDescReject.ClientID%>').value;
+              var file = document.getElementById('<%= fuUploadAttachmentReject.ClientID%>').value;
+
+              if (remarks === "" || attachmentdesc === "" || file === "") {
+                  alert("Please fill up the field that is Required.");
+                  return false;
+              }
+           return true;
         }
 
     </script>
@@ -639,8 +664,8 @@
                                 Reject Ticket
                                 </asp:LinkButton>
                                 <asp:LinkButton ID="lnkAcceptWithThirdParty" CssClass="btn btn-success" OnClick="lnkAcceptWithThirdParty_Click" runat="server">
-                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4c.96 0 1.84 .338 2.53 .901" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
-                        Accept w/ 3rd Party
+                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4c.96 0 1.84 .338 2.53 .901" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
+                                    Accept w/ 3rd Party
                                 </asp:LinkButton>
                                 <div class="col-md-12">
                                     <div class="row">
@@ -657,7 +682,6 @@
                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-navigation-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16.573 12.914l-4.573 -9.914l-7.97 17.275c-.07 .2 -.017 .424 .135 .572c.15 .148 .374 .193 .57 .116l7.265 -2.463" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
                                         Save 3rd Party Received
                                     </asp:LinkButton>
-                                            
                                             <asp:LinkButton ID="lnkProposedTicketResolution" runat="server" CssClass="btn btn-info" OnClick="lnkProposedTicketResolution_Click">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>                               
                                         Save as Resolved
@@ -798,13 +822,13 @@
                 </div>
                 <asp:HiddenField ID="hfHeaderTicketProposedAgain" runat="server" />
                 <div class="modal-body">
-                    <asp:Label ID="Label3" runat="server" Text="Remarks" Placeholder="Input Remarks" CssClass="form-label"></asp:Label>
-                    <asp:TextBox ID="txtRemarksProposedSolutionAgain" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset"></asp:TextBox>
-                    <asp:Label ID="Label6" runat="server" Text="Remarks" CssClass="form-label"></asp:Label>
+                    <asp:Label ID="Label3" runat="server" Text="Remarks" Placeholder="Input Remarks" CssClass="form-label status status-primary required"></asp:Label>
+                    <asp:TextBox ID="txtRemarksProposedSolutionAgain" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset mt-2"></asp:TextBox>
+                    <asp:Label ID="Label6" runat="server" Text="Remarks" CssClass="form-label status status-primary required mt-2"></asp:Label>
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">
-                                <asp:FileUpload ID="fuUploadAttachmentAgain" CssClass="form-control" runat="server" />
+                                <asp:FileUpload ID="fuUploadAttachmentAgain" CssClass="form-control mt-2" runat="server" />
                             </div>
                    <%--         <div class="col-md-6">
                                 <asp:LinkButton ID="lnkUploadAttachment" CssClass="btn btn-info" OnClick="lnkUploadAttachment_Click" AutoPostBack="false" runat="server">Upload Attachment</asp:LinkButton>
@@ -812,28 +836,15 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="mb-2 mt-2">
-                                        <asp:Label ID="Label7" runat="server" CssClass="form-label">Attachment Description:</asp:Label>
+                                        <asp:Label ID="Label7" runat="server" CssClass="form-label status status-primary required">Attachment Description:</asp:Label>
                                     </div>
                                     <div class="col-md-12">
-                                        <asp:TextBox ID="txtAttachmentDescriptionAgain" runat="server" CssClass="form-control text-reset" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>
+                                        <asp:TextBox ID="txtAttachmentDescriptionAgain" runat="server" CssClass="form-control text-reset mt-2" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="false" CssClass="table table-vcenter table-hover text-nowrap">
-                        <Columns>
-                            <asp:BoundField DataField="file_name" runat="server" HeaderText="File Name" />
-                            <asp:TemplateField HeaderText="Actions">
-                                <ItemTemplate>
-<%--                                    <asp:LinkButton ID="lnkDeleteAttachment" OnClick="lnkDeleteAttachment_Click" runat="server"><i class="ti ti-pencil">Edit</i></asp:LinkButton>--%>
-                              </ItemTemplate>
-                            </asp:TemplateField>
-                        </Columns>
-                        <EmptyDataTemplate>
-                            No Data Found
-                        </EmptyDataTemplate>
-                    </asp:GridView>
 
                     <div class="modal-footer">
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
@@ -967,21 +978,21 @@
                 </div>
                 <asp:HiddenField ID="hfUserRejectHeaderID" runat="server" />
                 <div class="modal-body">
-                    <asp:Label ID="lblRejectRemarks" runat="server" Text="Remarks" Placeholder="Input Remarks" CssClass="form-label"></asp:Label>
-                    <asp:TextBox ID="txtRejectRemarks" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset"></asp:TextBox>
-                    <asp:Label ID="lblRejectAttachment" runat="server" Text="Attachment" CssClass="form-label"></asp:Label>
+                    <asp:Label ID="lblRejectRemarks" runat="server" Text="Remarks" Placeholder="Input Remarks" CssClass="form-label status status-primary required"></asp:Label>
+                    <asp:TextBox ID="txtRejectRemarks" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset mt-2"></asp:TextBox>
+                    <asp:Label ID="lblRejectAttachment" runat="server" Text="Attachment" CssClass="form-label status status-primary required"></asp:Label>
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">
-                                <asp:FileUpload ID="fuUploadAttachmentReject" CssClass="form-control" runat="server" />
+                                <asp:FileUpload ID="fuUploadAttachmentReject" CssClass="form-control mt-2" runat="server" />
                             </div>
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="mb-2 mt-2">
-                                        <asp:Label ID="Label10" runat="server" CssClass="form-label">Attachment Description:</asp:Label>
+                                        <asp:Label ID="Label10" runat="server" CssClass="form-label status status-primary required">Attachment Description:</asp:Label>
                                     </div>
                                     <div class="col-md-12">
-                                        <asp:TextBox ID="txtAttachmentDescReject" runat="server" CssClass="form-control text-reset" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>
+                                        <asp:TextBox ID="txtAttachmentDescReject" runat="server" CssClass="form-control text-reset mt-2" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -998,18 +1009,18 @@
                         </Columns>
                         <EmptyDataTemplate>
                             No Data Found
-                           
                         </EmptyDataTemplate>
                     </asp:GridView>
 
                     <div class="modal-footer">
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                        <asp:LinkButton ID="lnkUserRejectProposedSolution" runat="server" OnClick="lnkUserRejectProposedSolution_Click" CssClass="btn btn-success">Save as Reject Solution</asp:LinkButton>
+                        <asp:LinkButton ID="lnkUserRejectProposedSolution" runat="server" OnClick="lnkUserRejectProposedSolution_Click" OnClientClick="return validateRejectSolution();" CssClass="btn btn-success">Save as Reject Solution</asp:LinkButton>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 

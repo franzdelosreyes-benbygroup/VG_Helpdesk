@@ -50,26 +50,6 @@
             });
         });
 
-
-<%--        function validateForm() {
-            var natureOfProblem = document.getElementById('<%= ddlNatureofprobMd.ClientID %>').value;
-            var priority = document.getElementById('<%= ddlPriorityMd.ClientID %>').value;
-            var category = document.getElementById('<%= ddlCategoryMd.ClientID %>').value;
-            var section = document.getElementById('<%= ddlSectionMd.ClientID %>').value;
-                var subject = document.getElementById('<%= txtSubjectMd.ClientID %>').value.trim();
-                var description = document.getElementById('<%= txtDescriptionMd.ClientID %>').value.trim();
-                var requestId = '<%= Request.QueryString["Id"] != null ? Request.QueryString["Id"].ToString() : "" %>';
-
-            if (natureOfProblem === "" || priority === "" || category === "" || section === "" ||
-                subject === "" || description === "" || requestId === "") {
-                alert("Please fill up the field that is Required.");
-                return false;
-            }
-
-            return true;
-        }--%>
-
-
         function validateFormEdited() {
             var natureOfProblem = document.getElementById('<%= ddlNatureofprobMd.ClientID %>').value;
             var priority = document.getElementById('<%= ddlPriorityMd.ClientID %>').value;
@@ -88,6 +68,19 @@
 
             return true;
         }
+
+
+        function validateRejectSolution() {
+            var remarks = document.getElementById('<%= txtRejectRemarks.ClientID%>').value;
+                    var attachmentdesc = document.getElementById('<%= txtAttachmentDescription.ClientID%>').value;
+                    var file = document.getElementById('<%= fuUploadAttachment.ClientID%>').value;
+
+                    if (remarks === "" || attachmentdesc === "" || file === "") {
+                        alert("Please fill up the field that is Required.");
+                        return false;
+                    }
+                    return true;
+                }
 </script>
    <style>
   /* Default nav-link styles */
@@ -485,21 +478,21 @@
                     </div>
                  <asp:HiddenField ID="hfUserRejectHeaderID" runat="server" />
                     <div class="modal-body">
-                        <asp:Label ID="lblRejectRemarks" runat="server" Text="Remarks" Placeholder="Input Remarks" CssClass="form-label"></asp:Label>
-                        <asp:TextBox ID="txtRejectRemarks" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset"></asp:TextBox>
-                        <asp:Label ID="lblRejectAttachment" runat="server" Text="Attachment" CssClass="form-label"></asp:Label>
+                        <asp:Label ID="lblRejectRemarks" runat="server" Text="Remarks" Placeholder="Input Remarks" CssClass="form-label status status-primary required"></asp:Label>
+                        <asp:TextBox ID="txtRejectRemarks" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset mt-2"></asp:TextBox>
+                        <asp:Label ID="lblRejectAttachment" runat="server" Text="Attachment" CssClass="form-label status status-primary required"></asp:Label>
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <asp:FileUpload ID="fuUploadAttachment" CssClass="form-control" runat="server" />
+                                    <asp:FileUpload ID="fuUploadAttachment" CssClass="form-control mt-2" runat="server" />
                                 </div>
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="mb-2 mt-2">
-                                            <asp:Label ID="lblAttachmentDescription" runat="server" CssClass="form-label">Attachment Description:</asp:Label>
+                                            <asp:Label ID="lblAttachmentDescription" runat="server" CssClass="form-label status status-primary required">Attachment Description:</asp:Label>
                                         </div>
                                         <div class="col-md-12">
-                                            <asp:TextBox ID="txtAttachmentDescription" runat="server" CssClass="form-control text-reset" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>
+                                            <asp:TextBox ID="txtAttachmentDescription" runat="server" CssClass="form-control text-reset mt-2" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
@@ -521,7 +514,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                            <asp:LinkButton ID="lnkUserRejectProposedSolution" runat="server" OnClick="lnkUserRejectProposedSolution_Click" CssClass="btn btn-success">Save as Reject Solution</asp:LinkButton>
+                            <asp:LinkButton ID="lnkUserRejectProposedSolution" runat="server" OnClick="lnkUserRejectProposedSolution_Click" OnClientClick="return validateRejectSolution();" CssClass="btn btn-success">Save as Reject Solution</asp:LinkButton>
                         </div>
                     </div>
                 </div>

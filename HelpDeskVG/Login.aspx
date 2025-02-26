@@ -43,18 +43,18 @@
 </head>
 <body class=" d-flex flex-column bg-white">
     <div class="row g-0 flex-fill">
-        <div class="col-12 col-lg-6 col-xl-4 border-top-wide border-danger d-flex flex-column justify-content-center">
-            <div class="container container-tight my-5 px-lg-5">
+        <div class="col-12 col-lg-6 col-xl-4 border-top-wide border-danger d-flex flex-column justify-content-center mb-8">
+            <div class="container container-tight my-5 px-lg-5 mb-8">
                 <div class="text-center mb-4">
                     <a href="." class="navbar-brand navbar-brand-autodark">
                         <img src="./img/benbygroup_logo.png" height="150" alt=""></a>
                 </div>
-                <div class ="h1 text-center mb-3">
-                 HELPDESK PORTAL 
-                </div>
                 <div class ="h5 text-center mb-3">
-                VG Supply Chain, Inc.
-                </div>
+        <img src="./img/logoVGnewpng.png" class="img-fluid" style="height: auto; width: auto; max-width: 100%; max-height: 100%; object-fit: contain; margin-bottom: 20px;">
+                    </div>
+                        <div class ="h2 text-center mb-3">
+         HELPDESK PORTAL 
+        </div>
                 <h2 class="h3 text-center mb-3">Login to your account
                 </h2>
                 <form id="form1" runat="server">
@@ -77,9 +77,8 @@
         </div>
     <div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
         <!-- Photo -->
-        <div class="bg-cover h-100 min-vh-100">
- 
-        </div>
+        <div class="bg-cover h-75 min-vh-50 d-flex justify-content-center align-items-center">
+<img src="./img/vghelpdesk_login_bg.svg" class="img-fluid" style="width: auto; margin-top:100px;max-width: 90vw; height: auto; max-height: 90vh; object-fit: contain;">        </div>
     </div>
     </div>
     <!-- Tabler Core -->
