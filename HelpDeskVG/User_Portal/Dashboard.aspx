@@ -367,14 +367,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-12 mt-2">
-                                <label class="form-label status status-primary mb-2">Others:</label>
-                                <div class="mb-3">
-                                    <asp:TextBox ID="txtOthers" runat="server" CssClass="form-control text-reset" TextMode="MultiLine" Rows="3"></asp:TextBox>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label class="form-label status status-primary mb-2 required">Section</label>

@@ -111,7 +111,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             sql += "@NatureOfProb='" + ddlNatureOfProbFilter.SelectedValue.ToString() + "',";
             sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
             sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
-            sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "'";
+            sql += "@CreatedFor='" + ddlEmployeeVg.SelectedValue.ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -160,13 +160,14 @@ namespace HelpDeskVG.IT_PIC_Portal
             sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
             sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
             sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
-            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
+            sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue.ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
 
             gvITPICRejectedTickets.DataSource = dt;
             gvITPICRejectedTickets.DataBind();
+            lblITPICRejectedTicketToAdminCount.Text = dt.Rows.Count.ToString();
             gvITPICRejectedTickets.Dispose();
         }
 
@@ -183,14 +184,14 @@ namespace HelpDeskVG.IT_PIC_Portal
             sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
             sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
             sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
-            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
+            sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue.ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
 
             gvRejectedSolution.DataSource = dt;
             gvRejectedSolution.DataBind();
-            lblITPICRejectedTicketToAdminCount.Text = dt.Rows.Count.ToString();
+            lblITPICRejectedSolutionByUserCount.Text = dt.Rows.Count.ToString();
             gvRejectedSolution.Dispose();
         }
 
@@ -388,7 +389,6 @@ namespace HelpDeskVG.IT_PIC_Portal
                     }
 
                             txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                            txtOthers.Text = dt.Rows[0]["others"].ToString();
                             txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
                             txtAttachmentDescriptionMd.Text = dt.Rows[0]["description_attachmentreport"].ToString();
 
@@ -531,7 +531,6 @@ namespace HelpDeskVG.IT_PIC_Portal
                     txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
                     txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                    txtOthers.Text = dt.Rows[0]["others"].ToString();
                     txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
                     try
@@ -568,7 +567,6 @@ namespace HelpDeskVG.IT_PIC_Portal
                     gvDownloadableAttachment.DataBind();
 
                     txtSubjectMd.Enabled = false;
-                    txtOthers.Enabled = false;
                     txtDescriptionMd.Enabled = false;
                     ddlSectionMd.Enabled = false;
                     ddlCategoryMd.Enabled = false;
@@ -653,7 +651,6 @@ namespace HelpDeskVG.IT_PIC_Portal
                     txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
                     txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                    txtOthers.Text = dt.Rows[0]["others"].ToString();
                     txtAttachmentDescriptionMd.Text = dt.Rows[0]["descriptionreport"].ToString();
 
                     try
@@ -692,7 +689,6 @@ namespace HelpDeskVG.IT_PIC_Portal
                     gvDownloadableAttachment.DataBind();
 
                     txtSubjectMd.Enabled = false;
-                    txtOthers.Enabled = false;
                     txtDescriptionMd.Enabled = false;
                     ddlSectionMd.Enabled = false;
                     ddlCategoryMd.Enabled = false;
@@ -928,7 +924,6 @@ namespace HelpDeskVG.IT_PIC_Portal
                     txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
                     txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                    txtOthers.Text = dt.Rows[0]["others"].ToString();
                     txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
                     try
@@ -964,7 +959,6 @@ namespace HelpDeskVG.IT_PIC_Portal
                     gvDownloadableAttachment.DataBind();
 
                     txtSubjectMd.Enabled = false;
-                    txtOthers.Enabled = false;
                     txtDescriptionMd.Enabled = false;
                     ddlSectionMd.Enabled = false;
                     ddlCategoryMd.Enabled = false;
@@ -1076,7 +1070,6 @@ namespace HelpDeskVG.IT_PIC_Portal
                     txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
                     txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                    txtOthers.Text = dt.Rows[0]["others"].ToString();
                     txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
                     try
                     {
@@ -1111,7 +1104,6 @@ namespace HelpDeskVG.IT_PIC_Portal
                     gvDownloadableAttachment.DataBind();
 
                     txtSubjectMd.Enabled = false;
-                    txtOthers.Enabled = false;
                     txtDescriptionMd.Enabled = false;
                     ddlSectionMd.Enabled = false;
                     ddlCategoryMd.Enabled = false;
@@ -1206,7 +1198,6 @@ namespace HelpDeskVG.IT_PIC_Portal
                     }
 
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                    txtOthers.Text = dt.Rows[0]["others"].ToString();
                     txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
                     string approvalLevel = dt.Rows[0]["approval_transactional_level"].ToString();
 
@@ -1216,7 +1207,6 @@ namespace HelpDeskVG.IT_PIC_Portal
                     ddlNatureofprobMd.Enabled = false;
                     ddlPriorityMd.Enabled = true;
                     txtSubjectMd.Enabled = true;
-                    txtOthers.Enabled = true;
                     txtDescriptionMd.Enabled = true;
                     ddlCreatedForMd.Enabled = true;
          
@@ -1655,14 +1645,12 @@ namespace HelpDeskVG.IT_PIC_Portal
             txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
             txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
             txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-            txtOthers.Text = dt.Rows[0]["others"].ToString();
             txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
 
             txtCreatedBy.Enabled = false;
             txtCreatedFor.Enabled = false;
             txtSubjectMd.Enabled = false;
-            txtOthers.Enabled = false;
             txtDescriptionMd.Enabled = false;
             ddlSectionMd.Enabled = false;
             ddlCategoryMd.Enabled = false;
@@ -1929,13 +1917,11 @@ namespace HelpDeskVG.IT_PIC_Portal
                 txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
                 txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
                 txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                txtOthers.Text = dt.Rows[0]["others"].ToString();
                 txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
                 txtCreatedBy.Enabled = true;
                 txtCreatedFor.Enabled = true;
                 txtSubjectMd.Enabled = true;
-                txtOthers.Enabled = true;
                 txtDescriptionMd.Enabled = true;
                 txtAttachmentDescriptionMd.Enabled = false;
                 ddlSectionMd.Enabled = true;

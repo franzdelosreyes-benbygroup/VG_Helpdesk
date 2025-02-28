@@ -206,7 +206,7 @@
                         <asp:TextBox ID="txtSearchTicket" CssClass="form-control text text-reset mt-2" Placeholder="Search Ticket Code.." runat="server"></asp:TextBox>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary">Filter Created By:</asp:Label>
+                        <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary">Filter Created For:</asp:Label>
                         <asp:DropDownList ID="ddlEmployeeVg" CssClass="form-select text text-reset mt-2" runat="server">
                         </asp:DropDownList>
                     </div>
@@ -506,7 +506,7 @@
                                 <asp:BoundField DataField="description_category" HeaderText="Category" />
                                 <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                 <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                <asp:BoundField DataField="created_for" HeaderText="Created By" />
+                                <asp:BoundField DataField="created_for" HeaderText="Created For" />
                                 <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                 
                                 <asp:TemplateField HeaderText="Actions">
@@ -573,10 +573,11 @@
                                 <Columns>
                                    <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                    <asp:BoundField DataField="third_party_name" HeaderText="Third Party" />
+                                   <asp:BoundField DataField="third_party_date_given" HeaderText="Given Date to 3rd Party" />
+                                   <asp:BoundField DataField="third_party_date_received" HeaderText="Received Date from 3rd Party" />
                                    <asp:BoundField DataField="description_section" HeaderText="Section" />
                                    <asp:BoundField DataField="description_category" HeaderText="Category" />
                                    <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
-                                   <asp:BoundField DataField="third_party_date_given" HeaderText="Given Date to 3rd Party" />
                                    <asp:BoundField DataField="created_at" HeaderText="Created At" />
                                    <asp:BoundField DataField="created_for" HeaderText="Created By" />
                                    <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
@@ -662,14 +663,6 @@
                                 <label class="form-label status status-primary required-label">Nature Of Problem</label>
                             </div>
                             <asp:DropDownList ID="ddlNatureofprobMd" CssClass="form-select mt-2" AutoPostBack="true" OnSelectedIndexChanged="ddlNatureofprobMd_SelectedIndexChanged" Enabled="false" runat="server"></asp:DropDownList>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 mt-2">
-                            <label class="form-label status status-primary required-label">Others:</label>
-                            <div class="mb-3">
-                                <asp:TextBox ID="txtOthers" runat="server" Enabled="false" CssClass="form-control text-reset mt-2" Rows="5"></asp:TextBox>
-                            </div>
                         </div>
                     </div>
                     <div class="row">

@@ -288,7 +288,7 @@ namespace HelpDeskVG
             sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
             sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
             sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
-            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
+            sql += "@CreatedFor='" + ddlCreatedForVg.SelectedValue.ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -312,7 +312,7 @@ namespace HelpDeskVG
             sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
             sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
             sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
-            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
+            sql += "@CreatedFor='" + ddlCreatedForVg.SelectedValue.ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -429,7 +429,6 @@ namespace HelpDeskVG
 
                     txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                    txtOthers.Text = dt.Rows[0]["others"].ToString();
                     txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
                     txtAttachmentDescriptionMd.Text = dt.Rows[0]["description_attachmentreport"].ToString();
 
@@ -518,7 +517,6 @@ namespace HelpDeskVG
 
                 txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
                 txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                txtOthers.Text = dt.Rows[0]["others"].ToString();
                 txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
 
@@ -578,7 +576,6 @@ namespace HelpDeskVG
                 ddlCategoryMd.SelectedValue  = dt.Rows[0]["category_id"].ToString();
                 ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
                 txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                txtOthers.Text = dt.Rows[0]["others"].ToString();
                 txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
                 ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
 
@@ -599,7 +596,6 @@ namespace HelpDeskVG
                     gvDownloadableAttachment.DataBind();
 
                 }
-                txtOthers.Enabled = false;
                 txtDescriptionMd.Enabled = false;
                 txtSubjectMd.Enabled = false;
                 ddlCategoryMd.Enabled = false;
@@ -620,9 +616,10 @@ namespace HelpDeskVG
             clsQueries.DisplaySection(ddlSectionMd);
             clsQueries.DisplayCategory(ddlCategoryMd);
             clsQueries.DisplayNatureOfProblem(ddlNatureofprobMd);
+            clsQueries.DisplayEmployee(ddlCreatedForMd);
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.ticket_code, b.category_id, a.created_for, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
 					LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -647,21 +644,32 @@ namespace HelpDeskVG
                 }
                 else
                 {
+                    try
+                    {
+                        ddlCreatedForMd.SelectedValue = dt.Rows[0]["created_for"].ToString();
+                        ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
+                        ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
+                        ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
+                        ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
+
+                    }
+                    catch
+                    {
+                        ddlCreatedForMd.SelectedValue = "";
+                        ddlSectionMd.SelectedValue = "";
+                        ddlCategoryMd.SelectedValue = "";
+                        ddlNatureofprobMd.SelectedValue = "";
+                        ddlPriorityMd.SelectedValue = "";
+                    }
+
                     txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
-                    txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
-                    ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
-                    ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
-                    ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                    txtOthers.Text = dt.Rows[0]["others"].ToString();
                     txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
-                    ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
 
 
                     hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
 
                     txtSubjectMd.Enabled = false;
-                    txtOthers.Enabled = false;
                     txtDescriptionMd.Enabled = false;
                     ddlSectionMd.Enabled = false;
                     ddlCategoryMd.Enabled = false;
@@ -669,6 +677,8 @@ namespace HelpDeskVG
                     lnkEditDetails.Visible = false;
                     lnkAssignTicketToITPIC.Visible = false;
                     lnkRejectTicketUser.Visible = false;
+                    lnkAcceptTicketProposal.Visible = false;
+                    lnkRejectTicketProposal.Visible = false;
 
                     string ticketHeader = hfMdTicketHeaderId.Value.ToString();
 
@@ -1014,7 +1024,6 @@ namespace HelpDeskVG
 
 
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                    txtOthers.Text = dt.Rows[0]["others"].ToString();
                     txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
                     hfMdTicketHeaderId.Value = hfMyTicketITPIC.Value;
@@ -1333,14 +1342,12 @@ namespace HelpDeskVG
             txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
             txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
             txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-            txtOthers.Text = dt.Rows[0]["others"].ToString();
             txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
 
             txtCreatedBy.Enabled = false;
             txtCreatedFor.Enabled = false;
             txtSubjectMd.Enabled = false;
-            txtOthers.Enabled = false;
             txtDescriptionMd.Enabled = false;
             ddlSectionMd.Enabled = false;
             ddlCategoryMd.Enabled = false;
@@ -1591,13 +1598,11 @@ namespace HelpDeskVG
                 txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
                 txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
                 txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                txtOthers.Text = dt.Rows[0]["others"].ToString();
                 txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
                 txtCreatedBy.Enabled = true;
                 txtCreatedFor.Enabled = true;
                 txtSubjectMd.Enabled = true;
-                txtOthers.Enabled = true;
                 txtDescriptionMd.Enabled = true;
                 txtAttachmentDescriptionMd.Enabled = false;
                 ddlSectionMd.Enabled = true;

@@ -279,7 +279,6 @@ namespace HelpDeskVG.User_Portal
                 txtCreatedFor.Text = dt.Rows[0]["created_for_name"].ToString();
          
                 txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                txtOthers.Text = dt.Rows[0]["others"].ToString();
                 txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
                 txtAttachmentDescriptionMd.Text = dt.Rows[0]["description_attachment"].ToString();
 
@@ -369,7 +368,6 @@ namespace HelpDeskVG.User_Portal
                 ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
                 ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
                 txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                txtOthers.Text = dt.Rows[0]["others"].ToString();
                 txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
                 ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
 
@@ -377,7 +375,6 @@ namespace HelpDeskVG.User_Portal
                 txtCreatedBy.Enabled = false;
                 txtCreatedFor.Enabled = false;
                 txtSubjectMd.Enabled = false;
-                txtOthers.Enabled = false;
                 txtDescriptionMd.Enabled = false;
                 ddlSectionMd.Enabled = false;
                 ddlCategoryMd.Enabled = false;
@@ -441,7 +438,6 @@ namespace HelpDeskVG.User_Portal
             ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
             ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
             txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-            txtOthers.Text = dt.Rows[0]["others"].ToString();
             txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
             ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
 
@@ -449,7 +445,6 @@ namespace HelpDeskVG.User_Portal
             txtCreatedBy.Enabled = true;
             txtCreatedFor.Enabled = false;
             txtSubjectMd.Enabled = true;
-            txtOthers.Enabled = true;
             txtDescriptionMd.Enabled = true;
             ddlSectionMd.Enabled = true;
             ddlCategoryMd.Enabled = true;

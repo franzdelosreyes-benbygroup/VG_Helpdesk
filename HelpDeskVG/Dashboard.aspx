@@ -110,15 +110,16 @@
         }
 
 
+
         $(document).ready(function () {
-            $('.custom-select').select2();
+            $('.custom-select').select2({width:'100%'});
+
         });
 
-        
-
     </script>
-<%--    <link rel="stylesheet" type="text/css" href="<%= ResolveUrl("~/dist/css/select2.css") %>">
-    <script src="dist/js/select2.min.js"></script>--%>
+    <link href="dist/css/select2.css" rel="stylesheet" />
+    <script src="dist/js/select2.min.js"></script>
+
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <section class="row" aria-labelledby="aspnetTitle">
@@ -141,9 +142,11 @@
                         <asp:TextBox ID="txtSearchTicket" CssClass="form-control text text-reset mt-2" Placeholder="Search Ticket Code.." runat="server"></asp:TextBox>
                     </div>
                     <div class="col-md-2 mb-3">
-                        <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary">Filter Created By:</asp:Label>
-                        <asp:DropDownList ID="ddlEmployeeVg" CssClass="form-select container text text-reset mt-2" runat="server">
+                        <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary mb-2">Filter Created By:</asp:Label>
+                        <div class="col-md-12">
+                        <asp:DropDownList ID="ddlEmployeeVg" CssClass="custom-select text text-reset mt-2" runat="server">
                         </asp:DropDownList>
+                            </div>
                     </div>
                     <div class="col-md-2 mb-3">
                         <asp:Label ID="Label3" runat="server" CssClass="form-label status status-primary">Filter Created For:</asp:Label>
@@ -376,6 +379,7 @@
                                     <asp:BoundField DataField="description_category" HeaderText="Category" />
                                     <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                     <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                    <asp:BoundField DataField="created_for" HeaderText="Created For" />
                                     <asp:BoundField DataField="created_by" HeaderText="Created By" />
                                     <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                     <asp:TemplateField HeaderText="Actions">
@@ -485,7 +489,8 @@
                                         <asp:BoundField DataField="description_section" HeaderText="Section" />
                                         <asp:BoundField DataField="description_category" HeaderText="Category" />
                                         <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
-                                        <asp:BoundField DataField="assigned_emp_no_log" HeaderText="Previous IT PIC" />
+                                        <asp:BoundField DataField="itpic_recent_reject_remarks" HeaderText="Rejected Reason IT PIC" />
+                                        <asp:BoundField DataField="previous_itpic_assigned" HeaderText="Previous IT PIC" />
                                         <asp:BoundField DataField="created_at" HeaderText="Rejected At" />
                                         <asp:BoundField DataField="created_for" HeaderText="Created For" />
                                         <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
@@ -508,6 +513,7 @@
                                 <asp:GridView ID="gvAdminAssignedTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvAdminAssignedTicketList_PageIndexChanging" EmptyData="No Data Found">
                                     <Columns>
                                         <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                        <asp:BoundField DataField="status" HeaderText="Status" />
                                         <asp:BoundField DataField="description_section" HeaderText="Section" />
                                         <asp:BoundField DataField="description_category" HeaderText="Category" />
                                         <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
@@ -518,7 +524,7 @@
                                         <asp:TemplateField HeaderText="Actions">
                                             <ItemTemplate>
                                                 <asp:HiddenField ID="hfTicketHeaderIdAssignedTicketList" runat="server" Value='<%#Eval("ticket_id")%>' />
-                                                <asp:LinkButton ID="lnkDetailsAssignedTicketList" OnClick="lnkDetailsAssignedTicketList_Click" CssClass="btn btn-info w-50" runat="server">
+                                                <asp:LinkButton ID="lnkDetailsAssignedTicketList" OnClick="lnkDetailsAssignedTicketList_Click" CssClass="btn btn-info" runat="server">
                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>                        
                                             View Details
                                                 </asp:LinkButton>
@@ -605,12 +611,6 @@
                             <div class="mb-3">
                                 <label class="form-label status status-primary required">Description:</label>
                                 <asp:TextBox ID="txtDescriptionMd" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset mt-2" Value='<%# Eval("description")%>'></asp:TextBox>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 mt-2">
-                            <label class="form-label status status-primary required">Others:</label>
-                            <div class="mb-3">
-                                <asp:TextBox ID="txtOthers" runat="server" CssClass="form-control text-reset mt-2" Rows="5"></asp:TextBox>
                             </div>
                         </div>
                     </div>
