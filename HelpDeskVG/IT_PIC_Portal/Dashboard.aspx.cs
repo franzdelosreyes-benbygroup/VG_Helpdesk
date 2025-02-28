@@ -54,6 +54,7 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             gvMyTicketList.DataSource = dt;
             gvMyTicketList.DataBind();
+            lblMyCreatedTicketCount.Text = dt.Rows.Count.ToString();
             gvMyTicketList.Dispose();
 
         }
@@ -75,6 +76,7 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             gvMyTicketPendingApproval.DataSource = dt;
             gvMyTicketPendingApproval.DataBind();
+            lblPendingApprovalResolvedCount.Text = dt.Rows.Count.ToString();
             gvMyTicketPendingApproval.Dispose();
 
         }
@@ -82,8 +84,8 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected void DisplayRejectedTicketsByAdmin()
         {
             string sql = "";
-            sql = @"SELECT a.ticket_id, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, a.created_at, a.ticket_code, a.admin_recent_reject_remarks, a.itpic_recent_reject_remarks, a.[description], a.itpic_recent_reject_remarks, a.admin_recent_reject_remarks, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id 
-            LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_by
+            sql = @"SELECT a.ticket_id, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_for, a.created_at, a.ticket_code, a.admin_recent_reject_remarks, a.itpic_recent_reject_remarks, a.[description], a.itpic_recent_reject_remarks, a.admin_recent_reject_remarks, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id 
+            LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_for
 			LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
             WHERE a.approval_transactional_level = '2' AND a.created_for =" + Session["EmployeeNo"].ToString();
 
@@ -92,6 +94,7 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             gvMyTicketRejectedByAdmin.DataSource = dt;
             gvMyTicketRejectedByAdmin.DataBind();
+            lblMyRejectedTicketCount.Text = dt.Rows.Count.ToString();
             gvMyTicketRejectedByAdmin.Dispose();
         }
 
@@ -115,6 +118,7 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             gvITPICAcceptOrRejectList.DataSource = dt;
             gvITPICAcceptOrRejectList.DataBind();
+            lblITPICPendingTicketsToAcceptCount.Text = dt.Rows.Count.ToString();
             gvITPICAcceptOrRejectList.Dispose();
         }
 
@@ -138,6 +142,8 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             gvITPICAcceptedTickets.DataSource = dt;
             gvITPICAcceptedTickets.DataBind();
+            lblAcceptedTicketCount.Text = dt.Rows.Count.ToString();
+
             gvITPICAcceptedTickets.Dispose();
         }
 
@@ -184,6 +190,7 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             gvRejectedSolution.DataSource = dt;
             gvRejectedSolution.DataBind();
+            lblITPICRejectedTicketToAdminCount.Text = dt.Rows.Count.ToString();
             gvRejectedSolution.Dispose();
         }
 
@@ -1996,6 +2003,48 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected void lnkSaveReceivedDate_Click(object sender, EventArgs e)
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "received3rdPartyITPIC();", true);
+        }
+
+        protected void gvMyTicketList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvMyTicketList.PageIndex = e.NewPageIndex;
+            DisplayMyTickets();
+        }
+
+        protected void gvMyTicketPendingApproval_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvMyTicketPendingApproval.PageIndex = e.NewPageIndex;
+            DisplayPendingApprovalResolved();
+        }
+
+        protected void gvMyTicketRejectedByAdmin_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvMyTicketRejectedByAdmin.PageIndex = e.NewPageIndex;
+            DisplayRejectedTicketsByAdmin();
+        }
+
+        protected void gvITPICAcceptOrRejectList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvITPICAcceptOrRejectList.PageIndex = e.NewPageIndex;
+            DisplayAcceptOrRejectTicket();
+        }
+
+        protected void gvITPICAcceptedTickets_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvITPICAcceptedTickets.PageIndex = e.NewPageIndex;
+            DisplayAcceptedTicket();
+        }
+
+        protected void gvITPICRejectedTickets_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvITPICRejectedTickets.PageIndex = e.NewPageIndex;
+            DisplayRejectedTicket();
+        }
+
+        protected void gvRejectedSolution_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvRejectedSolution.PageIndex = e.NewPageIndex;
+            DisplayRejectedSolution();
         }
     }
 }

@@ -70,6 +70,7 @@ namespace HelpDeskVG.User_Portal
 
             gvUserTicketList.DataSource = dt;
             gvUserTicketList.DataBind();
+            lblMyCreatedTicketCount.Text = dt.Rows.Count.ToString();
             gvUserTicketList.Dispose();
         }
 
@@ -90,6 +91,7 @@ namespace HelpDeskVG.User_Portal
 
             gvUserPendingApproval.DataSource = dt;
             gvUserPendingApproval.DataBind();
+            lblPendingApprovalResolvedCount.Text = dt.Rows.Count.ToString();
             gvUserPendingApproval.Dispose();
 
         }
@@ -200,6 +202,7 @@ namespace HelpDeskVG.User_Portal
 
             gvRejectedTicketByAdmin.DataSource = dt;
             gvRejectedTicketByAdmin.DataBind();
+            lblMyRejectedTicketCount.Text = dt.Rows.Count.ToString();
             gvRejectedTicketByAdmin.Dispose();
         }
 
@@ -956,6 +959,24 @@ namespace HelpDeskVG.User_Portal
                 dt.Dispose();
 
             }
+        }
+
+        protected void gvUserTicketList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvUserTicketList.PageIndex = e.NewPageIndex;
+            DisplayUserTickets();
+        }
+
+        protected void gvUserPendingApproval_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvUserPendingApproval.PageIndex = e.NewPageIndex;
+            DisplayPendingApprovalResolved();
+        }
+
+        protected void gvRejectedTicketByAdmin_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvRejectedTicketByAdmin.PageIndex = e.NewPageIndex;
+            DisplayRejectedTicketsByAdmin();
         }
     }
 }

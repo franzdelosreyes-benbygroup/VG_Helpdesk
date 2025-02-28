@@ -178,6 +178,7 @@ namespace HelpDeskVG
 
             gvMyTicketList.DataSource = dt;
             gvMyTicketList.DataBind();
+            lblMyCreatedTicketCount.Text = dt.Rows.Count.ToString();
 
             dt.Dispose();
 
@@ -200,6 +201,8 @@ namespace HelpDeskVG
 
             gvMyTicketPendingApproval.DataSource = dt;
             gvMyTicketPendingApproval.DataBind();
+            lblPendingApprovalResolvedCount.Text = dt.Rows.Count.ToString();
+
             gvMyTicketPendingApproval.Dispose();
 
         }
@@ -217,6 +220,8 @@ namespace HelpDeskVG
 
             gvMyTicketRejectedByAdmin.DataSource = dt;
             gvMyTicketRejectedByAdmin.DataBind();
+            lblMyRejectedTicketCount.Text = dt.Rows.Count.ToString();
+
             gvMyTicketRejectedByAdmin.Dispose();
         }
 
@@ -241,6 +246,7 @@ namespace HelpDeskVG
 
             gvAdminTicketList.DataSource = dt;
             gvAdminTicketList.DataBind();
+            lblAssignTicketCount.Text = dt.Rows.Count.ToString();
             gvAdminTicketList.Dispose();
         }
 
@@ -265,6 +271,7 @@ namespace HelpDeskVG
 
             gvAdminForReassignTicketList.DataSource = dt;
             gvAdminForReassignTicketList.DataBind();
+            lblReassignTicketCount.Text = dt.Rows.Count.ToString();
             gvAdminForReassignTicketList.Dispose();
         }
 
@@ -288,6 +295,7 @@ namespace HelpDeskVG
 
             gvAdminAssignedTicketList.DataSource = dt;
             gvAdminAssignedTicketList.DataBind();
+            ITPICAssignedTicketCount.Text = dt.Rows.Count.ToString();
             gvAdminAssignedTicketList.Dispose();
         }
 
@@ -311,6 +319,7 @@ namespace HelpDeskVG
 
             gvAdminForRejectedTicketList.DataSource = dt;
             gvAdminForRejectedTicketList.DataBind();
+            lblAdminRejectedTicketToUserCount.Text = dt.Rows.Count.ToString();
             gvAdminForRejectedTicketList.Dispose();
         }
 
@@ -321,7 +330,6 @@ namespace HelpDeskVG
 
         protected void gvAdminTicketList_PageIndexChanged(object sender, EventArgs e)
         {
-            DisplayUsersTickets();
         }
 
         protected void gvAdminForReassignTicketList_PageIndexChanged(object sender, EventArgs e)
@@ -530,7 +538,8 @@ namespace HelpDeskVG
                     gvDownloadableAttachment.DataBind();
 
                 }
-
+                lnkRejectTicketProposal.Visible = false;
+                lnkAcceptTicketProposal.Visible = false;
                 lnkEditDetails.Visible = true;
                 lnkAssignTicketToITPIC.Visible = true;
                 lnkRejectTicketUser.Visible = true;
@@ -1597,14 +1606,11 @@ namespace HelpDeskVG
                 ddlPriorityMd.Enabled = true;
 
 
-                //lnkAcceptTicket.Visible = false;
-                //lnkRejectTicketUser.Visible = false;
-                //lnkAcceptWithThirdParty.Visible = false;
-                //lnkProposedTicketResolution.Visible = false;
-                //lnkTagThisToThirdParty.Visible = false;
-                //lnkAcceptTicket.Visible = false;
-                //lnkRejectTicketUser.Visible = false;
-                //lnkSaveReceivedDate.Visible = false;
+                lnkAcceptTicketProposal.Visible = false;
+                lnkRejectTicketProposal.Visible = false;
+                lnkAssignTicketToITPIC.Visible = false;
+                lnkRejectTicketUser.Visible = false;
+                lnkEditDetails.Visible = true;
 
                 hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
 
@@ -1662,6 +1668,49 @@ namespace HelpDeskVG
         protected void gvMyTicketRejectedByAdmin_PageIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        protected void gvMyTicketList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvMyTicketList.PageIndex = e.NewPageIndex;
+            DisplayMyTickets();
+        }
+
+        protected void gvMyTicketPendingApproval_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvMyTicketPendingApproval.PageIndex = e.NewPageIndex;
+            DisplayPendingApprovalResolved();
+        }
+
+        protected void gvMyTicketRejectedByAdmin_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvMyTicketRejectedByAdmin.PageIndex = e.NewPageIndex;
+            DisplayRejectedTicketsByAdmin();
+        }
+
+        protected void gvAdminTicketList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvAdminTicketList.PageIndex = e.NewPageIndex;
+            DisplayUsersTickets();
+
+        }
+
+        protected void gvAdminForReassignTicketList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvAdminForReassignTicketList.PageIndex = e.NewPageIndex;
+            DisplayITPICReassignTickets();
+        }
+
+        protected void gvAdminAssignedTicketList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvAdminAssignedTicketList.PageIndex = e.NewPageIndex;
+            DisplayAssignedTickets();
+        }
+
+        protected void gvAdminForRejectedTicketList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvAdminForRejectedTicketList.PageIndex = e.NewPageIndex;
+            DisplayRejectedList();
         }
     }
 }

@@ -47,6 +47,113 @@
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
         }
+       /* Default nav-link styles */
+       .nav-link {
+           color: white; /* Default text color */
+           background-color: transparent; /* No background by default */
+           transition: all 0.3s ease; /* Smooth transition for hover effects */
+       }
+
+           /* Hover effect for nav-link */
+           .nav-link:hover {
+               color: black; /* Change text color on hover */
+               background-color: white; /* Light gray background on hover */
+               text-decoration: none; /* Remove underline */
+           }
+
+           /* Active nav-link */
+           .nav-link.active {
+               color: black !important; /* Text color when active */
+               background-color: #e0e0e0; /* Slightly darker background for active state */
+           }
+
+       /* Default icon style */
+       .icon-tabler {
+           stroke: white; /* Default SVG icon color */
+           transition: stroke 0.3s ease; /* Smooth transition for stroke color */
+       }
+
+       /* Hover effect for icon inside nav-link */
+       .nav-link:hover .icon-tabler {
+           stroke: black; /* Change SVG icon color on hover */
+       }
+
+       /* Active icon style */
+       .nav-link.active .icon-tabler {
+           stroke: black; /* Change SVG icon color when active */
+       }
+
+       /* Optional: Add a hover effect to the entire nav-item */
+       .nav-item:hover {
+           background-color: #f8f8f8; /* Light background for hover */
+       }
+
+       .required-label::after {
+           content: "*";
+           color: red;
+           font-weight: bold;
+       }
+
+
+       .tab-container {
+           position: relative; /* Ensures child absolute positioning */
+           display: inline-block;
+           padding: 12px 20px;
+       }
+
+       .custom-count {
+           position: absolute;
+           top: -18px; /* Moves it to the top */
+           left: -15px; /* Moves it to the left */
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           padding: 5px 8px;
+           background-color: #0275d8;
+           color: white;
+           font-size: 12px;
+           font-weight: bold;
+           border: 2px solid crimson;
+           border-radius: 8px;
+           transition: all 0.3s ease-in-out;
+           min-width: 2.5em;
+       }
+
+           .custom-count svg {
+               width: 16px;
+               height: 16px;
+               stroke: white;
+               transition: stroke 0.3s ease-in-out;
+           }
+
+       .ticket-number {
+           position: relative;
+           z-index: 1;
+           padding: 0 5px;
+       }
+
+       /* Hover Effect */
+       .tab-container:hover .custom-count {
+           border-color: black;
+           background-color: white;
+           color: crimson;
+       }
+
+           .tab-container:hover .custom-count svg {
+               stroke: crimson;
+           }
+
+       .tab-container:hover .custom-count,
+       .tab-container.active .custom-count {
+           border-color: black;
+           background-color: white;
+           color: crimson;
+       }
+
+           .tab-container:hover .custom-count svg,
+           .tab-container.active .custom-count svg {
+               stroke: crimson;
+           }
 
 
     </style>

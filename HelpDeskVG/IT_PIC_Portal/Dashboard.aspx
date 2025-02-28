@@ -263,7 +263,17 @@
             <div class="card-header bg-red">
                     <ul class="nav nav-tabs card-header-tabs bg-red nav-fill" data-bs-toggle="tabs" role="tablist">
                         <li class="nav-item text-black" role="presentation">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#myCreatedTicket" aria-selected="false" role="tab">
+                            <a class="nav-link tab-container active" data-bs-toggle="tab" href="#myCreatedTicket" aria-selected="false" role="tab">
+                                  <span id="ticketCount" class="custom-count">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-ticket">
+                                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                          <path d="M15 5l0 2" />
+                                          <path d="M15 11l0 2" />
+                                          <path d="M15 17l0 2" />
+                                          <path d="M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-3a2 2 0 0 0 0 -4v-3a2 2 0 0 1 2 -2" />
+                                      </svg>
+                                      <asp:Label ID="lblMyCreatedTicketCount" CssClass="ticket-number" runat="server"></asp:Label>
+                                  </span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-ticket">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M15 5l0 2" />
@@ -275,7 +285,19 @@
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#pendingApprovalTickets" aria-selected="false" role="tab" tabindex="-1">
+                            <a class="nav-link tab-container" data-bs-toggle="tab" href="#pendingApprovalTickets" aria-selected="false" role="tab" tabindex="-1">
+                                <span id="ticketPendingApprovalResolvedCount" class="custom-count">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-list-check">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
+                                        <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
+                                        <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
+                                        <path d="M11 6l9 0" />
+                                        <path d="M11 12l9 0" />
+                                        <path d="M11 18l9 0" />
+                                    </svg>
+                                    <asp:Label ID="lblPendingApprovalResolvedCount" runat="server" CssClass="ticket-number"></asp:Label>
+                                </span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-list-check">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
@@ -289,7 +311,16 @@
                         </a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#rejectedTicketByAdmin" aria-selected="false" role="tab" tabindex="-1">
+                            <a class="nav-link tab-container" data-bs-toggle="tab" href="#rejectedTicketByAdmin" aria-selected="false" role="tab" tabindex="-1">
+                                <span id="ticketMyRejectTicket" class="custom-count">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-xbox-x">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z" />
+                                        <path d="M9 8l6 8" />
+                                        <path d="M15 8l-6 8" />
+                                    </svg>
+                                    <asp:Label ID="lblMyRejectedTicketCount" runat="server" CssClass="ticket-number"></asp:Label>
+                                </span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-xbox-x">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z" />
@@ -297,40 +328,81 @@
                                     <path d="M15 8l-6 8" />
                                 </svg>
                                 My Rejected Tickets
-                        </a>
+                            </a>
                         </li>
                         <li class="nav-item text-black" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#acceptorrejectTicketsITPIC" aria-selected="false" role="tab">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path></svg>
-                                    Pending Tickets To Accept                     
+                            <a class="nav-link tab-container" data-bs-toggle="tab" href="#acceptorrejectTicketsITPIC" aria-selected="false" role="tab">
+                                <span id="ticketMyPendingTicketsToAccept" class="custom-count">                                
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-like">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M3 16m0 1a1 1 0 0 1 1 -1h1a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-1a1 1 0 0 1 -1 -1z" />
+                                    <path d="M6 20a1 1 0 0 0 1 1h3.756a1 1 0 0 0 .958 -.713l1.2 -3c.09 -.303 .133 -.63 -.056 -.884c-.188 -.254 -.542 -.403 -.858 -.403h-2v-2.467a1.1 1.1 0 0 0 -2.015 -.61l-1.985 3.077v4z" />
+                                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                    <path d="M5 12.1v-7.1a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-2.3" />
+                                </svg>
+                                    <asp:Label ID="lblITPICPendingTicketsToAcceptCount" runat="server" CssClass="ticket-number"></asp:Label>
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-like">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M3 16m0 1a1 1 0 0 1 1 -1h1a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-1a1 1 0 0 1 -1 -1z" />
+                                    <path d="M6 20a1 1 0 0 0 1 1h3.756a1 1 0 0 0 .958 -.713l1.2 -3c.09 -.303 .133 -.63 -.056 -.884c-.188 -.254 -.542 -.403 -.858 -.403h-2v-2.467a1.1 1.1 0 0 0 -2.015 -.61l-1.985 3.077v4z" />
+                                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                    <path d="M5 12.1v-7.1a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-2.3" />
+                                </svg>
+                                Pending Tickets To Accept                     
                                 </a>
                             </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#acceptedTicketsITPIC" aria-selected="false" role="tab" tabindex="-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-align-left-2">
+                            <a class="nav-link tab-container" data-bs-toggle="tab" href="#acceptedTicketsITPIC" aria-selected="false" role="tab" tabindex="-1">
+                                <span id="ticketAcceptedTicketCount" class="custom-count">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                        <path d="M9 12l2 2l4 -4" />
+                                    </svg>
+                                    <asp:Label ID="lblAcceptedTicketCount" runat="server" CssClass="ticket-number"></asp:Label>
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M4 4v16" />
-                                    <path d="M8 6h12" />
-                                    <path d="M8 12h6" />
-                                    <path d="M8 18h10" />
+                                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                    <path d="M9 12l2 2l4 -4" />
                                 </svg>
                                 Accepted Tickets
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#rejectedTicketITPIC" aria-selected="false" role="tab" tabindex="-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-xbox-x">
+                            <a class="nav-link tab-container" data-bs-toggle="tab" href="#rejectedTicketITPIC" aria-selected="false" role="tab" tabindex="-1">
+                                <span id="ticketITPICRejectedToAdminTicket" class="custom-count">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-x">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5" />
+                                        <path d="M22 22l-5 -5" />
+                                        <path d="M17 22l5 -5" />
+                                    </svg>
+                                    <asp:Label ID="lblITPICRejectedTicketToAdminCount" runat="server" CssClass="ticket-number"></asp:Label>
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-x">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z" />
-                                    <path d="M9 8l6 8" />
-                                    <path d="M15 8l-6 8" />
+                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5" />
+                                    <path d="M22 22l-5 -5" />
+                                    <path d="M17 22l5 -5" />
                                 </svg>
-                                Rejected Tickets to User
+                                IT PIC Rejected Ticket
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#rejectedSolutionByUser" aria-selected="false" role="tab" tabindex="-1">
+                            <a class="nav-link tab-container" data-bs-toggle="tab" href="#rejectedSolutionByUser" aria-selected="false" role="tab" tabindex="-1">
+                                <span id="ticketITPICRejectedSolutionByUser" class="custom-count">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-xbox-x">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z" />
+                                        <path d="M9 8l6 8" />
+                                        <path d="M15 8l-6 8" />
+                                    </svg>
+                                    <asp:Label ID="lblITPICRejectedSolutionByUserCount" runat="server" CssClass="ticket-number"></asp:Label>
+                                </span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-xbox-x">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z" />
@@ -346,7 +418,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active show" id="myCreatedTicket" role="tabpanel">
                         <asp:Label ID="lblMyCreatedTicket" runat="server" CssClass="h4" Text="Ny Created Tickets"></asp:Label>
-                        <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvMyTicketList_PageIndexChanged" EmptyDataTe="No Data Found">
+                        <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketList_PageIndexChanging" EmptyDataTe="No Data Found">
                             <Columns>
                                 <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                 <asp:BoundField DataField="status" HeaderText="Status" />
@@ -375,7 +447,7 @@
                     </div>
                     <div class="tab-pane fade" id="pendingApprovalTickets" role="tabpanel">
                         <asp:Label ID="lblforPendingApproval" runat="server" CssClass="h4" Text="Pending List of Resolved Tickets."></asp:Label>
-                        <asp:GridView ID="gvMyTicketPendingApproval" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvMyTicketPendingApproval_PageIndexChanged" EmptyDataTe="No Data Found">
+                        <asp:GridView ID="gvMyTicketPendingApproval" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketPendingApproval_PageIndexChanging" EmptyDataTe="No Data Found">
                             <Columns>
                                 <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                 <asp:BoundField DataField="status" HeaderText="Status" />
@@ -404,13 +476,14 @@
                     </div>
                     <div class="tab-pane fade" id="rejectedTicketByAdmin" role="tabpanel">
                         <asp:Label ID="Label9" runat="server" CssClass="h4" Text="Rejected Tickets due to incomplete details."></asp:Label>
-                        <asp:GridView ID="gvMyTicketRejectedByAdmin" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvMyTicketRejectedByAdmin_PageIndexChanged" EmptyDataTe="No Data Found">
+                        <asp:GridView ID="gvMyTicketRejectedByAdmin" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketRejectedByAdmin_PageIndexChanging" EmptyDataTe="No Data Found">
                             <Columns>
                                 <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                 <asp:BoundField DataField="description" HeaderText="Description" />
                                 <asp:BoundField DataField="admin_recent_reject_remarks" HeaderText="Admin Reject Remarks" />
+                                <asp:BoundField DataField="itpic_recent_reject_remarks" HeaderText="IT PIC Reject Remarks" />
                                 <asp:BoundField DataField="created_at" HeaderText="Rejected At" />
-                                <asp:BoundField DataField="created_by" HeaderText="Created At" />
+                                <asp:BoundField DataField="created_for" HeaderText="Created For" />
                                 <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                 <asp:TemplateField HeaderText="Actions">
                                     <ItemTemplate>
@@ -425,7 +498,7 @@
                     </div>
                     <div class="tab-pane fade" id="acceptorrejectTicketsITPIC" role="tabpanel">
                         <asp:Label ID="lblITPIC" runat="server" CssClass="h4" Text="Accept Or Reject Tickets"></asp:Label>
-                        <asp:GridView ID="gvITPICAcceptOrRejectList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvITPICAcceptOrRejectList_PageIndexChanged" EmptyDataTe="No Data Found">
+                        <asp:GridView ID="gvITPICAcceptOrRejectList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICAcceptOrRejectList_PageIndexChanging" EmptyDataTe="No Data Found">
                             <Columns>
 
                                 <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
@@ -451,7 +524,7 @@
                     <div class="tab-content">
                         <div class="tab-pane fade" id="acceptedTicketsITPIC" role="tabpanel">
                             <asp:Label ID="lblForReassignITPIC" runat="server" CssClass="h4" Text="Accepted Tickets."></asp:Label>
-                            <asp:GridView ID="gvITPICAcceptedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvITPICAcceptedTickets_PageIndexChanged" EmptyDataTe="No Data Found">
+                            <asp:GridView ID="gvITPICAcceptedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICAcceptedTickets_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                 <asp:BoundField DataField="third_party_name" HeaderText="Third Party" />
@@ -478,7 +551,7 @@
                         </div>
                         <div class="tab-pane fade" id="rejectedTicketITPIC" role="tabpanel">
                             <asp:Label ID="Label1" runat="server" CssClass="h4" Text="Rejected Tickets due to incomplete details."></asp:Label>
-                            <asp:GridView ID="gvITPICRejectedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvITPICRejectedTickets_PageIndexChanged" EmptyDataTe="No Data Found">
+                            <asp:GridView ID="gvITPICRejectedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICRejectedTickets_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns> 
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                     <asp:BoundField DataField="description" HeaderText="Description" />
@@ -496,7 +569,7 @@
                         </div>
                         <div class="tab-pane fade" id="rejectedSolutionByUser" role="tabpanel">
                             <asp:Label ID="Label2" runat="server" CssClass="h4" Text="Rejected Solution"></asp:Label>
-                            <asp:GridView ID="gvRejectedSolution" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvRejectedSolution_PageIndexChanged" EmptyDataTe="No Data Found">
+                            <asp:GridView ID="gvRejectedSolution" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvRejectedSolution_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                    <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                    <asp:BoundField DataField="third_party_name" HeaderText="Third Party" />

@@ -204,6 +204,69 @@ namespace HelpDeskVG
         protected global::System.Web.UI.WebControls.LinkButton lnkFilterMyTicket;
 
         /// <summary>
+        /// lblMyCreatedTicketCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMyCreatedTicketCount;
+
+        /// <summary>
+        /// lblPendingApprovalResolvedCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPendingApprovalResolvedCount;
+
+        /// <summary>
+        /// lblMyRejectedTicketCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMyRejectedTicketCount;
+
+        /// <summary>
+        /// lblAssignTicketCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAssignTicketCount;
+
+        /// <summary>
+        /// lblReassignTicketCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblReassignTicketCount;
+
+        /// <summary>
+        /// ITPICAssignedTicketCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ITPICAssignedTicketCount;
+
+        /// <summary>
+        /// lblAdminRejectedTicketToUserCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAdminRejectedTicketToUserCount;
+
+        /// <summary>
         /// lblMyCreatedTicket control.
         /// </summary>
         /// <remarks>

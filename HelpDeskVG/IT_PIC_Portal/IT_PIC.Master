@@ -86,9 +86,69 @@
           }
 
           /* Optional: Add a hover effect to the entire nav-item */
-          .nav-item:hover {
+        .nav-item:hover {
             background-color: #f8f8f8; /* Light background for hover */
-          }
+        }
+
+            .tab-container {
+                position: relative; /* Ensures child absolute positioning */
+                display: inline-block;
+                padding: 12px 20px;
+            }
+
+            .custom-count {
+                position: absolute;
+                top: -18px; /* Moves it to the top */
+                left: -15px; /* Moves it to the left */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 5px 8px;
+                background-color: #0275d8;
+                color: white;
+                font-size: 12px;
+                font-weight: bold;
+                border: 2px solid crimson;
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+                min-width: 2.5em;
+            }
+
+                .custom-count svg {
+                    width: 16px;
+                    height: 16px;
+                    stroke: white;
+                    transition: stroke 0.3s ease-in-out;
+                }
+
+            .ticket-number {
+                position: relative;
+                z-index: 1;
+                padding: 0 5px;
+            }
+
+            /* Hover Effect */
+            .tab-container:hover .custom-count {
+                border-color: black;
+                background-color: white;
+                color: crimson;
+            }
+
+                .tab-container:hover .custom-count svg {
+                    stroke: crimson;
+                }
+
+            .tab-container:hover .custom-count,
+            .tab-container.active .custom-count {
+                border-color: black;
+                background-color: white;
+                color: crimson;
+            }
+
+                .tab-container:hover .custom-count svg,
+                .tab-container.active .custom-count svg {
+                    stroke: crimson;
+                }
     </style>
         <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
