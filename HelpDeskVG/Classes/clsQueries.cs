@@ -229,5 +229,27 @@ namespace HelpDeskVG.Classes
             ddlEmployeeITPIC.Items.Insert(0, new ListItem("Please Select", ""));
 
         }
+
+        public static void DisplayITPICEmployeeMaintenance(DropDownList ddlEmployeeITPIC)
+        {
+            string sql = "";
+            sql = @"SELECT a.employee_code, CONCAT(a.employee_first_name, ' ', a.employee_last_name) AS EmployeeName 
+                    FROM dbVG_EmployeeMaster.dbo.m_employee AS a
+                    WHERE a.is_active = '1' AND a.department_id = '6' AND a.employee_code NOT IN (SELECT employee_no FROM m_Admin);";
+
+
+            DataTable dt = new DataTable();
+            dt = fetchData(sql);
+
+            ddlEmployeeITPIC.DataSource = dt;
+            ddlEmployeeITPIC.DataTextField = "EmployeeName";
+            ddlEmployeeITPIC.DataValueField = "employee_code";
+            ddlEmployeeITPIC.DataBind();
+
+            dt.Dispose();
+
+            ddlEmployeeITPIC.Items.Insert(0, new ListItem("Please Select", ""));
+
+        }
     }
 }

@@ -78,13 +78,17 @@ namespace HelpDeskVG.User_Portal
         {
 
             string sql = "";
-            sql = @"SELECT a.[description], [status], ticket_id ,ticket_code, a.created_at, b.description_category, c.description_section, d.description_natureofprob, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_for, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a
-                    LEFT JOIN m_Category AS b ON b.category_id = a.category_id
-                    LEFT JOIN m_Section AS c ON c.section_id = a.section_id
-                    LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
-                    LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_for 
-					LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
-                    WHERE a.approval_transactional_level = '6' AND a.created_for =" + Session["EmployeeNo"].ToString();
+            sql = "EXEC sp_vgHelpDesk_User_DisplayPendingApprovalResolved ";
+            sql += "@DateTo='" + txtFilterDateTo.Text.ToString() + "',";
+            sql += "@DateFrom='" + txtFilterDateFrom.Text.ToString() + "',";
+            sql += "@ApprovalStatus='" + ddlTicketStatus.SelectedValue.ToString() + "',";
+            sql += "@Priority='" + ddlPriorityFilter.SelectedValue.ToString() + "',";
+            sql += "@TixCode='" + txtSearchTicket.Text.ToString() + "',";
+            sql += "@NatureOfProb='" + ddlNatureOfProbFilter.SelectedValue.ToString() + "',";
+            sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
+            sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
+            sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
+            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -342,6 +346,7 @@ namespace HelpDeskVG.User_Portal
             clsQueries.DisplayCategory(ddlCategoryMd);
             clsQueries.DisplayNatureOfProblem(ddlNatureofprobMd);
             clsQueries.DisplayPriority(ddlPriorityMd);
+            clsQueries.DisplayEmployee(ddlCreatedForMd);
 
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptTicket") as HiddenField;
 
@@ -380,6 +385,7 @@ namespace HelpDeskVG.User_Portal
                 ddlCategoryMd.Enabled = false;
                 ddlNatureofprobMd.Enabled = false;
                 ddlPriorityMd.Enabled = false;
+                ddlCreatedForMd.Visible = false;
 
                 hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
 

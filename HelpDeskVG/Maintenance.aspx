@@ -83,6 +83,61 @@
                     });
                 });
             });
+            function validateRolePermission() {
+                   var name = document.getElementById('<%= ddlEmployeeIT.ClientID %>').value;
+                   var role = document.getElementById('<%= ddlRole.ClientID %>').value;
+
+
+                   if (name === "" || role === "") {
+
+                       alert("Please fill up the field that is Required.");
+                       return false;
+                   }
+
+                   return true;
+               }
+
+            function validateAddSection() {
+                var section = document.getElementById('<%= txtNewSection.ClientID %>').value;
+
+                if (section === "") {
+
+                    alert("Please fill up the field that is Required.");
+                    return false;
+                }
+
+                return true;
+
+            }
+
+
+            function validateAddCategory() {
+                var section = document.getElementById('<%= ddlSection.ClientID %>').value;
+                var category = document.getElementById('<%= txtNewCategory.ClientID %>').value;
+
+                if (section === "" || category === "") {
+
+                    alert("Please fill up the field that is Required.");
+                    return false;
+                }
+
+                return true;
+
+            }
+
+            function validateAddNatureOfProb() {
+                var section = document.getElementById('<%= ddlSection2.ClientID %>').value;
+                var category = document.getElementById('<%= ddlCategory2.ClientID %>').value;
+                var natureofprob = document.getElementById('<%= txtNewNatureOfProb.ClientID %>').value;
+
+                if (section === "" || category === "") {
+
+                    alert("Please fill up the field that is Required.");
+                    return false;
+                }
+
+                return true;
+            }
 
         </script>
 
@@ -352,7 +407,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <asp:Label ID="lblITEmployee" CssClass="form-label status status-pink" runat="server">Select IT Employee</asp:Label>
+                                    <asp:Label ID="lblITEmployee" CssClass="form-label status status-primary required" runat="server">Select IT Employee</asp:Label>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -366,7 +421,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <asp:Label ID="lblRolePosition" CssClass="form-label status status-pink" runat="server">Select Role</asp:Label>
+                                    <asp:Label ID="lblRolePosition" CssClass="form-label status status-primary required" runat="server">Select Role</asp:Label>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -380,7 +435,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
 
-                    <asp:LinkButton ID="lnkAssignRole" runat="server" OnClick="lnkAssignRole_Click" CssClass="btn btn-primary">
+                    <asp:LinkButton ID="lnkAssignRole" runat="server" OnClick="lnkAssignRole_Click" OnClientClick="return validateRolePermission();" CssClass="btn btn-primary">
                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
                         Assign New Role</asp:LinkButton>
@@ -400,7 +455,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <asp:Label ID="Label1" CssClass="form-label" runat="server">Add New Section</asp:Label>
+                                    <asp:Label ID="Label1" CssClass="form-label status status-primary required" runat="server">Add New Section</asp:Label>
                                 </div>
                             </div>
                             <div class="row">
@@ -415,7 +470,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                    <asp:LinkButton ID="lnkSaveNewSection" runat="server" OnClick="lnkSaveNewSection_Click" CssClass="btn btn-primary">
+                    <asp:LinkButton ID="lnkSaveNewSection" runat="server" OnClick="lnkSaveNewSection_Click" OnClientClick="return validateAddSection();" CssClass="btn btn-primary">
                              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
                         Save New Section</asp:LinkButton>
@@ -435,7 +490,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <asp:Label ID="Label7" CssClass="form-label" runat="server">Section</asp:Label>
+                                    <asp:Label ID="Label7" CssClass="form-label status status-primary required" runat="server">Section</asp:Label>
                                 </div>
                             </div>
                             <div class="row">
@@ -449,7 +504,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <asp:Label ID="Label6" CssClass="form-label" runat="server">Add New Category</asp:Label>
+                                    <asp:Label ID="Label6" CssClass="form-label status status-primary required" runat="server">Add New Category</asp:Label>
                                 </div>
                             </div>
                             <div class="row">
@@ -464,7 +519,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                    <asp:LinkButton ID="lnkSaveCategory" runat="server" OnClick="lnkSaveCategory_Click" CssClass="btn btn-primary">
+                    <asp:LinkButton ID="lnkSaveCategory" OnClientClick="return validateAddCategory();" runat="server" OnClick="lnkSaveCategory_Click" CssClass="btn btn-primary">
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
                         Save New Category</asp:LinkButton>
@@ -486,7 +541,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <asp:Label ID="Label8" CssClass="form-label" runat="server">Section</asp:Label>
+                                    <asp:Label ID="Label8" CssClass="form-label status status-primary required" runat="server">Section</asp:Label>
                                 </div>
                             </div>
                             <div class="row">
@@ -499,7 +554,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="mb-3">
-                                <asp:Label ID="Label10" CssClass="form-label" runat="server">Category</asp:Label>
+                                <asp:Label ID="Label10" CssClass="form-label status status-primary required" runat="server">Category</asp:Label>
                             </div>
                         </div>
                         <div class="row">
@@ -512,7 +567,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <asp:Label ID="Label9" CssClass="form-label" runat="server">Add New Nature Of Problem</asp:Label>
+                                    <asp:Label ID="Label9" CssClass="form-label status status-primary required" runat="server">Add New Nature Of Problem</asp:Label>
                                 </div>
                             </div>
                             <div class="row">
@@ -527,7 +582,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                    <asp:LinkButton ID="lnkSaveNatureofProb" runat="server" OnClick="lnkSaveNatureofProb_Click" CssClass="btn btn-primary">
+                    <asp:LinkButton ID="lnkSaveNatureofProb" runat="server" OnClick="lnkSaveNatureofProb_Click" OnClientClick="return validateAddNatureOfProb();" CssClass="btn btn-primary">
                          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
                         Save New Nature of Problem</asp:LinkButton>

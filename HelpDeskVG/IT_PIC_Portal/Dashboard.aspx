@@ -67,6 +67,12 @@
             });
         }
 
+        function validateDateReceivedThirdParty() {
+            $(document).ready(function () {
+                $("#mdValidateReceivedThirdParty").modal('show');
+            });
+        }
+
 
 
         function saveActiveTab() {
@@ -116,11 +122,9 @@
         }
 
         function validateResolveForm() {
-            var uploadFile = document.getElementById('<%= fuUploadAttachment.ClientID%>').value;
             var remarks = document.getElementById('<%= txtRemarksProposedSolution.ClientID%>').value;
-            var description = document.getElementById('<%= txtAttachmentDescription.ClientID%>').value;
 
-            if (uploadFile === "" || remarks === "" || description === "") {
+            if (remarks === "") {
                 alert("Please fill up the field that is Required.");
                 return false;
             }
@@ -481,9 +485,10 @@
                                 <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                 <asp:BoundField DataField="description" HeaderText="Description" />
                                 <asp:BoundField DataField="admin_recent_reject_remarks" HeaderText="Admin Reject Remarks" />
+                                <asp:BoundField DataField="admin_rejector" HeaderText="Admin Disapprover" />
                                 <asp:BoundField DataField="itpic_recent_reject_remarks" HeaderText="IT PIC Reject Remarks" />
+                                <asp:BoundField DataField="itpic_rejector" HeaderText="IT PIC Disapprover" />
                                 <asp:BoundField DataField="created_at" HeaderText="Rejected At" />
-                                <asp:BoundField DataField="created_for" HeaderText="Created For" />
                                 <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                 <asp:TemplateField HeaderText="Actions">
                                     <ItemTemplate>
@@ -794,7 +799,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <asp:Label ID="Label12" runat="server" Text="Given Date" CssClass="form-label status status-primary required mt-2"></asp:Label>
+                    <asp:Label ID="Label12" runat="server" Text="Received Date" CssClass="form-label status status-primary required mt-2"></asp:Label>
                     <asp:TextBox ID="txt3rdPtReceivedDate" runat="server" CssClass="form-control text-reset mt-2" TextMode="Date" Placeholder="Select a Date"></asp:TextBox>
                     <div class="modal-footer">
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
@@ -834,7 +839,7 @@
                 <div class="modal-body">
                     <asp:Label ID="lblRemarksProposed" runat="server" Text="Remarks" Placeholder="Input Remarks" CssClass="form-label status status-primary required-label"></asp:Label>
                     <asp:TextBox ID="txtRemarksProposedSolution" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset mt-2"></asp:TextBox>
-                    <asp:Label ID="lblAttachmentProposed" runat="server" Text="Remarks" CssClass="form-label status status-primary required-label"></asp:Label>
+                    <asp:Label ID="lblAttachmentProposed" runat="server" Text="Remarks" CssClass="form-label status status-primary"></asp:Label>
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">
@@ -846,7 +851,7 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="mb-2 mt-2">
-                                        <asp:Label ID="lblAttachmentDescription" runat="server" CssClass="form-label status status-primary required-label">Attachment Description:</asp:Label>
+                                        <asp:Label ID="lblAttachmentDescription" runat="server" CssClass="form-label status status-primary">Attachment Description:</asp:Label>
                                     </div>
                                     <div class="col-md-12">
                                         <asp:TextBox ID="txtAttachmentDescription" runat="server" CssClass="form-control text-reset mt-2" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>
@@ -1087,8 +1092,23 @@
         </div>
     </div>
 
-
-
-
+    <div class="modal modal-blur fade" tabindex="-1" aria-modal="true" role="dialog" id="mdValidateReceivedThirdParty">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-danger"></div>
+                <div class="modal-body text-center py-4">
+                    <!-- Download SVG icon from http://tabler.io/icons/icon/alert-triangle -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-danger icon-lg">
+                        <path d="M12 9v4"></path>
+                        <path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"></path>
+                        <path d="M12 16h.01"></path>
+                    </svg>
+                    <h3>Warning</h3>
+                    <div class="text-secondary">Please Save the "Third Party Resolved Received Date" first!</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </asp:Content>

@@ -188,13 +188,17 @@ namespace HelpDeskVG
         {
 
             string sql = "";
-            sql = @"SELECT a.[description], [status], ticket_id ,ticket_code, a.created_at, b.description_category, c.description_section, d.description_natureofprob, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_for, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a
-                    LEFT JOIN m_Category AS b ON b.category_id = a.category_id
-                    LEFT JOIN m_Section AS c ON c.section_id = a.section_id
-                    LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
-                    LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_for 
-					LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
-                    WHERE a.approval_transactional_level = '6' AND a.created_for =" + Session["EmployeeNo"].ToString();
+            sql = "EXEC sp_vgHelpDesk_Admin_DisplayPendingApprovalResolved ";
+            sql += "@DateTo='" + txtFilterDateTo.Text.ToString() + "',";
+            sql += "@DateFrom='" + txtFilterDateFrom.Text.ToString() + "',";
+            sql += "@ApprovalStatus='" + ddlTicketStatus.SelectedValue.ToString() + "',";
+            sql += "@Priority='" + ddlPriorityFilter.SelectedValue.ToString() + "',";
+            sql += "@TixCode='" + txtSearchTicket.Text.ToString() + "',";
+            sql += "@NatureOfProb='" + ddlNatureOfProbFilter.SelectedValue.ToString() + "',";
+            sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
+            sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
+            sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
+            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -210,10 +214,18 @@ namespace HelpDeskVG
         protected void DisplayRejectedTicketsByAdmin()
         {
             string sql = "";
-            sql = @"SELECT a.ticket_id, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, a.created_at, a.ticket_code, a.admin_recent_reject_remarks, a.itpic_recent_reject_remarks, a.[description], a.itpic_recent_reject_remarks, a.admin_recent_reject_remarks, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id 
-            LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_by
-			LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
-            WHERE a.approval_transactional_level = '2' AND a.created_for =" + Session["EmployeeNo"].ToString();
+            sql = "EXEC sp_vgHelpDesk_Admin_DisplayRejectedList ";
+            sql += "@DateTo='" + txtFilterDateTo.Text.ToString() + "',";
+            sql += "@DateFrom='" + txtFilterDateFrom.Text.ToString() + "',";
+            sql += "@ApprovalStatus='" + ddlTicketStatus.SelectedValue.ToString() + "',";
+            sql += "@Priority='" + ddlPriorityFilter.SelectedValue.ToString() + "',";
+            sql += "@TixCode='" + txtSearchTicket.Text.ToString() + "',";
+            sql += "@NatureOfProb='" + ddlNatureOfProbFilter.SelectedValue.ToString() + "',";
+            sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
+            sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
+            sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
+            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
+
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -321,45 +333,6 @@ namespace HelpDeskVG
             gvAdminForRejectedTicketList.DataBind();
             lblAdminRejectedTicketToUserCount.Text = dt.Rows.Count.ToString();
             gvAdminForRejectedTicketList.Dispose();
-        }
-
-        protected void btnRejectTicket_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void gvAdminTicketList_PageIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        protected void gvAdminForReassignTicketList_PageIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void gvAdminForRejectedTicketList_PageIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void gvAdminAssignedTicketList_PageIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void btnDetails_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void btnAssignToReassign_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void btnRejectTicketReassign_Click(object sender, EventArgs e)
-        {
-
         }
 
         protected void lnkUserTickets_Click(object sender, EventArgs e)
@@ -1668,11 +1641,6 @@ namespace HelpDeskVG
         protected void lnkRejectTicketProposal_Click(object sender, EventArgs e)
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "rejectSolutionModal();", true);
-        }
-
-        protected void gvMyTicketRejectedByAdmin_PageIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         protected void gvMyTicketList_PageIndexChanging(object sender, GridViewPageEventArgs e)

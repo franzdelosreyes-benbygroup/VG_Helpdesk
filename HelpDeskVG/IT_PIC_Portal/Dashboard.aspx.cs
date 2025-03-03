@@ -63,13 +63,17 @@ namespace HelpDeskVG.IT_PIC_Portal
         {
 
             string sql = "";
-            sql = @"SELECT a.[description], [status], ticket_id ,ticket_code, a.created_at, b.description_category, c.description_section, d.description_natureofprob, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_for, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a
-                    LEFT JOIN m_Category AS b ON b.category_id = a.category_id
-                    LEFT JOIN m_Section AS c ON c.section_id = a.section_id
-                    LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
-                    LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_for 
-					LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
-                    WHERE a.approval_transactional_level = '6' AND a.created_for =" + Session["EmployeeNo"].ToString();
+            sql = "EXEC sp_vgHelpDesk_ITPIC_DisplayPendingApprovalResolved ";
+            sql += "@DateTo='" + txtFilterDateTo.Text.ToString() + "',";
+            sql += "@DateFrom='" + txtFilterDateFrom.Text.ToString() + "',";
+            sql += "@ApprovalStatus='" + ddlTicketStatus.SelectedValue.ToString() + "',";
+            sql += "@Priority='" + ddlPriorityFilter.SelectedValue.ToString() + "',";
+            sql += "@TixCode='" + txtSearchTicket.Text.ToString() + "',";
+            sql += "@NatureOfProb='" + ddlNatureOfProbFilter.SelectedValue.ToString() + "',";
+            sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
+            sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
+            sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
+            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -84,10 +88,17 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected void DisplayRejectedTicketsByAdmin()
         {
             string sql = "";
-            sql = @"SELECT a.ticket_id, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_for, a.created_at, a.ticket_code, a.admin_recent_reject_remarks, a.itpic_recent_reject_remarks, a.[description], a.itpic_recent_reject_remarks, a.admin_recent_reject_remarks, CONCAT(f.description, ' || ', f.alloted_hour,'HRS') AS priority_level FROM t_TicketHeader AS a INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id 
-            LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS e ON e.employee_code = a.created_for
-			LEFT JOIN m_Priority AS f ON f.priority_id = a.priority_id
-            WHERE a.approval_transactional_level = '2' AND a.created_for =" + Session["EmployeeNo"].ToString();
+            sql = "EXEC sp_vgHelpDesk_ITPIC_DisplayRejectedList ";
+            sql += "@DateTo='" + txtFilterDateTo.Text.ToString() + "',";
+            sql += "@DateFrom='" + txtFilterDateFrom.Text.ToString() + "',";
+            sql += "@ApprovalStatus='" + ddlTicketStatus.SelectedValue.ToString() + "',";
+            sql += "@Priority='" + ddlPriorityFilter.SelectedValue.ToString() + "',";
+            sql += "@TixCode='" + txtSearchTicket.Text.ToString() + "',";
+            sql += "@NatureOfProb='" + ddlNatureOfProbFilter.SelectedValue.ToString() + "',";
+            sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
+            sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
+            sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
+            sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -626,7 +637,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptedTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.[subject], a.created_for ,a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.description AS descriptionreport, g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.[subject], a.is_with_third_party, a.created_for ,a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.description AS descriptionreport, g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -652,6 +663,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
                     txtAttachmentDescriptionMd.Text = dt.Rows[0]["descriptionreport"].ToString();
+                    string iswithThirdParty = dt.Rows[0]["is_with_third_party"].ToString();
 
                     try
                     {
@@ -688,11 +700,15 @@ namespace HelpDeskVG.IT_PIC_Portal
                     gvDownloadableAttachment.DataSource = dtAttachment;
                     gvDownloadableAttachment.DataBind();
 
+                if (iswithThirdParty == "False")
+                {
                     txtSubjectMd.Enabled = false;
                     txtDescriptionMd.Enabled = false;
                     ddlSectionMd.Enabled = false;
                     ddlCategoryMd.Enabled = false;
                     ddlNatureofprobMd.Enabled = false;
+                    ddlCreatedForMd.Enabled = false;
+
 
                     ddlPriorityMd.Enabled = false;
                     txtAttachmentDescriptionMd.Enabled = false;
@@ -706,13 +722,40 @@ namespace HelpDeskVG.IT_PIC_Portal
                     lnkProposedTicketResolution.Visible = true;
                     lnkEditDetails.Visible = false;
                     lnkTagThisToThirdParty.Visible = true;
-                 
+                    lnkSaveReceivedDate.Visible = false;
+                }
 
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+                else if (iswithThirdParty == "True") 
+                {
+                    txtSubjectMd.Enabled = false;
+                    txtDescriptionMd.Enabled = false;
+                    ddlSectionMd.Enabled = false;
+                    ddlCategoryMd.Enabled = false;
+                    ddlNatureofprobMd.Enabled = false;
+                    ddlCreatedForMd.Enabled = false;
+
+
+                    ddlPriorityMd.Enabled = false;
+                    txtAttachmentDescriptionMd.Enabled = false;
+                    lblAttachNewAttachment.Visible = false;
+                    fuUploadAttachmentInEdit.Visible = false;
+                    lblNewAttachmentInEdit.Visible = false;
+                    txtNewAttachmentInEdit.Visible = false;
+                    lnkAcceptTicket.Visible = false;
+                    lnkRejectTicketUser.Visible = false;
+                    lnkAcceptWithThirdParty.Visible = false;
+                    lnkProposedTicketResolution.Visible = true;
+                    lnkEditDetails.Visible = false;
+                    lnkTagThisToThirdParty.Visible = false;
+                    lnkSaveReceivedDate.Visible = true;
+                }
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+
+                dt.Dispose();
             }
-
-            dt.Dispose();
         }
+
         protected void insertDetailsProposed()
         {
 
@@ -858,35 +901,65 @@ namespace HelpDeskVG.IT_PIC_Portal
             txtAttachmentDescription.Enabled = true;
             lnkSaveProposedSolution.Visible = true;
 
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "resolvedTicket();", true);
+            string ticketHeaderId = hfMdTicketHeaderId.Value.ToString();
+
+            string sql = "SELECT is_with_third_party, third_party_date_received FROM t_TicketHeader WHERE ticket_id =" + ticketHeaderId;
+            DataTable dt = new DataTable();
+            dt = clsQueries.fetchData(sql);
+
+            if (dt.Rows.Count > 0)
+            {
+                string iswithThirdParty = dt.Rows[0]["is_with_third_party"].ToString();
+                string iswithReceivedDateThirdParty = dt.Rows[0]["third_party_date_received"].ToString();
+
+                if(iswithThirdParty == "False")
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "resolvedTicket();", true);
+
+                }
+
+                else if(iswithThirdParty == "True")
+                {
+                    if (iswithReceivedDateThirdParty == "")
+                    {
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "validateDateReceivedThirdParty();", true);
+                    }
+                    else
+                    {
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "resolvedTicket();", true);
+                    }
+                }
+            }
         }
 
         protected void lnkSaveProposedSolution_Click(object sender, EventArgs e)
         {
-
             lnkResolveAgain.Enabled = false;
             lnkSaveProposedSolution.Enabled = true;
 
-            if (fuUploadAttachment.HasFile)
-            {
-                insertProposedSolutionAttachment();
-                insertDetailsProposed();
-            }
-            else
-            {
-                insertDetailsProposed();
-            }
+            string ticketHeaderId = hfMdTicketHeaderId.Value.ToString();
 
-            DisplayAcceptOrRejectTicket();
-            DisplayAcceptedTicket();
-            DisplayRejectedTicket();
-            DisplayRejectedSolution();
-            DisplayMyTickets();
-            DisplayPendingApprovalResolved();
-            DisplayRejectedTicketsByAdmin();
+                    if (fuUploadAttachment.HasFile)
+                    {
+                        insertProposedSolutionAttachment();
+                        insertDetailsProposed();
+                    }
+                    else
+                    {
+                        insertDetailsProposed();
+                    }
 
-            clsUtil.ShowToastr(this.Page, "Successfully Saved as Resolved Ticket", "success");
+                    DisplayAcceptOrRejectTicket();
+                    DisplayAcceptedTicket();
+                    DisplayRejectedTicket();
+                    DisplayRejectedSolution();
+                    DisplayMyTickets();
+                    DisplayPendingApprovalResolved();
+                    DisplayRejectedTicketsByAdmin();
+
+                    clsUtil.ShowToastr(this.Page, "Successfully Saved as Resolved Ticket", "success");
         }
+
 
         protected void lnkRejectSolutionList_Click(object sender, EventArgs e)
         {
@@ -1606,6 +1679,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             clsQueries.DisplayCategory(ddlCategoryMd);
             clsQueries.DisplayNatureOfProblem(ddlNatureofprobMd);
             clsQueries.DisplayPriority(ddlPriorityMd);
+            clsQueries.DisplayEmployee(ddlCreatedForMd);
 
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptTicket") as HiddenField;
 
@@ -1647,6 +1721,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
             txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
+            ddlCreatedForMd.Visible = false;
 
             txtCreatedBy.Enabled = false;
             txtCreatedFor.Enabled = false;
@@ -1672,7 +1747,6 @@ namespace HelpDeskVG.IT_PIC_Portal
             gvDownloadableAttachment.DataSource = dtAttachment;
             gvDownloadableAttachment.DataBind();
             gvDownloadableAttachment.Dispose();
-
 
             lnkEditDetails.Visible = false;
             lnkAcceptWithThirdParty.Visible = false;

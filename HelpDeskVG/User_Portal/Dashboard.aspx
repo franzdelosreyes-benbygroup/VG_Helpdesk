@@ -303,9 +303,10 @@
                                 <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                 <asp:BoundField DataField="description" HeaderText="Description" />
                                 <asp:BoundField DataField="itpic_recent_reject_remarks" HeaderText="IT PIC Reject Remarks" />
+                                <asp:BoundField DataField="itpic_rejector" HeaderText="IT PIC Disapprover" />
                                 <asp:BoundField DataField="admin_recent_reject_remarks" HeaderText="Admin Reject Remarks" />
+                                <asp:BoundField DataField="admin_rejector" HeaderText="Admin Disapprover" />
                                 <asp:BoundField DataField="created_at" HeaderText="Rejected At" />
-                                <asp:BoundField DataField="created_by" HeaderText="Created At" /> 
                                 <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                 <asp:TemplateField HeaderText="Actions">
                                     <ItemTemplate>

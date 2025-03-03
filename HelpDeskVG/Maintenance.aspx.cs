@@ -25,7 +25,7 @@ namespace HelpDeskVG
                 DisplayCategoryList();
                 DisplayNatureOfProbList();
                 DisplayRoleAdminandITPIC();
-                clsQueries.DisplayITPICEmployee(ddlEmployeeIT);
+                clsQueries.DisplayITPICEmployeeMaintenance(ddlEmployeeIT);
                 DisplayRole();
             }
         }
