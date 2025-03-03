@@ -11,18 +11,21 @@
 }
     .select2-container .select2-selection--single {
         box-sizing: border-box;
-        cursor: pointer;
+        width: 100%;
+        line-height: 1.4285714286;
+        font-size: 0.875rem;
+        font-weight: 400;
         display: block;
         height: 40px;
         user-select: none;
         -webkit-user-select: none;
-        border: 1px solid #ddd; /* Lighter border */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow */
+        box-shadow: 0 1px 1px rgba(24, 36, 51, 0); /* Light shadow */
         border-radius: 5px; /* Optional: Slightly rounded corners */
-        background-color: #fff; /* Ensures a clean look */
-        border-radius: 5px; /* Optional: Slightly rounded corners */
-        background-color: #fff; /* Ensures a clean look */
-        color: #aaa; /* Lighter text */
+        background-color: #ffffff; /* Ensures a clean look */
+        border-radius: 4px; /* Optional: Slightly rounded corners */
+        background-color: #ffffff; /* Ensures a clean look */
+        border: 1px solid #dadfe5; /* light border*/
+        color: #aaaaaa; /* Lighter text */
     }
 .select2-container .select2-selection--single .select2-selection__rendered {
     display: block;

@@ -150,7 +150,7 @@
                     </div>
                     <div class="col-md-2 mb-3">
                         <asp:Label ID="Label3" runat="server" CssClass="form-label status status-primary">Filter Created For:</asp:Label>
-                        <asp:DropDownList ID="ddlCreatedForVg" CssClass="form-select text text-reset mt-2" runat="server">
+                        <asp:DropDownList ID="ddlCreatedForVg" CssClass="custom-select text text-reset mt-2" runat="server">
                         </asp:DropDownList>
                     </div>
                     <div class="col-md-2 mb-3">

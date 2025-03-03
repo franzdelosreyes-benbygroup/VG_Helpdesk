@@ -38,10 +38,6 @@
         :root {
             --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
         }
-
-        .custom-header{
-              background-color: #B22222;
-        }
         .form-control:focus {
             color: #B22222; /* Firebrick color for the text */
             background-color: #fff; /* White background */
@@ -285,7 +281,7 @@
             <!-- Navbar Header -->
             <header class="navbar-expand-md">
                 <div class="collapse navbar-collapse" id="navbar-menu">
-                    <div class="navbar custom-header">
+                    <div class="navbar bg-red">
                         <div class="container-fluid">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
