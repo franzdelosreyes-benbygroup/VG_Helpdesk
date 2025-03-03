@@ -10,16 +10,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title><%= Page.Title %></title>
     <!-- CSS files -->
-    <link href="../tabler/dist/css/tabler.min.css" rel="stylesheet" />
-    <link href="../tabler/dist/css/tabler-flags.min.css" rel="stylesheet" />
-    <link href="../tabler/dist/css/tabler-payments.min.css" rel="stylesheet" />
-    <link href="../tabler/dist/css/tabler-vendors.min.css" rel="stylesheet" />
-    <link href="../tabler/dist/css/demo.min.css" rel="stylesheet" />
+    <link href="tabler/dist/css/tabler.min.css" rel="stylesheet" />
+    <link href="tabler/dist/css/tabler-flags.min.css" rel="stylesheet" />
+    <link href="tabler/dist/css/tabler-payments.min.css" rel="stylesheet" />
+    <link href="tabler/dist/css/tabler-vendors.min.css" rel="stylesheet" />
+    <link href="tabler/dist/css/demo.min.css" rel="stylesheet" />
     
-    <link href="../Content/toastr.css" rel="stylesheet"/>
+    <link href="Content/toastr.css" rel="stylesheet"/>
         <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../Scripts/toastr.js"></script>
+    <script src="Scripts/toastr.js"></script>
 
     <style>
         @import url('https://rsms.me/inter/inter.css');
@@ -47,10 +47,10 @@
             <div class="container container-tight my-5 px-lg-5 mb-8">
                 <div class="text-center mb-4">
                     <a href="." class="navbar-brand navbar-brand-autodark">
-                        <img src="./img/benbygroup_logo.png" height="150" alt=""></a>
+                        <img src="img/benbygroup_logo.png" height="150" alt=""></a>
                 </div>
                 <div class ="h5 text-center mb-3">
-        <img src="./img/logoVGnewpng.png" class="img-fluid" style="height: auto; width: auto; max-width: 100%; max-height: 100%; object-fit: contain; margin-bottom: 20px;">
+        <img src="img/logoVGnewpng.png" class="img-fluid" style="height: auto; width: auto; max-width: 100%; max-height: 100%; object-fit: contain; margin-bottom: 20px;">
                     </div>
                         <div class ="h2 text-center mb-3">
          HELPDESK PORTAL 
@@ -78,11 +78,11 @@
     <div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
         <!-- Photo -->
         <div class="bg-cover h-75 min-vh-50 d-flex justify-content-center align-items-center">
-<img src="./img/vghelpdesk_login_bg.svg" class="img-fluid" style="width: auto; margin-top:100px;max-width: 90vw; height: auto; max-height: 90vh; object-fit: contain;">        </div>
+<img src="img/vghelpdesk_login_bg.svg" class="img-fluid" style="width: auto; margin-top:100px;max-width: 90vw; height: auto; max-height: 90vh; object-fit: contain;">        </div>
     </div>
     </div>
     <!-- Tabler Core -->
-    <script src="../tabler/dist/js/tabler.min.js"></script>
-    <script src="../tabler/dist/js/demo.min.js"></script>
+    <script src="tabler/dist/js/tabler.min.js"></script>
+    <script src="tabler/dist/js/demo.min.js"></script>
 </body>
 </html>
