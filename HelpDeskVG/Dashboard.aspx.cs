@@ -426,11 +426,12 @@ namespace HelpDeskVG
                     txtAttachmentDescriptionMd.Enabled = false;
                     lblassigntomd.Visible = false;
                     ddlAssignToEmpITMd.Visible = false;
-                    lnkEditDetails.Visible = true;
+                    lnkEditDetails.Visible = false;
                     lnkAssignTicketToITPIC.Visible = true;
                     lnkRejectTicketUser.Visible = true;
                     lnkAcceptTicketProposal.Visible = false;
                     lnkRejectTicketProposal.Visible = false;
+                    lnkEditDetailsForReassignAndAssignTicket.Visible = true;
 
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
                 }
@@ -511,7 +512,8 @@ namespace HelpDeskVG
                 }
                 lnkRejectTicketProposal.Visible = false;
                 lnkAcceptTicketProposal.Visible = false;
-                lnkEditDetails.Visible = true;
+                lnkEditDetails.Visible = false;
+                lnkEditDetailsForReassignAndAssignTicket.Visible = true;
                 lnkAssignTicketToITPIC.Visible = true;
                 lnkRejectTicketUser.Visible = true;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
@@ -766,6 +768,8 @@ namespace HelpDeskVG
             DisplayITPICReassignTickets();
             DisplayAssignedTickets();
         }
+
+
 
         protected void lnkRejectTicketUser_Click(object sender, EventArgs e)
         {
@@ -1684,6 +1688,97 @@ namespace HelpDeskVG
         {
             gvAdminForRejectedTicketList.PageIndex = e.NewPageIndex;
             DisplayRejectedList();
+        }
+
+        protected void lnkEditDetailsForReassignAndAssignTicket_Click(object sender, EventArgs e)
+        {
+            string ticketHeader = hfMdTicketHeaderId.Value.ToString();
+            string sql = "";
+
+            if (fuUploadAttachmentInEdit.HasFile)
+            {
+                int iFileSize = fuUploadAttachmentInEdit.PostedFile.ContentLength;
+
+                if (iFileSize > 5048576)
+                {
+                    clsUtil.ShowToastr(this.Page, "The file uploaded is less than 5mb, Please Upload again!", "warning");
+                }
+
+                using (Stream fs = fuUploadAttachmentInEdit.PostedFile.InputStream)
+                {
+                    using (BinaryReader br = new BinaryReader(fs))
+                    {
+                        byte[] bytes = br.ReadBytes((Int32)fs.Length);
+                        string constr = ConfigurationManager.ConnectionStrings["con_VG_Helpdesk"].ConnectionString;
+
+                        using (SqlConnection con = new SqlConnection(constr))
+                        {
+
+                            string query = "insert into t_AttachmentReport(ticket_header_id,file_name,description,content_type,data,uploaded_by,created_at) values (@HDheaderId ,@FileName,@Description,@FileContentType,@FileBin,@Uploaded_By,CURRENT_TIMESTAMP)";
+                            using (SqlCommand cmd = new SqlCommand(query))
+                            {
+                                string filename = fuUploadAttachmentInEdit.PostedFile.FileName.Replace(",", "");
+                                string contentType = fuUploadAttachmentInEdit.PostedFile.ContentType;
+
+                                cmd.Connection = con;
+                                cmd.Parameters.AddWithValue("@FileName", filename);
+                                cmd.Parameters.AddWithValue("@FileContentType", contentType);
+                                cmd.Parameters.AddWithValue("@Description", clsUtil.replaceQuote(txtNewAttachmentInEdit.Text));
+                                cmd.Parameters.AddWithValue("@HDheaderId", ticketHeader);
+                                cmd.Parameters.AddWithValue("@Uploaded_By", Session["EmployeeNo"].ToString());
+                                cmd.Parameters.AddWithValue("@FileBin", bytes);
+
+                                con.Open();
+                                cmd.CommandTimeout = 600;
+                                cmd.ExecuteNonQuery();
+                                con.Close();
+                            }
+                        }
+                    }
+                }
+
+                sql = "EXEC sp_vgHelpDesk_Admin_UpdateDetailsTicketForReassignAndAssign ";
+                sql += "@TicketHeaderId ='" + ticketHeader + "',";
+                sql += "@Admin_Emp_No='" + Session["EmployeeNo"].ToString() + "',";
+                sql += "@Description='" + txtDescriptionMd.Text + "',";
+                sql += "@Subject='" + txtSubjectMd.Text + "',";
+                sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
+                sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "'";
+
+                clsQueries.executeQuery(sql);
+
+                DisplayMyTickets();
+
+                clsUtil.ShowToastr(this.Page, "Successfully Edited the Ticket!", "success");
+            }
+            else
+            {
+                sql = "EXEC sp_vgHelpDesk_Admin_UpdateDetailsTicketForReassignAndAssign ";
+                sql += "@TicketHeaderId ='" + ticketHeader + "',";
+                sql += "@Admin_Emp_No='" + Session["EmployeeNo"].ToString() + "',";
+                sql += "@Assigned_Emp_no='" + ddlAssignToEmpITMd.SelectedValue + "',";
+                sql += "@Description='" + txtDescriptionMd.Text + "',";
+                sql += "@Subject='" + txtSubjectMd.Text + "',";
+                sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
+                sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "'";
+
+                clsQueries.executeQuery(sql);
+
+                DisplayMyTickets();
+
+                clsUtil.ShowToastr(this.Page, "Successfully Edited the Ticket!", "success");
+            }
+
+            DisplayMyTickets();
+            DisplayUsersTickets();
+            DisplayITPICReassignTickets();
+            DisplayAssignedTickets();
         }
     }
 }

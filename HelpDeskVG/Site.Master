@@ -16,18 +16,18 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <!-- CSS files -->
-    <link href="../tabler/dist/css/tabler.min.css" rel="stylesheet" />
-    <link href="../tabler/dist/css/demo.min.css" rel="stylesheet" />
-    <link href="../tabler/dist/css/tabler-flags.min.css" rel="stylesheet" />
-    <link href="../tabler/dist/css/tabler-payments.min.css" rel="stylesheet" />
-    <link href="../tabler/dist/css/tabler-vendors.min.css" rel="stylesheet" />
+    <link href="tabler/dist/css/tabler.min.css" rel="stylesheet" />
+    <link href="tabler/dist/css/demo.min.css" rel="stylesheet" />
+    <link href="tabler/dist/css/tabler-flags.min.css" rel="stylesheet" />
+    <link href="tabler/dist/css/tabler-payments.min.css" rel="stylesheet" />
+    <link href="tabler/dist/css/tabler-vendors.min.css" rel="stylesheet" />
 
-    <link href="./Content/toastr.css" rel="stylesheet"/>
+    <link href="Content/toastr.css" rel="stylesheet"/>
 
-    <script src="../Scripts/toastr.js"></script>
+    <script src="Scripts/toastr.js"></script>
   
         <!-- Tabler Core -->
-    <script src="../tabler/dist/js/tabler.min.js"></script>
+    <script src="tabler/dist/js/tabler.min.js"></script>
    <%-- <script src="../tabler/dist/js/demo.min.js"></script>--%>
     <style>
 
@@ -48,6 +48,10 @@
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
         }
+
+           .navbar bg-custom {
+            background-color: crimson;
+           }
 
           /* Default nav-link styles */
           .nav-link {
@@ -281,7 +285,7 @@
             <!-- Navbar Header -->
             <header class="navbar-expand-md">
                 <div class="collapse navbar-collapse" id="navbar-menu">
-                    <div class="navbar bg-red">
+                    <div class="navbar bg-custom">
                         <div class="container-fluid">
                             <ul class="navbar-nav">
                                 <li class="nav-item">

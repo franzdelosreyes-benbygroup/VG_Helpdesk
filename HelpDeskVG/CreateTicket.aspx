@@ -53,19 +53,19 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <asp:Label ID="lblAssignTo" runat="server" CssClass="form-label mb-2 status status-pink required-label">Assign Ticket To:</asp:Label>
+                                            <asp:Label ID="lblAssignTo" runat="server" CssClass="form-label mb-2 status status-primary required-label">Assign Ticket To:</asp:Label>
                                             <asp:DropDownList ID="ddlEmployeeIT" runat="server" CssClass="form-select text-reset"></asp:DropDownList>
                                         </div>
                                         <div class="col-md-3">
-                                            <asp:Label ID="lblSection" runat="server" CssClass="form-label mb-2 status status-pink required-label">Section</asp:Label>
+                                            <asp:Label ID="lblSection" runat="server" CssClass="form-label mb-2 status status-primary required-label">Section</asp:Label>
                                             <asp:DropDownList ID="ddlSection" CssClass="form-select text-reset" OnSelectedIndexChanged="ddlSection_SelectedIndexChanged" AutoPostBack="true" runat="server"></asp:DropDownList>
                                         </div>
                                         <div class="col-md-3">
-                                            <asp:Label ID="lblCategory" runat="server" CssClass="form-label mb-2 status status-pink required-label">Category</asp:Label>
+                                            <asp:Label ID="lblCategory" runat="server" CssClass="form-label mb-2 status status-primary required-label">Category</asp:Label>
                                             <asp:DropDownList ID="ddlCategory" CssClass="form-select text-reset" OnSelectedIndexChanged="ddlCategory_SelectedIndexChanged" AutoPostBack="true" runat="server"></asp:DropDownList>
                                         </div>
                                         <div class="col-md-3">
-                                            <asp:Label ID="lblNatureOfProb" runat="server" CssClass="form-label mb-2 status status-pink required-label">Nature of Problem</asp:Label>
+                                            <asp:Label ID="lblNatureOfProb" runat="server" CssClass="form-label mb-2 status status-primary required-label">Nature of Problem</asp:Label>
                                             <asp:DropDownList ID="ddlNatureOfProblem" OnSelectedIndexChanged="ddlNatureOfProblem_SelectedIndexChanged" CssClass="form-control text-reset" AutoPostBack="true" runat="server"></asp:DropDownList>
                                         </div>
                                     </div>
@@ -74,19 +74,19 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="mt-2 mb-2">
-                                                <asp:Label ID="lblSubject" runat="server" CssClass="form-label status status-pink required-label">Subject</asp:Label>
+                                                <asp:Label ID="lblSubject" runat="server" CssClass="form-label status status-primary required-label">Subject</asp:Label>
                                             </div>
                                             <asp:TextBox ID="txtSubject" runat="server" CssClass="form-control text-reset" placeholder="Enter Subject"></asp:TextBox>
                                         </div>
                                             <div class="col-md-2">
                                                 <div class="mt-2 mb-2">
-                                                    <asp:Label ID="lblPriority" runat="server" CssClass="form-label status status-pink required-label">Priority Level</asp:Label>
+                                                    <asp:Label ID="lblPriority" runat="server" CssClass="form-label status status-primary required-label">Priority Level</asp:Label>
                                                 </div>
                                                 <asp:DropDownList ID="ddlPriority" runat="server" CssClass="form-select text-reset" AutoPostBack="false"></asp:DropDownList>
                                             </div>
                                         <div class="col-md-2">
                                             <div class="mt-2 mb-2">
-                                                <asp:Label ID="lblCreatedFor" runat="server" CssClass="form-label status status-pink">Created For:</asp:Label>
+                                                <asp:Label ID="lblCreatedFor" runat="server" CssClass="form-label status status-primary">Created For:</asp:Label>
                                             </div>
                                             <asp:DropDownList ID="ddlEmployee" runat="server" CssClass="form-select text-reset" AutoPostBack="false"></asp:DropDownList>
                                         </div>
@@ -95,7 +95,7 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="mb-2 mt-2">
-                                            <asp:Label ID="lblDescription" runat="server" CssClass="form-label status status-pink required-label">Description</asp:Label>
+                                            <asp:Label ID="lblDescription" runat="server" CssClass="form-label status status-primary required-label">Description</asp:Label>
                                         </div>
                                         <div class="col-md-12">
                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="form-control text-reset" TextMode="MultiLine" Rows="5" AutoPostBack="false" placeholder="Description"></asp:TextBox>
@@ -105,7 +105,7 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="mb-2 mt-4">
-                                            <asp:Label ID="lblAttachment" runat="server" CssClass="form-label status status-pink">Please attach with your application:</asp:Label>
+                                            <asp:Label ID="lblAttachment" runat="server" CssClass="form-label status status-primary">Please attach with your application:</asp:Label>
                                             <asp:Label ID="lblAttachment123" runat="server" CssClass="form-label ">Maximum upload file size: 25MB. Kindly wait for the file to finish uploading before filling up the form.</asp:Label>
                                         </div>
                                         <div class="col-md-12">
@@ -119,7 +119,7 @@
                                                 <div class="col-md-12">
                                                     <div class="row">
                                                         <div class="mb-2 mt-2">
-                                                            <asp:Label ID="lblAttachmentDescription" runat="server" CssClass="form-label status status-pink">Attachment Description:</asp:Label>
+                                                            <asp:Label ID="lblAttachmentDescription" runat="server" CssClass="form-label status status-primary">Attachment Description:</asp:Label>
                                                         </div>
                                                         <div class="col-md-12">
                                                             <asp:TextBox ID="txtAttachmentDescription" runat="server" CssClass="form-control text-reset" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>

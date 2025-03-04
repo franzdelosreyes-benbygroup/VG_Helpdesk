@@ -15,6 +15,9 @@ namespace HelpDeskVG.User_Portal
         {
             if (Session["EmployeeNo"] == null)
             {
+                Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.Cache.SetNoStore();
                 Response.Redirect("Login.aspx");
             }
             else

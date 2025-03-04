@@ -199,6 +199,15 @@ namespace HelpDeskVG.User_Portal
         {
             string sql = "";
             sql = "EXEC sp_vgHelpDesk_User_DisplayMyRejectedTicket ";
+            sql += "@DateTo='" + txtFilterDateTo.Text.ToString() + "',";
+            sql += "@DateFrom='" + txtFilterDateFrom.Text.ToString() + "',";
+            sql += "@ApprovalStatus='" + ddlTicketStatus.SelectedValue.ToString() + "',";
+            sql += "@Priority='" + ddlPriorityFilter.SelectedValue.ToString() + "',";
+            sql += "@TixCode='" + txtSearchTicket.Text.ToString() + "',";
+            sql += "@NatureOfProb='" + ddlNatureOfProbFilter.SelectedValue.ToString() + "',";
+            sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
+            sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
+            sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
             sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "'";
 
             DataTable dt = new DataTable();
@@ -386,6 +395,10 @@ namespace HelpDeskVG.User_Portal
                 ddlNatureofprobMd.Enabled = false;
                 ddlPriorityMd.Enabled = false;
                 ddlCreatedForMd.Visible = false;
+                lblAttachNewAttachment.Visible = false;
+                fuUploadAttachmentInEdit.Visible = false;
+                lblNewAttachmentEdit.Visible = false;
+                txtNewAttachmentInEdit.Visible = false;
 
                 hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
 
@@ -568,7 +581,6 @@ namespace HelpDeskVG.User_Portal
             }
             else
             {
-
                 sql = "EXEC sp_vgHelpDesk_User_UpdateDetailsTicket ";
                 sql += "@TicketHeaderId ='" + ticketHeader + "',";
                 sql += "@Transacted_By='" + Session["EmployeeNo"].ToString() + "',";
@@ -746,10 +758,11 @@ namespace HelpDeskVG.User_Portal
 
 
                 clsQueries.executeQuery(sql);
+
+                DisplayUserTickets();
+                DisplayPendingApprovalResolved();
+                DisplayRejectedTicketsByAdmin();
             }
-            DisplayUserTickets();
-            DisplayPendingApprovalResolved();
-            DisplayRejectedTicketsByAdmin();
         }
 
         protected void ddlSectionMd_SelectedIndexChanged(object sender, EventArgs e)

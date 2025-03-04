@@ -222,31 +222,32 @@
                             <div class="col-md-12">
                                 <asp:Label ID="lblRolesandPermission" runat="server" CssClass="h4" Text="Roles and Permission"></asp:Label>
                             <div class="col-md-12">
-
-                                <asp:GridView ID="gvRolesandPermission" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvRolesandPermission_PageIndexChanged">
-                                    <Columns>
-                                        <asp:BoundField DataField="employee_info" HeaderText="Employee Name" />
-                                        <asp:BoundField DataField="employee_no" HeaderText="Employee No" />
-                                        <asp:BoundField DataField="employee_position" HeaderText="Position" />
-                                        <asp:BoundField DataField="role_name" HeaderText="Role Name" />
-                                        <asp:TemplateField HeaderText="Actions">
-                                            <ItemTemplate>
-                                            <asp:HiddenField ID="hfAdminEmployeeId" Value ='<%#Eval("employee_no") %>' runat="server" />
-                                            <asp:HiddenField ID="hfAdminIsActive" Value='<%# Eval("admin_status")%>' runat="server" />
-                                                <asp:LinkButton ID="lnkDeactivate" runat="server" ToolTip="Deactivate" Visible='<%# (Eval("is_active").ToString() == "True" ? true : false) %>' CommandArgument='<%# Eval("admin_status")%>' OnClick="lnkDeactivate_Click" CssClass="btn btn-warning position--relative w-50">
+                                <div class="table-responsive-xl">
+                                    <asp:GridView ID="gvRolesandPermission" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvRolesandPermission_PageIndexChanged">
+                                        <Columns>
+                                            <asp:BoundField DataField="employee_info" HeaderText="Employee Name" />
+                                            <asp:BoundField DataField="employee_no" HeaderText="Employee No" />
+                                            <asp:BoundField DataField="employee_position" HeaderText="Position" />
+                                            <asp:BoundField DataField="role_name" HeaderText="Role Name" />
+                                            <asp:TemplateField HeaderText="Actions">
+                                                <ItemTemplate>
+                                                    <asp:HiddenField ID="hfAdminEmployeeId" Value='<%#Eval("employee_no") %>' runat="server" />
+                                                    <asp:HiddenField ID="hfAdminIsActive" Value='<%# Eval("admin_status")%>' runat="server" />
+                                                    <asp:LinkButton ID="lnkDeactivate" runat="server" ToolTip="Deactivate" Visible='<%# (Eval("is_active").ToString() == "True" ? true : false) %>' CommandArgument='<%# Eval("admin_status")%>' OnClick="lnkDeactivate_Click" CssClass="btn btn-warning position--relative w-50">
                                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x">
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                                                    Delete Access
-                                                </asp:LinkButton>
-                                                <asp:LinkButton ID="lnkActivate" runat="server" Visible='<%# (Eval("is_active").ToString() == "False" ? true : false) %>'  CommandArgument='<%# Eval("admin_status")%>' ToolTip="Activate" OnClick="lnkActivate_Click" CssClass="btn btn-primary position-relative w-50">
+                                                    </asp:LinkButton>
+                                                    <asp:LinkButton ID="lnkActivate" runat="server" Visible='<%# (Eval("is_active").ToString() == "False" ? true : false) %>' CommandArgument='<%# Eval("admin_status")%>' ToolTip="Activate" OnClick="lnkActivate_Click" CssClass="btn btn-primary position-relative w-50">
                                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-check">
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg>
                                                     Activate Access
-                                                </asp:LinkButton>
-                                            </ItemTemplate>
+                                                    </asp:LinkButton>
+                                                </ItemTemplate>
                                             </asp:TemplateField>
-                                    </Columns>
-                                </asp:GridView>
+                                        </Columns>
+                                    </asp:GridView>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -260,27 +261,29 @@
                           </div>
                           <div class="col-md-12">
                               <asp:Label ID="Label2" runat="server" CssClass="h4" Text="Section List"></asp:Label>
-                              <div class="col-md-12"> 
-                                  <asp:GridView ID="gvSectionList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4">
-                                      <Columns>
-                                          <asp:BoundField DataField="description_section" HeaderText="Section" />
-                                          <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                          <asp:TemplateField HeaderText="Actions">
-                                              <ItemTemplate>
-                                                  <asp:HiddenField ID="hfSectionId" Value='<%# Eval("section_id")%>' runat="server" />
-                                                  <asp:LinkButton ID="lnkEditSection" OnClick="lnkEditSection_Click" runat="server" CssClass="btn btn-info" ToolTip="Edit Section">
-                                                      <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                                                          <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
-                                                      Edit Section 
-                                                  </asp:LinkButton>
-                                                  <asp:LinkButton ID="lnkDeleteSection" runat="server" CssClass="btn btn-danger" OnClick="lnkDeleteSection_Click" ToolTip="Delete Section">
-                                                      <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7h16" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /><path d="M10 12l4 4m0 -4l-4 4" /></svg>
-                                                 Delete Section
-                                                  </asp:LinkButton>
-                                              </ItemTemplate>
-                                          </asp:TemplateField>
-                                      </Columns>
-                                  </asp:GridView>
+                              <div class="col-md-12">
+                                  <div class="table-responsive-xl">
+                                      <asp:GridView ID="gvSectionList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4">
+                                          <Columns>
+                                              <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                              <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                              <asp:TemplateField HeaderText="Actions">
+                                                  <ItemTemplate>
+                                                      <asp:HiddenField ID="hfSectionId" Value='<%# Eval("section_id")%>' runat="server" />
+                                                      <asp:LinkButton ID="lnkEditSection" OnClick="lnkEditSection_Click" runat="server" CssClass="btn btn-info" ToolTip="Edit Section">
+                                                          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                                                              <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
+                                                          Edit Section 
+                                                      </asp:LinkButton>
+                                                      <asp:LinkButton ID="lnkDeleteSection" runat="server" CssClass="btn btn-danger" OnClick="lnkDeleteSection_Click" ToolTip="Delete Section">
+                                                          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7h16" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /><path d="M10 12l4 4m0 -4l-4 4" /></svg>
+                                                     Delete Section
+                                                      </asp:LinkButton>
+                                                  </ItemTemplate>
+                                              </asp:TemplateField>
+                                          </Columns>
+                                      </asp:GridView>
+                                  </div>
                               </div>
                           </div>
                       </div>
@@ -294,28 +297,30 @@
                           </div>
                           <div class="col-md-12">
                               <asp:Label ID="Label3" runat="server" CssClass="h4" Text="Category List"></asp:Label>
-                              <div class="col-md-12"> 
-                                  <asp:GridView ID="gvCategoryList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4">
-                                      <Columns>
-                                          <asp:BoundField DataField="description_section" HeaderText="Section" />
-                                          <asp:BoundField DataField="description_category" HeaderText="Category" />
-                                          <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                          <asp:TemplateField HeaderText="Actions">
-                                              <ItemTemplate>
-                                                  <asp:HiddenField ID="hfCategoryId" Value='<%# Eval("category_id")%>' runat="server" />
-                                                  <asp:LinkButton ID="lnkEditCategory" OnClick="lnkEditCategory_Click" runat="server" CssClass="btn btn-info" ToolTip="Edit Section">
+                              <div class="col-md-12">
+                                  <div class="table-responsive-xl">
+                                      <asp:GridView ID="gvCategoryList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4">
+                                          <Columns>
+                                              <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                              <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                              <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                              <asp:TemplateField HeaderText="Actions">
+                                                  <ItemTemplate>
+                                                      <asp:HiddenField ID="hfCategoryId" Value='<%# Eval("category_id")%>' runat="server" />
+                                                      <asp:LinkButton ID="lnkEditCategory" OnClick="lnkEditCategory_Click" runat="server" CssClass="btn btn-info" ToolTip="Edit Section">
                                                       <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
                                                           <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
                                                       Edit Category 
-                                                  </asp:LinkButton>
-                                                  <asp:LinkButton ID="lnkDeleteCategory" runat="server" CssClass="btn btn-danger" ToolTip="Delete Category" OnClick="lnkDeleteCategory_Click">
+                                                      </asp:LinkButton>
+                                                      <asp:LinkButton ID="lnkDeleteCategory" runat="server" CssClass="btn btn-danger" ToolTip="Delete Category" OnClick="lnkDeleteCategory_Click">
                                                       <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
                                                        Delete Category                                                 
-                                                  </asp:LinkButton>
-                                              </ItemTemplate>
-                                          </asp:TemplateField>
-                                      </Columns>
-                                  </asp:GridView>
+                                                      </asp:LinkButton>
+                                                  </ItemTemplate>
+                                              </asp:TemplateField>
+                                          </Columns>
+                                      </asp:GridView>
+                                  </div>
                               </div>
                           </div>
                       </div>
@@ -330,28 +335,30 @@
                             <div class="col-md-12">
                                 <asp:Label ID="Label4" runat="server" CssClass="h4" Text="Nature Of Problem List"></asp:Label>
                                 <div class="col-md-12">
-                                    <asp:GridView ID="gvNatureOfProbList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4">
-                                        <Columns>
-                                            <asp:BoundField DataField="description_section" HeaderText="Section" />
-                                            <asp:BoundField DataField="description_category" HeaderText="Category" />
-                                            <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
-                                            <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                            <asp:TemplateField HeaderText="Actions">
-                                                <ItemTemplate>
-                                                    <asp:HiddenField ID="hfNatureOfProb" Value='<%# Eval("nature_of_prob_id")%>' runat="server" />
-                                                    <asp:LinkButton ID="lnkEditNatureOfProb" OnClick="lnkEditNatureOfProb_Click" runat="server" CssClass="btn btn-info" ToolTip="Edit Section">
+                                    <div class="table-responsive-xl">
+                                        <asp:GridView ID="gvNatureOfProbList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4">
+                                            <Columns>
+                                                <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                                <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                                <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                                <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                                <asp:TemplateField HeaderText="Actions">
+                                                    <ItemTemplate>
+                                                        <asp:HiddenField ID="hfNatureOfProb" Value='<%# Eval("nature_of_prob_id")%>' runat="server" />
+                                                        <asp:LinkButton ID="lnkEditNatureOfProb" OnClick="lnkEditNatureOfProb_Click" runat="server" CssClass="btn btn-info" ToolTip="Edit Section">
                                                          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
                                                              <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
                                                          Edit Nature of Problem
-                                                    </asp:LinkButton>
-                                                    <asp:LinkButton ID="lnkDeleteNatureOfProb" runat="server" CssClass="btn btn-danger" ToolTip="Delete Nature of Problem" OnClick="lnkDeleteNatureOfProb_Click">
+                                                        </asp:LinkButton>
+                                                        <asp:LinkButton ID="lnkDeleteNatureOfProb" runat="server" CssClass="btn btn-danger" ToolTip="Delete Nature of Problem" OnClick="lnkDeleteNatureOfProb_Click">
                                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
                                                         Delete Nature of Problem
-                                                    </asp:LinkButton>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                        </Columns>
-                                    </asp:GridView>
+                                                        </asp:LinkButton>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                        </asp:GridView>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -366,27 +373,29 @@
                             <div class="col-md-12">
                                 <asp:Label ID="Label5" runat="server" CssClass="h4" Text="Priority List"></asp:Label>
                                 <div class="col-md-12">
-                                    <asp:GridView ID="gvPriorityList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4">
-                                        <Columns>
-                                            <asp:BoundField DataField="description" HeaderText="Description" />
-                                            <asp:BoundField DataField="alloted_hour" HeaderText="Alloted Hours" />
-                                            <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                            <asp:TemplateField HeaderText="Actions">
-                                                <ItemTemplate>
-                                                    <asp:HiddenField ID="hfPriority" Value='<%# Eval("priority_id")%>' runat="server" />
-                                                    <asp:LinkButton ID="lnkEditPriority" OnClick="lnkEditPriority_Click" runat="server" CssClass="btn btn-info" ToolTip="Edit Section">
+                                    <div class="table-responsive-xl">
+                                        <asp:GridView ID="gvPriorityList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4">
+                                            <Columns>
+                                                <asp:BoundField DataField="description" HeaderText="Description" />
+                                                <asp:BoundField DataField="alloted_hour" HeaderText="Alloted Hours" />
+                                                <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                                <asp:TemplateField HeaderText="Actions">
+                                                    <ItemTemplate>
+                                                        <asp:HiddenField ID="hfPriority" Value='<%# Eval("priority_id")%>' runat="server" />
+                                                        <asp:LinkButton ID="lnkEditPriority" OnClick="lnkEditPriority_Click" runat="server" CssClass="btn btn-info" ToolTip="Edit Section">
                                                          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
                                                              <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
                                                          Edit Priority
-                                                    </asp:LinkButton>
-                                                    <asp:LinkButton ID="lnkDeletePriority" runat="server" CssClass="btn btn-danger" OnClick="lnkDeletePriority_Click" ToolTip="Delete Priority">
+                                                        </asp:LinkButton>
+                                                        <asp:LinkButton ID="lnkDeletePriority" runat="server" CssClass="btn btn-danger" OnClick="lnkDeletePriority_Click" ToolTip="Delete Priority">
                                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
                                                       Delete Priority
-                                                    </asp:LinkButton>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                        </Columns>
-                                    </asp:GridView>
+                                                        </asp:LinkButton>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                        </asp:GridView>
+                                    </div>
                                 </div>
                             </div>
                         </div>
