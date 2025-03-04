@@ -741,7 +741,9 @@
                                 </asp:LinkButton>
                             </div>
                             <div class="col-xl-4">
-                                <!-- Download SVG icon from http://tabler.io/icons/icon/plus -->
+
+                                <asp:LinkButton ID="lnkEditDetailsForReassignAndAssignTicket" OnClick="lnkEditDetailsForReassignAndAssignTicket_Click1" CssClass="btn btn-primary" Visible="false" runat="server">
+                                                            <!-- Download SVG icon from http://tabler.io/icons/icon/plus -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
@@ -749,7 +751,7 @@
                                     <path d="M16 5l3 3" />
                                 </svg>
                                 Save Edited Details
-                                <asp:LinkButton ID="lnkEditDetailsForReassignAndAssignTicket" OnClick="lnkEditDetailsForReassignAndAssignTicket_Click" CssClass="btn btn-primary" Visible="false" runat="server"></asp:LinkButton>
+                                </asp:LinkButton>
                             </div>
                         </div>
                 </div>

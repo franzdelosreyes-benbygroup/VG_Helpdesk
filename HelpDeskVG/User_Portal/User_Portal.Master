@@ -275,9 +275,7 @@
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" data-bs-theme="light">
                                 <div class="dropdown-divider"></div>
                                 <asp:LinkButton ID="btnLogout" runat="server" OnClick="btnLogout_Click" class="dropdown-item">Logout
-
                                 </asp:LinkButton>
-
                             </div>
                         </div>
                     </div>
