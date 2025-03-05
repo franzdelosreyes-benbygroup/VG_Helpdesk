@@ -54,6 +54,8 @@ namespace HelpDeskVG
                         Session["FirstName"] = dt.Rows[0]["employee_first_name"].ToString();
                         Session["LocationId"] = dt.Rows[0]["location_id"].ToString();
                         Session["LevelId"] = dt.Rows[0]["level_id"].ToString();
+                        Session["RoleStatus"] = dt.Rows[0]["RoleStatus"].ToString();
+
                         Response.Redirect("Dashboard.aspx");
                     }
                     else if (roleStatus == "IT PIC")
@@ -64,8 +66,22 @@ namespace HelpDeskVG
                         Session["FirstName"] = dt.Rows[0]["employee_first_name"].ToString();
                         Session["LocationId"] = dt.Rows[0]["location_id"].ToString();
                         Session["LevelId"] = dt.Rows[0]["level_id"].ToString();
+                        Session["RoleStatus"] = dt.Rows[0]["RoleStatus"].ToString();
+
                         Response.Redirect("~/IT_PIC_Portal/Dashboard.aspx");
                     }
+                    else if(roleStatus == "DUAL ROLE")
+                    {
+                        Session["EmployeeNo"] = dt.Rows[0]["employee_code"].ToString();
+                        Session["EmployeePosition"] = dt.Rows[0]["employee_position"].ToString();
+                        Session["EmployeeEmail"] = dt.Rows[0]["employee_email"].ToString();
+                        Session["FirstName"] = dt.Rows[0]["employee_first_name"].ToString();
+                        Session["LocationId"] = dt.Rows[0]["location_id"].ToString();
+                        Session["LevelId"] = dt.Rows[0]["level_id"].ToString();
+                        Session["RoleStatus"] = dt.Rows[0]["RoleStatus"].ToString();
+                        Response.Redirect("Dashboard.aspx");
+                    }
+
                     else if (roleStatus == "" || roleStatus == null)
                     {
                         Session["EmployeeNo"] = dt.Rows[0]["employee_code"].ToString();

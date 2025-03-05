@@ -280,6 +280,7 @@
              </a>
              <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" data-bs-theme="light">
                <div class="dropdown-divider"></div>
+                 <asp:LinkButton ID="lnkSwitchRole" runat="server" OnClick="lnkSwitchRole_Click">Switch Role as Administrator</asp:LinkButton>
                <asp:LinkButton ID="btnLogout" runat="server" OnClick="btnLogout_Click" class="dropdown-item">Logout
 
                </asp:LinkButton>

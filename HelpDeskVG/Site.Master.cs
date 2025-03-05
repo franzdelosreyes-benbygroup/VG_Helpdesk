@@ -13,16 +13,27 @@ namespace HelpDeskVG
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["EmployeeNo"] == null)
+            string RoleStatus = Session["RoleStatus"].ToString();
+
+            if (RoleStatus == "DUAL ROLE")
             {
-                Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
-                Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                Response.Cache.SetNoStore();
-                Response.Redirect("Login.aspx");
+                lnkSwitchRole.Visible = true;
+                if (Session["EmployeeNo"] == null)
+                {
+                    Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+                    Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                    Response.Cache.SetNoStore();
+                    Response.Redirect("Login.aspx");
+                }
+                else
+                {
+                    string employeeNo = Session["EmployeeNo"].ToString();
+                }
             }
             else
             {
-                string employeeNo = Session["EmployeeNo"].ToString();
+                lnkSwitchRole.Visible = false;
+
             }
         }
 
@@ -91,6 +102,11 @@ namespace HelpDeskVG
         protected void lnkMaintenance_Click(object sender, EventArgs e)
         {
             Response.Redirect("~/Maintenance.aspx");
+        }
+
+        protected void lnkSwitchRole_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/IT_PIC_Portal/Dashboard.aspx");
         }
     }
 }

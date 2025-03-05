@@ -280,8 +280,11 @@
                </div>
              </a>
              <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" data-bs-theme="light">
+
                <div class="dropdown-divider"></div>
-               <asp:LinkButton ID="btnLogout" runat="server" OnClick="btnLogout_Click" class="dropdown-item">Logout
+
+                 <asp:LinkButton ID="lnkSwitchRole" runat="server" OnClick="lnkSwitchRole_Click" Visible="false" CssClass="dropdown-item">Switch Role as IT PIC</asp:LinkButton>
+               <asp:LinkButton ID="btnLogout" runat="server" OnClick="btnLogout_Click" CssClass="dropdown-item">Logout
 
                </asp:LinkButton>
 
@@ -369,13 +372,12 @@
                 </div>
                 <!--Body -->
                    <div class="page-body">
-                        <div class="container-fluid">
-
-                    <asp:ContentPlaceHolder ID="MainContent" runat="server">
-                    </asp:ContentPlaceHolder>
-                    <hr />
-                            </div>
+                       <div class="container-fluid">
+                           <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                           </asp:ContentPlaceHolder>
+                           <hr />
                        </div>
+                   </div>
                 </div>    
         </form>
     </div>

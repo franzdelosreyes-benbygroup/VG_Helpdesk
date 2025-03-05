@@ -13,16 +13,27 @@ namespace HelpDeskVG.IT_PIC_Portal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["EmployeeNo"] == null)
+            string RoleStatus = Session["RoleStatus"].ToString();
+
+            if (RoleStatus == "DUAL ROLE")
             {
-                Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
-                Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                Response.Cache.SetNoStore();
-                Response.Redirect("Login.aspx");
+                if (Session["EmployeeNo"] == null)
+                {
+                    lnkSwitchRole.Visible = true;
+
+                    Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+                    Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                    Response.Cache.SetNoStore();
+                    Response.Redirect("Login.aspx");
+                }
+                else
+                {
+                    string employeeNo = Session["EmployeeNo"].ToString();
+                }
             }
-            else
+            else 
             {
-                string employeeNo = Session["EmployeeNo"].ToString();
+                lnkSwitchRole.Visible = false;
             }
         }
 
@@ -64,6 +75,11 @@ namespace HelpDeskVG.IT_PIC_Portal
             }
 
             Response.Redirect("~/IT_PIC_Portal/CreateTicket.aspx?Id=" + _ticketHeaderId);
+        }
+
+        protected void lnkSwitchRole_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("../Dashboard.aspx");
         }
     }
 }
