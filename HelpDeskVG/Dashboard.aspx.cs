@@ -582,6 +582,7 @@ namespace HelpDeskVG
                 ddlSectionMd.Enabled = false;
                 gvDownloadableAttachment.Enabled = true;
 
+                lnkEditDetailsForReassignAndAssignTicket.Visible = false;
                 lnkEditDetails.Visible = false;
                 lnkAssignTicketToITPIC.Visible = false;
                 lnkRejectTicketUser.Visible = false;
@@ -658,6 +659,17 @@ namespace HelpDeskVG
                     lnkRejectTicketUser.Visible = false;
                     lnkAcceptTicketProposal.Visible = false;
                     lnkRejectTicketProposal.Visible = false;
+                    lnkEditDetailsForReassignAndAssignTicket.Visible = false;
+                    ddlCreatedForMd.Enabled = false;
+                    ddlAssignToEmpITMd.Visible = false;
+                    lblassigntomd.Visible = false;
+                    lblAttachNewAttachment.Visible = false;
+                    fuUploadAttachmentInEdit.Visible = false;
+                    lblNewAttachmentInEdit.Visible = false;
+                    txtNewAttachmentInEdit.Visible = false;
+                    ddlPriorityMd.Enabled = false;
+
+
 
                     string ticketHeader = hfMdTicketHeaderId.Value.ToString();
 
@@ -1032,6 +1044,7 @@ namespace HelpDeskVG
                         lnkRejectTicketUser.Visible = false;
                         txtAttachmentDescriptionMd.Enabled = false;
                         lnkEditDetails.Visible = true;
+                        lnkEditDetailsForReassignAndAssignTicket.Visible = false;
                     }
                     else if (approvalLevel == "2")
                     {
@@ -1041,6 +1054,7 @@ namespace HelpDeskVG
                         lnkAssignTicketToITPIC.Visible = false;
                         lnkRejectTicketUser.Visible=false;
                         lnkEditDetails.Visible = true;
+                        lnkEditDetailsForReassignAndAssignTicket.Visible = false;
                     }
                     else
                     {
@@ -1052,6 +1066,7 @@ namespace HelpDeskVG
                         lnkAssignTicketToITPIC.Visible = false;
                         lnkRejectTicketUser.Visible = false;
                         lnkEditDetails.Visible = false;
+                        lnkEditDetailsForReassignAndAssignTicket.Visible = false;
                     }
 
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
@@ -1425,7 +1440,7 @@ namespace HelpDeskVG
             gvDownloadableAttachment.DataBind();
             gvDownloadableAttachment.Dispose();
 
-
+            lnkEditDetailsForReassignAndAssignTicket.Visible = false;
             lnkEditDetails.Visible = false;
             lnkRejectTicketUser.Visible = false;
             lnkAssignTicketToITPIC.Visible = false;
@@ -1665,7 +1680,7 @@ namespace HelpDeskVG
                 ddlNatureofprobMd.Enabled = true;
                 ddlPriorityMd.Enabled = true;
 
-
+                lnkEditDetailsForReassignAndAssignTicket.Visible = false;
                 lnkAcceptTicketProposal.Visible = false;
                 lnkRejectTicketProposal.Visible = false;
                 lnkAssignTicketToITPIC.Visible = false;
@@ -1838,7 +1853,6 @@ namespace HelpDeskVG
                 sql = "EXEC sp_vgHelpDesk_Admin_UpdateDetailsTicketForReassignAndAssign ";
                 sql += "@TicketHeaderId ='" + ticketHeader + "',";
                 sql += "@Admin_Emp_No='" + Session["EmployeeNo"].ToString() + "',";
-                sql += "@Assigned_Emp_no='" + ddlAssignToEmpITMd.SelectedValue + "',";
                 sql += "@Description='" + txtDescriptionMd.Text + "',";
                 sql += "@Subject='" + txtSubjectMd.Text + "',";
                 sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";

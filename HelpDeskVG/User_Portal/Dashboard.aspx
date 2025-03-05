@@ -82,7 +82,15 @@
             return confirm("Are you sure you want to accept the solution?");;
         }
 
+
+        $(document).ready(function () {
+            $('.custom-select').select2({ width: '100%' });
+
+        });
 </script>
+    <link href="../dist/css/select2.css" rel="stylesheet" />
+    <script src="../dist/js/select2.min.js"></script>
+
 </asp:Content>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -110,7 +118,7 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary">Filter Created By:</asp:Label>
-                            <asp:DropDownList ID="ddlEmployeeVg" CssClass="form-select text text-reset mt-2" runat="server">
+                            <asp:DropDownList ID="ddlEmployeeVg" CssClass="custom-select text text-reset mt-2" runat="server">
                             </asp:DropDownList>
                         </div>
                         <div class="col-md-2 mb-3">

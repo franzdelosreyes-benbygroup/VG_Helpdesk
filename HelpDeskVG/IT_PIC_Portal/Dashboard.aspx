@@ -2,6 +2,8 @@
 
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="head">
+        <link href="../dist/css/select2.css" rel="stylesheet" />
+    <script src="../dist/js/select2.min.js"></script>
 
 
 </asp:Content>
@@ -118,7 +120,7 @@
                     return false; 
                 }
 
-                return true;
+                return confirm("Do you wish to proceed?");
         }
 
         function validateResolveForm() {
@@ -129,7 +131,7 @@
                 return false;
             }
 
-            return true;
+            return confirm("Do want to proceed?");
         }
 
         function validateResolveAgainForm() {
@@ -142,7 +144,7 @@
                     return false;
                 }
 
-                return true;
+                return confirm("Do you want to proceed?");
         }
 
         function validateRejectTicketToUser() {
@@ -153,7 +155,7 @@
                 return false;
             }
 
-            return true;
+            return confirm("Do you want to reject ticket?");
         }
 
         function validateUpdateWith3rdPt() {
@@ -165,7 +167,7 @@
                 return false;
             }
 
-            return true;
+            return confirm("Do you want to proceed Updating it with 3rd Party?");
         }
 
         function validateRejectSolution(){
@@ -177,18 +179,14 @@
                   alert("Please fill up the field that is Required.");
                   return false;
               }
-           return true;
+           return confirm("Do you want to proceed?");
         }
 
+        $(document).ready(function () {
+            $('.custom-select').select2({ width: '100%' });
+        });
+
     </script>
-     <style>
-         .required-label::after {
-             content: "*";
-             color: red;
-             font-weight: bold;
-         }
-         
-    </style>
 
     <section class="row" aria-labelledby="aspnetTitle">
         <h1><%=Page.Title %></h1>
@@ -210,8 +208,8 @@
                         <asp:TextBox ID="txtSearchTicket" CssClass="form-control text text-reset mt-2" Placeholder="Search Ticket Code.." runat="server"></asp:TextBox>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary">Filter Created For:</asp:Label>
-                        <asp:DropDownList ID="ddlEmployeeVg" CssClass="form-select text text-reset mt-2" runat="server">
+                        <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary">Filter Created By:</asp:Label>
+                        <asp:DropDownList ID="ddlEmployeeVg" CssClass="custom-select text text-reset mt-2" runat="server">
                         </asp:DropDownList>
                     </div>
                     <div class="col-md-2 mb-3">
@@ -422,113 +420,120 @@
                 <div class="tab-content">
                     <div class="tab-pane active show" id="myCreatedTicket" role="tabpanel">
                         <asp:Label ID="lblMyCreatedTicket" runat="server" CssClass="h4" Text="Ny Created Tickets"></asp:Label>
-                        <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketList_PageIndexChanging" EmptyDataTe="No Data Found">
-                            <Columns>
-                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
-                                <asp:BoundField DataField="status" HeaderText="Status" />
-                                <asp:BoundField DataField="description_section" HeaderText="Section" />
-                                <asp:BoundField DataField="description_category" HeaderText="Category" />
-                                <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
-                                <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
-                                <asp:TemplateField HeaderText="Actions">
-                                    <ItemTemplate>
-                                        <asp:HiddenField ID="hfTicketHeaderMyTicket" Value='<%# Eval("ticket_id")%>' runat="server" />
-                                       <asp:HiddenField ID ="hfIsDraftId" Value='<%# Eval("approval_transactional_level") %>' runat="server" />
-                                        <asp:LinkButton ID="lnkDetailsMyTicket" OnClick="lnkDetailsMyTicket_Click" CssClass="btn btn-info" runat="server">
+                        <div class="table-responsive-xl">
+                            <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketList_PageIndexChanging" EmptyDataTe="No Data Found">
+                                <Columns>
+                                    <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                    <asp:BoundField DataField="status" HeaderText="Status" />
+                                    <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                    <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                    <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                    <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                    <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                                    <asp:TemplateField HeaderText="Actions">
+                                        <ItemTemplate>
+                                            <asp:HiddenField ID="hfTicketHeaderMyTicket" Value='<%# Eval("ticket_id")%>' runat="server" />
+                                            <asp:HiddenField ID="hfIsDraftId" Value='<%# Eval("approval_transactional_level") %>' runat="server" />
+                                            <asp:LinkButton ID="lnkDetailsMyTicket" OnClick="lnkDetailsMyTicket_Click" CssClass="btn btn-info" runat="server">
                                              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                        View Details
-                                        </asp:LinkButton>
-                                        <asp:LinkButton ID="lnkDeleteDraft" runat="server" ToolTip="Delete Draft" Visible='<%# (Eval("is_draft").ToString() == "True" ? true : false)%>' CommandArgument='<%# Eval("ticket_id")%>' OnClick="lnkDeleteDraft_Click" CssClass="btn btn-danger position--relative w-50">
+                                            </asp:LinkButton>
+                                            <asp:LinkButton ID="lnkDeleteDraft" runat="server" ToolTip="Delete Draft" Visible='<%# (Eval("is_draft").ToString() == "True" ? true : false)%>' CommandArgument='<%# Eval("ticket_id")%>' OnClick="lnkDeleteDraft_Click" CssClass="btn btn-danger position--relative w-50">
                                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />
                                      <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
                                              Delete
-                                        </asp:LinkButton>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                        </asp:GridView>
+                                            </asp:LinkButton>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="pendingApprovalTickets" role="tabpanel">
                         <asp:Label ID="lblforPendingApproval" runat="server" CssClass="h4" Text="Pending List of Resolved Tickets."></asp:Label>
-                        <asp:GridView ID="gvMyTicketPendingApproval" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketPendingApproval_PageIndexChanging" EmptyDataTe="No Data Found">
-                            <Columns>
-                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
-                                <asp:BoundField DataField="status" HeaderText="Status" />
-                                <asp:BoundField DataField="description_section" HeaderText="Section" />
-                                <asp:BoundField DataField="description_category" HeaderText="Category" />
-                                <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
-                                <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                <asp:BoundField DataField="created_for" HeaderText="Created By" />
-                                <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
-                                <asp:TemplateField HeaderText="Actions">
-                                    <ItemTemplate>
-                                        <asp:HiddenField ID="hfTicketHeaderIdAcceptTicket" runat="server" Value='<%# Eval("ticket_id")%>' />
-                                        <asp:LinkButton ID="lnkTicketApprovalUser" OnClick="lnkTicketApprovalUser_Click" CssClass="btn btn-info w-50" runat="server">
+                        <div class="table-responsive-xl">
+                            <asp:GridView ID="gvMyTicketPendingApproval" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketPendingApproval_PageIndexChanging" EmptyDataTe="No Data Found">
+                                <Columns>
+                                    <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                    <asp:BoundField DataField="status" HeaderText="Status" />
+                                    <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                    <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                    <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                    <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                    <asp:BoundField DataField="created_for" HeaderText="Created By" />
+                                    <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                                    <asp:TemplateField HeaderText="Actions">
+                                        <ItemTemplate>
+                                            <asp:HiddenField ID="hfTicketHeaderIdAcceptTicket" runat="server" Value='<%# Eval("ticket_id")%>' />
+                                            <asp:LinkButton ID="lnkTicketApprovalUser" OnClick="lnkTicketApprovalUser_Click" CssClass="btn btn-info w-50" runat="server">
                                       <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                       View Details</asp:LinkButton>
-                                        <%--  <asp:LinkButton ID="btnAssignToReassign" OnClick="btnAssignToReassign_Click" CssClass="btn btn-success w-25" runat="server">Assign</asp:LinkButton>
+                                            <%--  <asp:LinkButton ID="btnAssignToReassign" OnClick="btnAssignToReassign_Click" CssClass="btn btn-success w-25" runat="server">Assign</asp:LinkButton>
                                           <asp:LinkButton ID="btnRejectTicketReassign" OnClick="btnRejectTicketReassign_Click" CssClass="btn btn-danger w-25" runat="server">Reject Ticket</asp:LinkButton>--%>
-                                        <asp:LinkButton ID="lnkTicketApprovalResolvedDetails" runat="server" CssClass="btn btn-success" OnClick="lnkTicketApprovalResolvedDetails_Click">
+                                            <asp:LinkButton ID="lnkTicketApprovalResolvedDetails" runat="server" CssClass="btn btn-success" OnClick="lnkTicketApprovalResolvedDetails_Click">
                                       <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-thumb-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3" /></svg>
                                       Resolved Details
-                                  </asp:LinkButton>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                        </asp:GridView>
+                                            </asp:LinkButton>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="rejectedTicketByAdmin" role="tabpanel">
                         <asp:Label ID="Label9" runat="server" CssClass="h4" Text="Rejected Tickets due to incomplete details."></asp:Label>
-                        <asp:GridView ID="gvMyTicketRejectedByAdmin" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketRejectedByAdmin_PageIndexChanging" EmptyDataTe="No Data Found">
-                            <Columns>
-                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
-                                <asp:BoundField DataField="description" HeaderText="Description" />
-                                <asp:BoundField DataField="admin_recent_reject_remarks" HeaderText="Admin Reject Remarks" />
-                                <asp:BoundField DataField="admin_rejector" HeaderText="Admin Disapprover" />
-                                <asp:BoundField DataField="itpic_recent_reject_remarks" HeaderText="IT PIC Reject Remarks" />
-                                <asp:BoundField DataField="itpic_rejector" HeaderText="IT PIC Disapprover" />
-                                <asp:BoundField DataField="created_at" HeaderText="Rejected At" />
-                                <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
-                                <asp:TemplateField HeaderText="Actions">
-                                    <ItemTemplate>
-                                        <asp:HiddenField ID="hfTicketHeaderIdRejectedList" runat="server" Value='<%#Eval("ticket_id") %>' />
-                                        <asp:LinkButton ID="lnkMyTicketRejectedTicketList" OnClick="lnkMyTicketRejectedTicketList_Click" CssClass="btn btn-info w-50" runat="server">
+                        <div class="table-responsive-xl">
+                            <asp:GridView ID="gvMyTicketRejectedByAdmin" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketRejectedByAdmin_PageIndexChanging" EmptyDataTe="No Data Found">
+                                <Columns>
+                                    <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                    <asp:BoundField DataField="description" HeaderText="Description" />
+                                    <asp:BoundField DataField="admin_recent_reject_remarks" HeaderText="Admin Reject Remarks" />
+                                    <asp:BoundField DataField="admin_rejector" HeaderText="Admin Disapprover" />
+                                    <asp:BoundField DataField="itpic_recent_reject_remarks" HeaderText="IT PIC Reject Remarks" />
+                                    <asp:BoundField DataField="itpic_rejector" HeaderText="IT PIC Disapprover" />
+                                    <asp:BoundField DataField="created_at" HeaderText="Rejected At" />
+                                    <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                                    <asp:TemplateField HeaderText="Actions">
+                                        <ItemTemplate>
+                                            <asp:HiddenField ID="hfTicketHeaderIdRejectedList" runat="server" Value='<%#Eval("ticket_id") %>' />
+                                            <asp:LinkButton ID="lnkMyTicketRejectedTicketList" OnClick="lnkMyTicketRejectedTicketList_Click" CssClass="btn btn-info w-50" runat="server">
                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                       View Details</asp:LinkButton>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                        </asp:GridView>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="acceptorrejectTicketsITPIC" role="tabpanel">
                         <asp:Label ID="lblITPIC" runat="server" CssClass="h4" Text="Accept Or Reject Tickets"></asp:Label>
-                        <asp:GridView ID="gvITPICAcceptOrRejectList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICAcceptOrRejectList_PageIndexChanging" EmptyDataTe="No Data Found">
-                            <Columns>
-
-                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
-                                <asp:BoundField DataField="description_section" HeaderText="Section" />
-                                <asp:BoundField DataField="description_category" HeaderText="Category" />
-                                <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
-                                <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                <asp:BoundField DataField="created_for" HeaderText="Created For" />
-                                <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
-                                
-                                <asp:TemplateField HeaderText="Actions">
-                                    <ItemTemplate>
-                                        <asp:HiddenField ID="hfTicketHeaderIdITPIC" Value='<%#Eval("ticket_id")%>' runat="server" />
-                                             <asp:LinkButton ID="lnkDetailsUserListTicket" OnClick="lnkDetailsUserListTicket_Click" CssClass="btn btn-info" runat="server">
+                        <div class="table-responsive-xl">
+                            <asp:GridView ID="gvITPICAcceptOrRejectList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICAcceptOrRejectList_PageIndexChanging" EmptyDataTe="No Data Found">
+                                <Columns>
+                                    <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                    <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                    <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                    <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                    <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                    <asp:BoundField DataField="created_for" HeaderText="Created For" />
+                                    <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                                    <asp:TemplateField HeaderText="Actions">
+                                        <ItemTemplate>
+                                            <asp:HiddenField ID="hfTicketHeaderIdITPIC" Value='<%#Eval("ticket_id")%>' runat="server" />
+                                            <asp:LinkButton ID="lnkDetailsUserListTicket" OnClick="lnkDetailsUserListTicket_Click" CssClass="btn btn-info" runat="server">
                                               <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                                  Ticket Details
-                                             </asp:LinkButton>                 
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                        </asp:GridView>
+                                            </asp:LinkButton>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
+                        </div>
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane fade" id="acceptedTicketsITPIC" role="tabpanel">
                             <asp:Label ID="lblForReassignITPIC" runat="server" CssClass="h4" Text="Accepted Tickets."></asp:Label>
+                          <div class="table-responsive-xl">
                             <asp:GridView ID="gvITPICAcceptedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICAcceptedTickets_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
@@ -553,53 +558,65 @@
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
+                              </div>
                         </div>
                         <div class="tab-pane fade" id="rejectedTicketITPIC" role="tabpanel">
                             <asp:Label ID="Label1" runat="server" CssClass="h4" Text="Rejected Tickets due to incomplete details."></asp:Label>
-                            <asp:GridView ID="gvITPICRejectedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICRejectedTickets_PageIndexChanging" EmptyDataTe="No Data Found">
-                                <Columns> 
-                                    <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
-                                    <asp:BoundField DataField="description" HeaderText="Description" />
-                                    <asp:TemplateField HeaderText="Actions">
-                                        <ItemTemplate>
-                                            <asp:HiddenField ID="hfTicketHeaderIdITPICRejectedList" runat="server" Value='<%#Eval("ticket_id") %>' />
-                                            <asp:LinkButton ID="lnkDetailsRejectedTicketList" OnClick="lnkDetailsRejectedTicketList_Click" CssClass="btn btn-info w-50" runat="server">
+                            <div class="table-responsive-xl">
+                                <asp:GridView ID="gvITPICRejectedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICRejectedTickets_PageIndexChanging" EmptyDataTe="No Data Found">
+                                    <Columns>
+                                        <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                        <asp:BoundField DataField="third_party_name" HeaderText="Third Party" />
+                                        <asp:BoundField DataField="third_party_date_given" HeaderText="Given Date to 3rd Party" />
+                                        <asp:BoundField DataField="third_party_date_received" HeaderText="Date Received 3rd Party" />
+                                        <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                        <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                        <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                        <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                        <asp:BoundField DataField="created_for" HeaderText="Created By" />
+                                        <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                                        <asp:TemplateField HeaderText="Actions">
+                                            <ItemTemplate>
+                                                <asp:HiddenField ID="hfTicketHeaderIdITPICRejectedList" runat="server" Value='<%#Eval("ticket_id") %>' />
+                                                <asp:LinkButton ID="lnkDetailsRejectedTicketList" OnClick="lnkDetailsRejectedTicketList_Click" CssClass="btn btn-info w-50" runat="server">
                                                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                                Ticket Details</asp:LinkButton>
-                           
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
-                                </Columns>
-                            </asp:GridView>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="rejectedSolutionByUser" role="tabpanel">
                             <asp:Label ID="Label2" runat="server" CssClass="h4" Text="Rejected Solution"></asp:Label>
-                            <asp:GridView ID="gvRejectedSolution" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvRejectedSolution_PageIndexChanging" EmptyDataTe="No Data Found">
-                                <Columns>
-                                   <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
-                                   <asp:BoundField DataField="third_party_name" HeaderText="Third Party" />
-                                   <asp:BoundField DataField="third_party_date_given" HeaderText="Given Date to 3rd Party" />
-                                   <asp:BoundField DataField="third_party_date_received" HeaderText="Received Date from 3rd Party" />
-                                   <asp:BoundField DataField="description_section" HeaderText="Section" />
-                                   <asp:BoundField DataField="description_category" HeaderText="Category" />
-                                   <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
-                                   <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                   <asp:BoundField DataField="created_for" HeaderText="Created By" />
-                                   <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                            <div class="table-responsive-xl">
+                                <asp:GridView ID="gvRejectedSolution" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvRejectedSolution_PageIndexChanging" EmptyDataTe="No Data Found">
+                                    <Columns>
+                                        <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                        <asp:BoundField DataField="third_party_name" HeaderText="Third Party" />
+                                        <asp:BoundField DataField="third_party_date_given" HeaderText="Given Date to 3rd Party" />
+                                        <asp:BoundField DataField="third_party_date_received" HeaderText="Received Date from 3rd Party" />
+                                        <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                        <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                        <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                        <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                        <asp:BoundField DataField="created_for" HeaderText="Created By" />
+                                        <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
 
-                                   <asp:TemplateField HeaderText="Actions">
-                                        <ItemTemplate>
-                                            <asp:HiddenField ID="hfTicketHeaderIdITPICRejectedSolution" runat="server" Value='<%#Eval("ticket_id") %>' />
-                                            <asp:LinkButton ID="lnkUserRejectProposalDetails" OnClick="lnkUserRejectProposalDetails_Click" runat="server" CssClass=""></asp:LinkButton>
-                                            <asp:LinkButton ID="lnkUserRejectRemarks" runat="server" OnClick="lnkUserRejectRemarks_Click" CssClass="btn btn-info">
+                                        <asp:TemplateField HeaderText="Actions">
+                                            <ItemTemplate>
+                                                <asp:HiddenField ID="hfTicketHeaderIdITPICRejectedSolution" runat="server" Value='<%#Eval("ticket_id") %>' />
+                                                <asp:LinkButton ID="lnkUserRejectProposalDetails" OnClick="lnkUserRejectProposalDetails_Click" runat="server" CssClass=""></asp:LinkButton>
+                                                <asp:LinkButton ID="lnkUserRejectRemarks" runat="server" OnClick="lnkUserRejectRemarks_Click" CssClass="btn btn-info">
                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
 
                                                  Reject Details</asp:LinkButton>
-<%--                                            <asp:LinkButton ID="lnkDetailsRejectedTicketList" OnClick="lnkDetailsRejectedTicketList_Click" CssClass="btn btn-info w-25" runat="server">Details</asp:LinkButton>--%>
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
-                                </Columns>
-                            </asp:GridView>
+                                                <%--                                            <asp:LinkButton ID="lnkDetailsRejectedTicketList" OnClick="lnkDetailsRejectedTicketList_Click" CssClass="btn btn-info w-25" runat="server">Details</asp:LinkButton>--%>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -941,7 +958,7 @@
                 <div class="modal-body">
                     <asp:Label ID="lblRemarks" runat="server" Text="Reject Remarks" CssClass="form-label"></asp:Label>
                     <asp:TextBox ID="txtRejectProposedRemarks" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset"></asp:TextBox>
-                    <asp:Label ID="Label4" runat="server" Text="Remarks" CssClass="form-label"></asp:Label>
+                    <asp:Label ID="Label4" runat="server" Text="Attachment" CssClass="form-label mt-2"></asp:Label>
                     <asp:GridView ID="gvUserRejectSolutionAttachment" runat="server" AutoGenerateColumns="false" CssClass="table table-vcenter table-hover text-nowrap">
                         <Columns>
                             <asp:BoundField DataField="file_name" runat="server" HeaderText="File Name" />

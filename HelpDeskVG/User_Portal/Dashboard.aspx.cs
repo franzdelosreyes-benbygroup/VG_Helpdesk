@@ -254,7 +254,7 @@ namespace HelpDeskVG.User_Portal
                     LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_for
                     LEFT JOIN t_AttachmentReport AS g ON a.ticket_id  =  g.ticket_header_id
 					LEFT JOIN m_Priority AS h ON h.priority_id = a.priority_id
-					WHERE a.approval_transactional_level IN ('0', '1', '3', '4', '8', '9') AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND ticket_id=" + hfTicketHeaderId.Value.ToString();
+					WHERE a.approval_transactional_level IN ('0','1','2', '3', '4', '5', '7' '8','9') AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND ticket_id=" + hfTicketHeaderId.Value.ToString();
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);

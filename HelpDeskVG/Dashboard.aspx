@@ -3,9 +3,40 @@
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="head">
 
+<%--    <style>
+        #buttonContainer {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .btn-container {
+            width: 33.33%; /* Ensure 3 buttons per row */
+            display: none; /* Hide initially, will be shown dynamically */
+        }
+
+        .btn-container .btn {
+            width: 100%; /* Make sure buttons take full width of their column */
+        }
+    </style>--%>
 
 
     <script type="text/javascript">
+
+        //document.addEventListener("DOMContentLoaded", function () {
+        //    adjustButtons();
+        //});
+
+        //function adjustButtons() {
+        //    let buttons = document.querySelectorAll(".btn-container");
+
+        //    buttons.forEach(btn => {
+        //        let linkButton = btn.querySelector("asp\\:LinkButton");
+        //        if (linkButton && linkButton.style.display !== "none") {
+        //            btn.style.display = "block";
+        //        }
+        //    });
+        //}
+
         function detailsModal() {
             $(document).ready(function () {
                 $("#mdDetailsUsersTicket").modal("show");
@@ -43,7 +74,7 @@
                 alert("Please fill up the field that is Required.");
                 return false;
             }
-            return true;
+            return confirm("Do you wish to proceed, rejecting the solution?");
         }
 
         function saveActiveTab() {
@@ -84,7 +115,7 @@
                 return false;
             }
 
-            return true;
+            return confirm("Do you want to Save Edited Details?");
         }
 
         function validateAssignTo() {
@@ -95,7 +126,7 @@
                 return false;
             }
 
-            return true;
+            return confirm("Do you want to proceed with the assigning?");
         }
 
         function validateRejectTicketToUser() {
@@ -106,15 +137,24 @@
                 return false;
             }
 
-            return true;
+            return confirm("Do you want to proceed rejecting the ticket?");
         }
 
+        function validateAcceptReso() {
+            return confirm("Do you want to accept the resolution?");
+        }
+
+        function validateRejectReso() {
+            return confirm("Do you want to reject the resolution?");
+        }
 
 
         $(document).ready(function () {
             $('.custom-select').select2({width:'100%'});
 
         });
+
+
 
     </script>
     <link href="dist/css/select2.css" rel="stylesheet" />
@@ -421,7 +461,7 @@
                                         <asp:TemplateField HeaderText="Actions">
                                             <ItemTemplate>
                                                 <asp:HiddenField ID="hfTicketHeaderIdAcceptTicket" runat="server" Value='<%# Eval("ticket_id")%>' />
-                                                <asp:LinkButton ID="lnkTicketApprovalUser" OnClick="lnkTicketApprovalUser_Click" CssClass="btn btn-info w-50" runat="server">
+                                                <asp:LinkButton ID="lnkTicketApprovalUser" OnClick="lnkTicketApprovalUser_Click" CssClass="btn btn-info" runat="server">
                                               <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                               View Details</asp:LinkButton>
                                                 <%--  <asp:LinkButton ID="btnAssignToReassign" OnClick="btnAssignToReassign_Click" CssClass="btn btn-success w-25" runat="server">Assign</asp:LinkButton>
@@ -554,14 +594,16 @@
                                         <Columns>
                                             <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                             <asp:BoundField DataField="admin_recent_reject_remarks" HeaderText="Admin Reject Remarks" />
-                                            <asp:BoundField DataField="itpic_recent_reject_remarks" HeaderText="IT PIC Reject Remarks" />
                                             <asp:BoundField DataField="created_at" HeaderText="Rejected At" />
-                                            <asp:BoundField DataField="created_for" HeaderText="Created For" />
+                                            <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                            <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                            <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                            <asp:BoundField DataField="created_for" HeaderText="Ticket Owner" />
                                             <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                             <asp:TemplateField HeaderText="Actions">
                                                 <ItemTemplate>
                                                     <asp:HiddenField ID="hfTicketHeaderIdRejectedList" runat="server" Value='<%#Eval("ticket_id") %>' />
-                                                    <asp:LinkButton ID="lnkDetailsRejectedTicketList" OnClick="lnkDetailsRejectedTicketList_Click" CssClass="btn btn-info w-50" runat="server">
+                                                    <asp:LinkButton ID="lnkDetailsRejectedTicketList" OnClick="lnkDetailsRejectedTicketList_Click" CssClass="btn btn-info" runat="server">
                                                      <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                                         View Details</asp:LinkButton>
                                                 </ItemTemplate>
@@ -702,34 +744,34 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 modal-footer d-block justify-content-between gap-1">
-                    <div class="row">
-                            <div class="col-xl-4">
-                                <asp:LinkButton ID="lnkAcceptTicketProposal" runat="server" CssClass="btn btn-success" OnClick="lnkAcceptTicketProposal_Click">
+                <div class="col-md-12 modal-footer d-block">
+                    <div class="row d-flex flex-wrap gap-2" id="buttonContainer">
+                        <div class="col-md-4 btn-container">
+                            <asp:LinkButton ID="lnkAcceptTicketProposal" runat="server" CssClass="btn btn-success" OnClick="lnkAcceptTicketProposal_Click">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>                               
                                     Accept Ticket
-                                </asp:LinkButton>
-                            </div>
-                            <div class="col-xl-4">
-                                <asp:LinkButton ID="lnkRejectTicketProposal" runat="server" CssClass="btn btn-danger" OnClick="lnkRejectTicketProposal_Click">
+                            </asp:LinkButton>
+                        </div>
+                        <div class="col-md-4 btn-container">
+                            <asp:LinkButton ID="lnkRejectTicketProposal" runat="server" CssClass="btn btn-danger" OnClick="lnkRejectTicketProposal_Click">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                                     Reject Ticket
-                                </asp:LinkButton>
-                            </div>
-                            <div class="col-xl-4">
-                                <asp:LinkButton ID="lnkAssignTicketToITPIC" runat="server" CssClass="btn btn-success" OnClick="lnkAssignTicketToITPIC_Click">
+                            </asp:LinkButton>
+                        </div>
+                        <div class="col-md-4 btn-container">
+                            <asp:LinkButton ID="lnkAssignTicketToITPIC" runat="server" CssClass="btn btn-success" OnClick="lnkAssignTicketToITPIC_Click">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M16 19h6" /><path d="M19 16v6" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4" /></svg>
                                     Assign Ticket
-                                </asp:LinkButton>
-                            </div>
-                            <div class="col-xl-4">
-                                <asp:LinkButton ID="lnkRejectTicketUser" runat="server" CssClass="btn btn-danger" OnClick="lnkRejectTicketUser_Click">
+                            </asp:LinkButton>
+                        </div>
+                        <div class="col-md-4 btn-container">
+                            <asp:LinkButton ID="lnkRejectTicketUser" runat="server" CssClass="btn btn-danger" OnClick="lnkRejectTicketUser_Click">
                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                                 Reject Ticket
-                                </asp:LinkButton>
-                            </div>
-                            <div class="col-xl-4">
-                                <asp:LinkButton ID="lnkEditDetails" runat="server" CssClass="btn btn-primary" OnClick="lnkEditDetails_Click" OnClientClick="return validateForm();">
+                            </asp:LinkButton>
+                        </div>
+                        <div class="col-md-4 btn-container">
+                            <asp:LinkButton ID="lnkEditDetails" runat="server" CssClass="btn btn-primary" OnClick="lnkEditDetails_Click" OnClientClick="return validateForm();">
                                 <!-- Download SVG icon from http://tabler.io/icons/icon/plus -->
                                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
                                       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -738,11 +780,10 @@
                                       <path d="M16 5l3 3" />
                                   </svg>                                 
                                     Save Edited Details
-                                </asp:LinkButton>
-                            </div>
-                            <div class="col-xl-4">
-
-                                <asp:LinkButton ID="lnkEditDetailsForReassignAndAssignTicket" OnClick="lnkEditDetailsForReassignAndAssignTicket_Click1" CssClass="btn btn-primary" Visible="false" runat="server">
+                            </asp:LinkButton>
+                        </div>
+                          <div class="col-md-4 btn-container">
+                                <asp:LinkButton ID="lnkEditDetailsForReassignAndAssignTicket" OnClick="lnkEditDetailsForReassignAndAssignTicket_Click1" OnClientClick="return validateForm();" CssClass="btn btn-primary" Visible="false" runat="server">
                                                             <!-- Download SVG icon from http://tabler.io/icons/icon/plus -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -844,13 +885,13 @@
                         </div>
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
-                        <asp:LinkButton ID="lnkAcceptResolvedTicket" runat="server" CssClass="btn btn-success" OnClick="lnkAcceptResolvedTicket_Click">
+                        <asp:LinkButton ID="lnkAcceptResolvedTicket" runat="server" CssClass="btn btn-success" OnClick="lnkAcceptResolvedTicket_Click" OnClientClick="return validateAcceptReso();">
                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M16 19h6" /><path d="M19 16v6" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4" /></svg>
-                    Accept Ticket
+                    Accept Resolution
                         </asp:LinkButton>
-                        <asp:LinkButton ID="lnkRejectResolvedTicket" runat="server" CssClass="btn btn-danger" OnClick="lnkRejectResolvedTicket_Click">
+                        <asp:LinkButton ID="lnkRejectResolvedTicket" runat="server" CssClass="btn btn-danger" OnClick="lnkRejectResolvedTicket_Click" OnClientClick="return validateRejectReso();">
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-                            Reject Ticket
+                            Reject Resolution
                         </asp:LinkButton>
                     </div>
             </div>
