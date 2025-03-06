@@ -476,7 +476,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active show" id="myCreatedTicket" role="tabpanel">
                         <asp:Label ID="lblMyCreatedTicket" runat="server" CssClass="h4" Text="Ny Created Tickets"></asp:Label>
-                        <div class="table-responsive-xl">
+                        <div class="table-nowrap table-responsive-xl">
                             <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketList_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
@@ -507,7 +507,7 @@
                     </div>
                     <div class="tab-pane fade" id="pendingApprovalTickets" role="tabpanel">
                         <asp:Label ID="lblforPendingApproval" runat="server" CssClass="h4" Text="Pending List of Resolved Tickets."></asp:Label>
-                        <div class="table-responsive-xl">
+                        <div class="table-responsive-md">
                             <asp:GridView ID="gvMyTicketPendingApproval" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketPendingApproval_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />

@@ -386,7 +386,7 @@
                             <div class="col-md-12 mt-2">
                                 <asp:Label ID="lblMyCreatedTicket" runat="server" CssClass="h4" Text="My Created Tickets"></asp:Label>
                             </div>
-                                <div class="table-responsive-xl">
+                                <div class="table-responsive-md table-nowrap">
                                 <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketList_PageIndexChanging" EmptyDataTe="No Data Found">
                                     <Columns>
                                         <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
