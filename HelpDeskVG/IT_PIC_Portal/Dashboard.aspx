@@ -476,7 +476,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active show" id="myCreatedTicket" role="tabpanel">
                         <asp:Label ID="lblMyCreatedTicket" runat="server" CssClass="h4" Text="Ny Created Tickets"></asp:Label>
-                        <div class="table-nowrap table-responsive-xl">
+                        <div class="table-nowrap table-responsive">
                             <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketList_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
@@ -507,7 +507,7 @@
                     </div>
                     <div class="tab-pane fade" id="pendingApprovalTickets" role="tabpanel">
                         <asp:Label ID="lblforPendingApproval" runat="server" CssClass="h4" Text="Pending List of Resolved Tickets."></asp:Label>
-                        <div class="table-responsive-md">
+                        <div class="table-responsive">
                             <asp:GridView ID="gvMyTicketPendingApproval" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketPendingApproval_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
@@ -538,7 +538,7 @@
                     </div>
                     <div class="tab-pane fade" id="rejectedTicketByAdmin" role="tabpanel">
                         <asp:Label ID="Label9" runat="server" CssClass="h4" Text="Rejected Tickets due to incomplete details."></asp:Label>
-                        <div class="table-responsive-xl">
+                        <div class="table-responsive">
                             <asp:GridView ID="gvMyTicketRejectedByAdmin" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketRejectedByAdmin_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
@@ -563,7 +563,7 @@
                     </div>
                     <div class="tab-pane fade" id="acceptorrejectTicketsITPIC" role="tabpanel">
                         <asp:Label ID="lblITPIC" runat="server" CssClass="h4" Text="Accept Or Reject Tickets"></asp:Label>
-                        <div class="table-responsive-xl">
+                        <div class="table-responsive">
                             <asp:GridView ID="gvITPICAcceptOrRejectList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICAcceptOrRejectList_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
@@ -589,7 +589,7 @@
                     <div class="tab-content">
                         <div class="tab-pane fade" id="acceptedTicketsITPIC" role="tabpanel">
                             <asp:Label ID="lblForReassignITPIC" runat="server" CssClass="h4" Text="Accepted Tickets."></asp:Label>
-                          <div class="table-responsive-xl">
+                          <div class="table-responsive">
                             <asp:GridView ID="gvITPICAcceptedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICAcceptedTickets_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
@@ -617,7 +617,7 @@
                         </div>
                         <div class="tab-pane fade" id="rejectedTicketITPIC" role="tabpanel">
                             <asp:Label ID="Label1" runat="server" CssClass="h4" Text="Rejected Tickets due to incomplete details."></asp:Label>
-                            <div class="table-responsive-xl">
+                            <div class="table-responsive">
                                 <asp:GridView ID="gvITPICRejectedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICRejectedTickets_PageIndexChanging" EmptyDataTe="No Data Found">
                                     <Columns>
                                         <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
@@ -644,7 +644,7 @@
                         </div>
                         <div class="tab-pane fade" id="rejectedSolutionByUser" role="tabpanel">
                             <asp:Label ID="Label2" runat="server" CssClass="h4" Text="Rejected Solution"></asp:Label>
-                            <div class="table-responsive-xl">
+                            <div class="table-responsive">
                                 <asp:GridView ID="gvRejectedSolution" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvRejectedSolution_PageIndexChanging" EmptyDataTe="No Data Found">
                                     <Columns>
                                         <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />

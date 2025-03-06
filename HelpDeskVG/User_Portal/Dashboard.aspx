@@ -247,7 +247,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active show" id="userTickets" role="tabpanel">
                         <asp:Label ID="lblUserTicketsContent" runat="server" CssClass="h4" Text="My Tickets"></asp:Label>
-                        <div class="table-responsive-xl">
+                        <div class="table-responsive">
                             <asp:GridView ID="gvUserTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvUserTicketList_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
@@ -277,7 +277,7 @@
                     </div>
                     <div class="tab-pane fade" id="pendingApprovalTickets" role="tabpanel">
                         <asp:Label ID="lblforPendingApproval" runat="server" CssClass="h4" Text="Pending List of Resolved Tickets."></asp:Label>
-                        <div class="table-responsive-xl">
+                        <div class="table-responsive">
                             <asp:GridView ID="gvUserPendingApproval" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvUserPendingApproval_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
@@ -307,7 +307,7 @@
                     </div>
                     <div class="tab-pane fade" id="rejectedTicketByAdmin" role="tabpanel">
                         <asp:Label ID="Label1" runat="server" CssClass="h4" Text="Rejected Tickets due to incomplete details."></asp:Label>
-                        <div class="table-responsive-xl">
+                        <div class="table-responsive">
                             <asp:GridView ID="gvRejectedTicketByAdmin" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvRejectedTicketByAdmin_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
