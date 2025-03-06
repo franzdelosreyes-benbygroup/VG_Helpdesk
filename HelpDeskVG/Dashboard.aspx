@@ -29,6 +29,12 @@
             });
         }
 
+        function showTicketHistory() {
+            $(document).ready(function () {
+                $("#mdTicketHistory").modal("show");
+            });
+        }
+
         function resolvedDetailsModal() {
             $(document).ready(function () {
                 $("#mdResolvedDetailsUsersTicket").modal("show");
@@ -400,7 +406,14 @@
                                              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                                         View Details
                                                 </asp:LinkButton>
-                                                <asp:LinkButton ID="lnkDeleteDraft" runat="server" ToolTip="Delete Draft" Visible='<%# (Eval("is_draft").ToString() == "True" ? true : false) %>' CommandArgument='<%# Eval("ticket_id")%>' OnClick="lnkDeleteDraft_Click" CssClass="btn btn-danger position--relative w-50">
+                                                <asp:LinkButton ID="lnkViewHistory" OnClick="lnkViewHistory_Click" CssClass="btn btn-warning position-relative w-50" ToolTip="View History" Visible='<%# (Eval("is_draft").ToString() != "True" ? true : false) %>' runat="server">
+                                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-history">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 8l0 4l2 2" />
+                                                        <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+                                                    </svg>
+                                                    Ticket History
+                                                </asp:LinkButton>
+                                                <asp:LinkButton ID="lnkDeleteDraft" runat="server" ToolTip="Delete Draft" Visible='<%# (Eval("is_draft").ToString() == "True" ? true : false) %>' CommandArgument='<%# Eval("ticket_id")%>' OnClick="lnkDeleteDraft_Click" CssClass="btn btn-danger position-relative w-50">
                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x">
                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                    <path d="M18 6l-12 12" />
@@ -714,7 +727,7 @@
                     </div>
                 </div>
                 <div class="col-md-12 modal-footer d-block">
-                    <div class="row d-flex flex-wrap gap-2" id="buttonContainer">
+                    <div class="row d-flex flex-wrap gap-2">
                         <div class="d-grid gap-2 d-md-flex">
                             <div class="col-md-12 ">
                                 <asp:LinkButton ID="lnkAcceptTicketProposal" runat="server" CssClass="btn w-100 btn-success" OnClick="lnkAcceptTicketProposal_Click">
@@ -725,7 +738,6 @@
                         </div>
                         <div class="d-grid gap-2 d-md-flex">
                             <div class="col-md-12 ">
-
                                 <asp:LinkButton ID="lnkRejectTicketProposal" runat="server" CssClass="btn w-100 btn-block btn-danger" OnClick="lnkRejectTicketProposal_Click">
                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                                         Reject Ticket
@@ -734,7 +746,6 @@
                         </div>
                         <div class="d-grid gap-2 d-md-flex">
                             <div class="col-md-12 ">
-
                                 <asp:LinkButton ID="lnkAssignTicketToITPIC" runat="server" CssClass="btn w-100 btn-block btn-success" OnClick="lnkAssignTicketToITPIC_Click">
                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M16 19h6" /><path d="M19 16v6" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4" /></svg>
                                         Assign Ticket
@@ -743,7 +754,6 @@
                         </div>
                         <div class="d-grid gap-2 d-md-flex">
                             <div class="col-md-12 ">
-
                                 <asp:LinkButton ID="lnkRejectTicketUser" runat="server" CssClass="btn w-100 btn-block btn-danger" OnClick="lnkRejectTicketUser_Click">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                                     Reject Ticket
@@ -929,6 +939,37 @@
                     <div class="modal-footer">
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
                         <asp:LinkButton ID="lnkUserRejectProposedSolution" runat="server" OnClick="lnkUserRejectProposedSolution_Click" OnClientClick="return validateRejectSolution();" CssClass="btn btn-success">Save as Reject Solution</asp:LinkButton>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-blur fade show" tabindex="-1" aria-modal="true" role="dialog" id="mdTicketHistory">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ticket History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <asp:HiddenField ID="hfTicketHeaderForHistory" runat="server" />
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive md">
+                        <asp:GridView ID="gvTicketHistory" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4">
+                            <Columns>
+                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                <asp:BoundField DataField="status" HeaderText="Status" />
+                                <asp:BoundField DataField="created_at" HeaderText="Date Transacted" />
+                                <asp:BoundField DataField="priority_description" HeaderText="Priority Level" />
+                                <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                <asp:BoundField DataField="transacted_by" HeaderText="Transacted By" />
+                            </Columns>
+                            <EmptyDataTemplate>
+                                No Data Found
+                            </EmptyDataTemplate>
+                        </asp:GridView>
                     </div>
                 </div>
             </div>

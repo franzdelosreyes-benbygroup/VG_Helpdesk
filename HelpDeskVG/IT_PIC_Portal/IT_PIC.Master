@@ -20,7 +20,7 @@
     <link href="../tabler/dist/css/tabler-payments.min.css" rel="stylesheet" />
     <link href="../tabler/dist/css/tabler-vendors.min.css" rel="stylesheet" />
 
-    <link href="./Content/toastr.css" rel="stylesheet"/>
+    <link href="../Content/toastr.css" rel="stylesheet"/>
 
     <script src="../Scripts/toastr.js"></script>
   

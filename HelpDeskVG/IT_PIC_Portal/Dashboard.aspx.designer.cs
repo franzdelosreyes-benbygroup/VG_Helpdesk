@@ -384,6 +384,15 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected global::System.Web.UI.WebControls.HiddenField hfMdTicketHeaderId;
 
         /// <summary>
+        /// hfMdTicketDateGiven3rdParty control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfMdTicketDateGiven3rdParty;
+
+        /// <summary>
         /// txtCreatedBy control.
         /// </summary>
         /// <remarks>

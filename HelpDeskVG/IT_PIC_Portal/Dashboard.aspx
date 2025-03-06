@@ -92,11 +92,6 @@
                 }
             }
 
-            // Save modal state when opened
-            //document.getElementById("addNatureOfProb").addEventListener("shown.bs.modal", function () {
-            //    localStorage.setItem("modalOpen", "true");
-            //});
-
             // Listen for tab changes and update localStorage
             document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {
                 tab.addEventListener("shown.bs.tab", function (event) {
@@ -163,12 +158,73 @@
             var dategivento3rdpt = document.getElementById('<%= txtCalendarGivenTo.ClientID%>').value;
 
             if (thirdptname === "" || dategivento3rdpt === "") {
-                alert("Please fill up the field that is Required.");
+                alert("Please fill up the required fields.");
                 return false;
             }
 
-            return confirm("Do you want to proceed Updating it with 3rd Party?");
+            // Check if the date is in the future
+            var selectedDate = new Date(dategivento3rdpt);
+            var today = new Date();
+            today.setHours(0, 0, 0, 0); // Remove time portion for accurate comparison
+
+            if (selectedDate > today) {
+                alert("Future dates are not allowed. Please select a valid date.");
+                return false;
+            }
+
+            return confirm("Do you want to proceed Updating this with 3rd Party?");
         }
+
+        function CheckDateIfFuture(txtinput) {
+            var _input = document.getElementById(txtinput);
+            var _num = _input.value;
+
+
+            var _newNum = new Date(_num);
+            var _dateNow = new Date();
+
+            var _dateNowNew = new Date();
+            var _getDateNow;
+            if (_dateNowNew.getMonth() < 10 && _dateNowNew.getDate() < 10) {
+                _getDateNow = _dateNowNew.getFullYear() + '-' + '0' + (_dateNowNew.getMonth() + 1) + '-' + '0' + _dateNowNew.getDate();
+            }
+            else if (_dateNowNew.getMonth() < 10 && _dateNowNew.getDate() >= 10) {
+                _getDateNow = _dateNowNew.getFullYear() + '-' + '0' + (_dateNowNew.getMonth() + 1) + '-' + _dateNowNew.getDate();
+            }
+
+            if (_newNum > _dateNow) {
+                alert("Select Future Date is not allowed.");
+                _input.value = _getDateNow;
+                return false;
+            }
+            return false;
+        }
+
+        function CheckDateIfPast(txtinput) {
+            var _input = document.getElementById(txtinput);
+            var _num = _input.value;
+
+
+            var _newNum = new Date(_num);
+            var _dateNow = new Date();
+
+            var _dateNowNew = new Date();
+            var _getDateNow;
+            if (_dateNowNew.getMonth() < 10 && _dateNowNew.getDate() < 10) {
+                _getDateNow = _dateNowNew.getFullYear() + '-' + '0' + (_dateNowNew.getMonth() + 1) + '-' + '0' + _dateNowNew.getDate();
+            }
+            else if (_dateNowNew.getMonth() < 10 && _dateNowNew.getDate() >= 10) {
+                _getDateNow = _dateNowNew.getFullYear() + '-' + '0' + (_dateNowNew.getMonth() + 1) + '-' + _dateNowNew.getDate();
+            }
+
+            if (_newNum < _dateNow) {
+                alert("Select Future Date is not allowed.");
+                _input.value = _getDateNow;
+                return false;
+            }
+            return false;
+        }
+
 
         function validateRejectSolution(){
               var remarks = document.getElementById('<%= txtRejectRemarks.ClientID%>').value;
@@ -208,7 +264,7 @@
                         <asp:TextBox ID="txtSearchTicket" CssClass="form-control text text-reset mt-2" Placeholder="Search Ticket Code.." runat="server"></asp:TextBox>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary">Filter Created By:</asp:Label>
+                        <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary mb-2">Filter Created By:</asp:Label>
                         <asp:DropDownList ID="ddlEmployeeVg" CssClass="custom-select text text-reset mt-2" runat="server">
                         </asp:DropDownList>
                     </div>
@@ -546,7 +602,6 @@
                                 <asp:BoundField DataField="created_at" HeaderText="Created At" />
                                 <asp:BoundField DataField="created_for" HeaderText="Created By" />
                                 <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
-
                                     <asp:TemplateField HeaderText="Actions">
                                         <ItemTemplate>
                                             <asp:HiddenField ID="hfTicketHeaderIdAcceptedTicket" runat="server" Value='<%# Eval("ticket_id")%>' />
@@ -573,7 +628,7 @@
                                         <asp:BoundField DataField="description_category" HeaderText="Category" />
                                         <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                         <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                        <asp:BoundField DataField="created_for" HeaderText="Created By" />
+                                        <asp:BoundField DataField="created_for" HeaderText="Ticket Owner" />
                                         <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                         <asp:TemplateField HeaderText="Actions">
                                             <ItemTemplate>
@@ -633,6 +688,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <asp:HiddenField ID="hfMdTicketHeaderId" runat="server" />
+                <asp:HiddenField ID="hfMdTicketDateGiven3rdParty" runat="server" />
                 <div class="modal-body">
                     <div class="col-md-12">
                         <div class="row">
@@ -739,69 +795,68 @@
                     </div>
                 </div>
 
-                <div class="modal-footer ">
-                    <div class="col-md-12">
-                        <div class="col-md-12 modal-footer d-block">
-                            <div class="row d-flex flex-wrap gap-2" id="buttonContainer">
-                                <div >
-                                    <div class="col-md-12 ">
-                                        <asp:LinkButton ID="lnkAcceptTicket" runat="server" CssClass="btn btn-success" OnClick="lnkAcceptTicket_Click">
+                <div class="col-md-12 modal-footer d-block">
+                    <div class="row d-flex flex-wrap gap-2">
+                        <div class="d-grid gap-2 d-md-flex">
+                            <div class="col-md-12">
+                                <asp:LinkButton ID="lnkAcceptTicket" runat="server" CssClass="btn btn-success w-100" OnClick="lnkAcceptTicket_Click">
                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>                               
                                 Accept Ticket
-                                        </asp:LinkButton>
-                                    </div>
-                                </div>
-                                <div >
-                                    <div class="col-md-12 ">
-                                        <asp:LinkButton ID="lnkRejectTicketUser" runat="server" CssClass="btn btn-danger" OnClick="lnkRejectTicketUser_Click">
+                                </asp:LinkButton>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex">
+                            <div class="col-md-12">
+                                <asp:LinkButton ID="lnkRejectTicketUser" runat="server" CssClass="btn btn-danger w-100" OnClick="lnkRejectTicketUser_Click">
                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                                         Reject Ticket
-                                        </asp:LinkButton>
-                                    </div>
-                                </div>
-                                <div >
-                                    <div class="col-md-12 ">
-                                        <asp:LinkButton ID="lnkAcceptWithThirdParty" CssClass="btn btn-success" OnClick="lnkAcceptWithThirdParty_Click" runat="server">
-                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4c.96 0 1.84 .338 2.53 .901" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
+                                </asp:LinkButton>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex">
+                            <div class="col-md-12">
+                                <asp:LinkButton ID="lnkAcceptWithThirdParty" CssClass="btn btn-success w-100" OnClick="lnkAcceptWithThirdParty_Click" runat="server">
+                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  
+                                            stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users-plus">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                            <path d="M3 21v-2a4 4 0 0 1 4 -4h4c.96 0 1.84 .338 2.53 .901" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M16 19h6" />
+                                            <path d="M19 16v6" /></svg>
                                             Accept w/ 3rd Party
-                                        </asp:LinkButton>
-                                    </div>
-                                </div>
-                                <div >
-                                    <div class="col-md-12 ">
-
-                                        <div class="d-flex justify-content-end gap-1">
-                                            <asp:LinkButton ID="lnkEditDetails" runat="server" CssClass="btn btn-primary" OnClick="lnkEditDetails_Click" OnClientClick="return validateForm();">
+                                </asp:LinkButton>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex">
+                            <div class="col-md-12">
+                                <asp:LinkButton ID="lnkEditDetails" runat="server" CssClass="btn btn-primary w-100" OnClick="lnkEditDetails_Click" OnClientClick="return validateForm();">
                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
                                                 Save Edited Details
-                                            </asp:LinkButton>
-                                        </div>
-                                    </div>
-                                    <div >
-                                        <div class="col-md-12 ">
-                                            <asp:LinkButton ID="lnkTagThisToThirdParty" runat="server" CssClass="btn btn-success w-50" OnClick="lnkTagThisToThirdParty_Click">
+                                </asp:LinkButton>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex">
+                            <div class="col-md-12">
+                                <asp:LinkButton ID="lnkTagThisToThirdParty" runat="server" CssClass="btn btn-success w-100" OnClick="lnkTagThisToThirdParty_Click">
                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4c.96 0 1.84 .338 2.53 .901" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
                                                 Update Tag to Third Party
-                                            </asp:LinkButton>
-                                        </div>
-                                    </div>
-                                    <div >
-                                        <div class="col-md-12 ">
-                                            <asp:LinkButton ID="lnkSaveReceivedDate" runat="server" CssClass="btn btn-azure" OnClick="lnkSaveReceivedDate_Click">
+                                </asp:LinkButton>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex">
+                            <div class="col-md-12">
+                                <asp:LinkButton ID="lnkSaveReceivedDate" runat="server" CssClass="btn btn-azure w-100" OnClick="lnkSaveReceivedDate_Click">
                                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-navigation-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16.573 12.914l-4.573 -9.914l-7.97 17.275c-.07 .2 -.017 .424 .135 .572c.15 .148 .374 .193 .57 .116l7.265 -2.463" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
                                                 Save 3rd Party Received
-                                            </asp:LinkButton>
-                                        </div>
-                                    </div>
-                                    <div >
-                                        <div class="col-md-12 ">
-                                            <asp:LinkButton ID="lnkProposedTicketResolution" runat="server" CssClass="btn btn-info" OnClick="lnkProposedTicketResolution_Click">
+                                </asp:LinkButton>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex">
+                            <div class="col-md-12">
+                                <asp:LinkButton ID="lnkProposedTicketResolution" runat="server" CssClass="btn btn-info w-100" OnClick="lnkProposedTicketResolution_Click">
                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>                               
                                                 Save as Resolved
-                                            </asp:LinkButton>
-                                        </div>
-                                    </div>
-                                </div>
+                                </asp:LinkButton>
                             </div>
                         </div>
                     </div>
@@ -809,6 +864,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdITPICAcceptTicket3rdParty">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -820,8 +876,8 @@
                 <div class="modal-body">
                     <asp:Label ID="lblThirdPtName" runat="server" Text="Third Party Name" Placeholder="Insert 3rd Party Name" CssClass="form-label status status-primary required"></asp:Label>
                     <asp:TextBox ID="txt3rdPartyName" runat="server" CssClass="form-control text-area text-reset mt-2"></asp:TextBox>
-                    <asp:Label ID="lblCalender3rdPt" runat="server" Text="Given Date" CssClass="form-label status status-primary required mt-2"></asp:Label>
-                    <asp:TextBox ID="txtCalendarGivenTo" CssClass="form-control mt-2" TextMode="Date" placeholder="Select a date" runat="server"></asp:TextBox>
+                    <asp:Label ID="lblCalender3rdPt" runat="server" Text="Given Date to 3rd Party" CssClass="form-label status status-primary required mt-2"></asp:Label>
+                    <asp:TextBox ID="txtCalendarGivenTo" CssClass="form-control mt-2" TextMode="Date" onchange="javascript:CheckDateIfFuture(this.id);" placeholder="Select a date" runat="server"></asp:TextBox>
 
                     <div class="modal-footer">
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
@@ -841,7 +897,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <asp:Label ID="Label12" runat="server" Text="Received Date" CssClass="form-label status status-primary required mt-2"></asp:Label>
+                    <asp:Label ID="Label12" runat="server" Text="Received Date from 3rd Party" CssClass="form-label status status-primary required mb-2 mt-2"></asp:Label>
                     <asp:TextBox ID="txt3rdPtReceivedDate" runat="server" CssClass="form-control text-reset mt-2" TextMode="Date" Placeholder="Select a Date"></asp:TextBox>
                     <div class="modal-footer">
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>

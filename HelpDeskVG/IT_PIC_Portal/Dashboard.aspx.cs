@@ -635,7 +635,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptedTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.[subject], a.is_with_third_party, a.created_for ,a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.description AS descriptionreport, g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.[subject], a.is_with_third_party, a.created_for, a.third_party_date_given ,a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.description AS descriptionreport, g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -643,7 +643,6 @@ namespace HelpDeskVG.IT_PIC_Portal
                     LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_for
                     LEFT JOIN t_AttachmentReport AS g ON a.ticket_id  =  g.ticket_header_id
 					LEFT JOIN m_Priority AS h ON h.priority_id = a.priority_id
-
                     WHERE a.approval_transactional_level = '4' AND a.[assigned_emp_no] =" + Session["EmployeeNo"].ToString() + " AND a.ticket_id =" +hfTicketHeaderId.Value.ToString();
 
 
@@ -662,6 +661,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
                     txtAttachmentDescriptionMd.Text = dt.Rows[0]["descriptionreport"].ToString();
                     string iswithThirdParty = dt.Rows[0]["is_with_third_party"].ToString();
+                    hfMdTicketDateGiven3rdParty.Value = dt.Rows[0]["third_party_date_given"].ToString();
 
                     try
                     {
