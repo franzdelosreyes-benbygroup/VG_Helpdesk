@@ -424,6 +424,13 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                     </Columns>
+                                    <PagerTemplate>
+                                        <div class="card">
+                                            <div class="pagination m-0 ms-auto">
+
+                                            </div>
+                                        </div>
+                                    </PagerTemplate>
                                 </asp:GridView>
                             </div>
                         </div>

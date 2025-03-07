@@ -143,12 +143,12 @@ namespace HelpDeskVG.Classes
             string script = $"toastr.{type}('{message}');";
             ScriptManager.RegisterStartupScript(page, page.GetType(), "toastr", script, true);
         }
-        public static void callWaitScreen(Page Child)
+        public static void CallLoadScreen(Page Child)
         {
             ScriptManager.RegisterClientScriptBlock(Child, typeof(Page), "alert", "$('#waitscreen').modal({ backdrop: 'static' });", true);
 
         }
-        public static void callModal(string modal_id, Page Child)
+        public static void CloseLoadScreen(string modal_id, Page Child)
         {
             ScriptManager.RegisterClientScriptBlock(Child, typeof(Page), "alert", "$('#" + modal_id + "').modal({ backdrop: 'static' });", true);
 

@@ -542,17 +542,18 @@
                             <asp:GridView ID="gvMyTicketRejectedByAdmin" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketRejectedByAdmin_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
-                                    <asp:BoundField DataField="description" HeaderText="Description" />
+                                    <asp:BoundField DataField="status" HeaderText="Status" />
+                                    <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                    <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                    <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                     <asp:BoundField DataField="admin_recent_reject_remarks" HeaderText="Admin Reject Remarks" />
                                     <asp:BoundField DataField="admin_rejector" HeaderText="Admin Disapprover" />
-                                    <asp:BoundField DataField="itpic_recent_reject_remarks" HeaderText="IT PIC Reject Remarks" />
-                                    <asp:BoundField DataField="itpic_rejector" HeaderText="IT PIC Disapprover" />
                                     <asp:BoundField DataField="created_at" HeaderText="Rejected At" />
                                     <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                     <asp:TemplateField HeaderText="Actions">
                                         <ItemTemplate>
                                             <asp:HiddenField ID="hfTicketHeaderIdRejectedList" runat="server" Value='<%#Eval("ticket_id") %>' />
-                                            <asp:LinkButton ID="lnkMyTicketRejectedTicketList" OnClick="lnkMyTicketRejectedTicketList_Click" CssClass="btn btn-info w-50" runat="server">
+                                            <asp:LinkButton ID="lnkMyTicketRejectedTicketList" OnClick="lnkMyTicketRejectedTicketList_Click" CssClass="btn btn-info" runat="server">
                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                       View Details</asp:LinkButton>
                                         </ItemTemplate>
