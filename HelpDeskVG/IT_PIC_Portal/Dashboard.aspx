@@ -153,7 +153,21 @@
             return confirm("Do you want to reject ticket?");
         }
 
-        function validateUpdateWith3rdPt() {
+        function validateReceivedDateWith3rdPt() {
+            var thirdptgiven = document.getElementById('<%= hfMdTicketDateGiven3rdParty.ClientID %>').value;
+            var datereceivedto3rdpt = document.getElementById('<%= txt3rdPtReceivedDate.ClientID%>').value;
+
+            if (datereceivedto3rdpt < thirdptgiven) {
+                alert("The received date cannot be earlier than the date given.");
+                document.getElementById('<%= txt3rdPtReceivedDate.ClientID%>').value = "";
+                return false;
+            }
+
+            return confirm("Do you want to proceed?");
+        }
+
+        function CheckDateIfFutureGiven3rdPt(txtinput) {
+
             var thirdptname = document.getElementById('<%= txt3rdPartyName.ClientID%>').value;
             var dategivento3rdpt = document.getElementById('<%= txtCalendarGivenTo.ClientID%>').value;
 
@@ -162,20 +176,6 @@
                 return false;
             }
 
-            // Check if the date is in the future
-            var selectedDate = new Date(dategivento3rdpt);
-            var today = new Date();
-            today.setHours(0, 0, 0, 0); // Remove time portion for accurate comparison
-
-            if (selectedDate > today) {
-                alert("Future dates are not allowed. Please select a valid date.");
-                return false;
-            }
-
-            return confirm("Do you want to proceed Updating this with 3rd Party?");
-        }
-
-        function CheckDateIfFuture(txtinput) {
             var _input = document.getElementById(txtinput);
             var _num = _input.value;
 
@@ -194,37 +194,11 @@
 
             if (_newNum > _dateNow) {
                 alert("Select Future Date is not allowed.");
-                _input.value = _getDateNow;
+                _input.value = "";
                 return false;
             }
             return false;
         }
-
-        function CheckDateIfPast(txtinput) {
-            var _input = document.getElementById(txtinput);
-            var _num = _input.value;
-
-
-            var _newNum = new Date(_num);
-            var _dateNow = new Date();
-
-            var _dateNowNew = new Date();
-            var _getDateNow;
-            if (_dateNowNew.getMonth() < 10 && _dateNowNew.getDate() < 10) {
-                _getDateNow = _dateNowNew.getFullYear() + '-' + '0' + (_dateNowNew.getMonth() + 1) + '-' + '0' + _dateNowNew.getDate();
-            }
-            else if (_dateNowNew.getMonth() < 10 && _dateNowNew.getDate() >= 10) {
-                _getDateNow = _dateNowNew.getFullYear() + '-' + '0' + (_dateNowNew.getMonth() + 1) + '-' + _dateNowNew.getDate();
-            }
-
-            if (_newNum < _dateNow) {
-                alert("Select Future Date is not allowed.");
-                _input.value = _getDateNow;
-                return false;
-            }
-            return false;
-        }
-
 
         function validateRejectSolution(){
               var remarks = document.getElementById('<%= txtRejectRemarks.ClientID%>').value;
@@ -595,8 +569,8 @@
                                 <Columns>
                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                 <asp:BoundField DataField="third_party_name" HeaderText="Third Party" />
-                                <asp:BoundField DataField="third_party_date_given" HeaderText="Given Date to 3rd Party" />
-                                <asp:BoundField DataField="third_party_date_received" HeaderText="Date Received 3rd Party" />
+                                <asp:BoundField DataField="third_party_date_given" HeaderText="Given Date to 3rd Party" DataFormatString="{0:MM/dd/yyyy}" HtmlEncode="false" />  
+                                <asp:BoundField DataField="third_party_date_received" HeaderText="Date Received 3rd Party" DataFormatString="{0:MM/dd/yyyy}" HtmlEncode="false" />  
                                 <asp:BoundField DataField="description_section" HeaderText="Section" />
                                 <asp:BoundField DataField="description_category" HeaderText="Category" />
                                 <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
@@ -605,6 +579,7 @@
                                 <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                     <asp:TemplateField HeaderText="Actions">
                                         <ItemTemplate>
+                                            <asp:HiddenField ID="hfThirdPtDateGiven" runat="server" Value='<%# Eval("third_party_date_given")%>' />
                                             <asp:HiddenField ID="hfTicketHeaderIdAcceptedTicket" runat="server" Value='<%# Eval("ticket_id")%>' />
                                             <asp:LinkButton ID="lnkAcceptedTicketDetails" OnClick="lnkAcceptedTicketDetails_Click" CssClass="btn btn-info" runat="server">
                                              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
@@ -878,12 +853,18 @@
                     <asp:Label ID="lblThirdPtName" runat="server" Text="Third Party Name" Placeholder="Insert 3rd Party Name" CssClass="form-label status status-primary required"></asp:Label>
                     <asp:TextBox ID="txt3rdPartyName" runat="server" CssClass="form-control text-area text-reset mt-2"></asp:TextBox>
                     <asp:Label ID="lblCalender3rdPt" runat="server" Text="Given Date to 3rd Party" CssClass="form-label status status-primary required mt-2"></asp:Label>
-                    <asp:TextBox ID="txtCalendarGivenTo" CssClass="form-control mt-2" TextMode="Date" onchange="javascript:CheckDateIfFuture(this.id);" placeholder="Select a date" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="txtCalendarGivenTo" CssClass="form-control mt-2" TextMode="Date" onchange="javascript:CheckDateIfFutureGiven3rdPt(this.id);" placeholder="Select a date" runat="server"></asp:TextBox>
+                    <script type="text/javascript">
+                        // Automatically set the maximum date to today
+                        var txtBox = document.getElementById('<%= txtCalendarGivenTo.ClientID %>');
+                        var today = new Date().toISOString().split('T')[0];
+                        txtBox.max = today;
+                    </script>
 
                     <div class="modal-footer">
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                        <asp:LinkButton ID="lnkAcceptThirdPartMd" runat="server" OnClick="lnkAcceptThirdPartMd_Click" OnClientClick="return validateUpdateWith3rdPt();" CssClass="btn btn-success">Accept Ticket</asp:LinkButton>
-                        <asp:LinkButton ID="lnkUpdateToThirdPartyMd" runat="server" OnClick="lnkUpdateToThirdPartyMd_Click" OnClientClick="return validateUpdateWith3rdPt();" CssClass="btn btn-success">Update Tag to Third Party</asp:LinkButton>
+                        <asp:LinkButton ID="lnkAcceptThirdPartMd" runat="server" OnClick="lnkAcceptThirdPartMd_Click" OnClientClick="return CheckDateIfFutureGiven3rdPt();" CssClass="btn btn-success">Accept Ticket</asp:LinkButton>
+                        <asp:LinkButton ID="lnkUpdateToThirdPartyMd" runat="server" OnClick="lnkUpdateToThirdPartyMd_Click" OnClientClick="return CheckDateIfFutureGiven3rdPt();" CssClass="btn btn-success">Update Tag to Third Party</asp:LinkButton>
                     </div>
                 </div>
             </div>
@@ -899,7 +880,8 @@
                 </div>
                 <div class="modal-body">
                     <asp:Label ID="Label12" runat="server" Text="Received Date from 3rd Party" CssClass="form-label status status-primary required mb-2 mt-2"></asp:Label>
-                    <asp:TextBox ID="txt3rdPtReceivedDate" runat="server" CssClass="form-control text-reset mt-2" TextMode="Date" Placeholder="Select a Date"></asp:TextBox>
+                    <asp:TextBox ID="txt3rdPtReceivedDate" runat="server" CssClass="form-control text-reset mt-2" TextMode="Date" Placeholder="Select a Date"></asp:TextBox>   
+                    
                     <div class="modal-footer">
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
                         <asp:LinkButton ID="lnkSaveDateReceived3rdPt" runat="server" OnClick="lnkSaveDateReceived3rdPt_Click" OnClientClick="return validateReceivedDateWith3rdPt();" CssClass="btn btn-success">Save Received Ticket</asp:LinkButton>
@@ -959,19 +941,6 @@
                             </div>
                         </div>
                     </div>
-                    <asp:GridView ID="gvHDUploadedAttachment" runat="server" AutoGenerateColumns="false" CssClass="table table-vcenter table-hover text-nowrap">
-                        <Columns>
-                            <asp:BoundField DataField="file_name" runat="server" HeaderText="File Name" />
-                            <asp:TemplateField HeaderText="Actions">
-                                <ItemTemplate>
-<%--                                    <asp:LinkButton ID="lnkDeleteAttachment" OnClick="lnkDeleteAttachment_Click" runat="server"><i class="ti ti-pencil">Edit</i></asp:LinkButton>--%>
-                              </ItemTemplate>
-                            </asp:TemplateField>
-                        </Columns>
-                        <EmptyDataTemplate>
-                            No Data Found
-                        </EmptyDataTemplate>
-                    </asp:GridView>
 
                     <div class="modal-footer">
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>

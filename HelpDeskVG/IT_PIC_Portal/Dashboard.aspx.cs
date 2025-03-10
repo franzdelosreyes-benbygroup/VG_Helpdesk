@@ -154,7 +154,6 @@ namespace HelpDeskVG.IT_PIC_Portal
             gvITPICAcceptedTickets.DataSource = dt;
             gvITPICAcceptedTickets.DataBind();
             lblAcceptedTicketCount.Text = dt.Rows.Count.ToString();
-
             gvITPICAcceptedTickets.Dispose();
         }
 
@@ -419,9 +418,10 @@ namespace HelpDeskVG.IT_PIC_Portal
                             gvDownloadableAttachment.DataSource = dtAttachment;
                             gvDownloadableAttachment.DataBind();
 
-                    //lnkSaveReceivedDate.Visible = false;
-                    //lnkProposedTicketResolution.Visible = false;
-                    //lnkTagThisToThirdParty.Visible = false;
+                            //lnkSaveReceivedDate.Visible = false;
+                            //lnkProposedTicketResolution.Visible = false;
+                            //lnkTagThisToThirdParty.Visible = false;
+                            lnkSaveReceivedDate.Visible = false;
                             ddlPriorityMd.Enabled = false;
                             ddlSectionMd.Enabled = false;
                             txtAttachmentDescriptionMd.Enabled = false;
@@ -622,6 +622,9 @@ namespace HelpDeskVG.IT_PIC_Portal
             DisplayRejectedSolution();
 
             clsUtil.ShowToastr(this.Page, "Successfully Accepted the Ticket", "success");
+
+            txt3rdPartyName.Text = "";
+            txtCalendarGivenTo.Text = "";
         }
 
         protected void lnkAcceptedTicketDetails_Click(object sender, EventArgs e)
@@ -635,7 +638,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptedTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.[subject], a.is_with_third_party, a.created_for, a.third_party_date_given ,a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.description AS descriptionreport, g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.[subject], a.is_with_third_party, a.created_for, CONVERT(varchar, a.third_party_date_given, 120) AS third_party_date_given ,a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.description AS descriptionreport, g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -817,7 +820,6 @@ namespace HelpDeskVG.IT_PIC_Portal
                             con.Close();
                         }
                         //gvHDUploadedAttachment.DataBind();
-
                     }
                 }
             }
@@ -937,25 +939,31 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             string ticketHeaderId = hfMdTicketHeaderId.Value.ToString();
 
-                    if (fuUploadAttachment.HasFile)
-                    {
-                        insertProposedSolutionAttachment();
-                        insertDetailsProposed();
-                    }
-                    else
-                    {
-                        insertDetailsProposed();
-                    }
+            if (fuUploadAttachment.HasFile)
+            {
+                insertProposedSolutionAttachment();
+                insertDetailsProposed();
 
-                    DisplayAcceptOrRejectTicket();
-                    DisplayAcceptedTicket();
-                    DisplayRejectedTicket();
-                    DisplayRejectedSolution();
-                    DisplayMyTickets();
-                    DisplayPendingApprovalResolved();
-                    DisplayRejectedTicketsByAdmin();
+                txtRemarksProposedSolution.Text = "";
+                txtAttachmentDescription.Text = "";
 
-                    clsUtil.ShowToastr(this.Page, "Successfully Saved as Resolved Ticket", "success");
+            }
+            else
+            {
+                insertDetailsProposed();
+                txtRemarksProposedSolution.Text = "";
+                txtAttachmentDescription.Text = "";
+            }
+
+            DisplayAcceptOrRejectTicket();
+            DisplayAcceptedTicket();
+            DisplayRejectedTicket();
+            DisplayRejectedSolution();
+            DisplayMyTickets();
+            DisplayPendingApprovalResolved();
+            DisplayRejectedTicketsByAdmin();
+
+            clsUtil.ShowToastr(this.Page, "Successfully Saved as Resolved Ticket", "success");
         }
 
 
@@ -1456,7 +1464,10 @@ namespace HelpDeskVG.IT_PIC_Portal
             DisplayRejectedTicket();
             DisplayRejectedSolution();
 
-            clsUtil.ShowToastr(this.Page, "Successfully Accepted the Ticket", "success");
+            clsUtil.ShowToastr(this.Page, "Successfully Updated the Ticket", "success");
+
+            txt3rdPartyName.Text = "";
+            txtCalendarGivenTo.Text = "";
         }
 
         protected void lnkDeleteDraft_Click(object sender, EventArgs e)
@@ -2056,6 +2067,8 @@ namespace HelpDeskVG.IT_PIC_Portal
             DisplayRejectedTicketsByAdmin();
 
             clsUtil.ShowToastr(this.Page, "Successfully Accepted the Ticket", "success");
+
+            txt3rdPtReceivedDate.Text = "";
         }
 
         protected void lnkSaveReceivedDate_Click(object sender, EventArgs e)

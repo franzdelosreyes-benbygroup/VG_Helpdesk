@@ -823,6 +823,7 @@ namespace HelpDeskVG
 
             clsUtil.ShowToastr(this.Page, "Successfully Assigned IT PIC for the Ticket", "success");
 
+            ddlMdEmployeeITPIC.SelectedValue = "";
         }
 
         protected void lnkMdRejectTicketAdminToUser_Click(object sender, EventArgs e)
