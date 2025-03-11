@@ -845,19 +845,19 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             string ticketHeader = hfTicketHeaderUserReject.Value.ToString();
 
-            if (fuUploadAttachment.HasFile == false)
+            if (fuUploadAttachmentAgain.HasFile == false)
             {
                 clsUtil.ShowToastr(this.Page, "Please Select a File!", "error");
                 return;
             }
-            int iFileSize = fuUploadAttachment.PostedFile.ContentLength;
+            int iFileSize = fuUploadAttachmentAgain.PostedFile.ContentLength;
 
             if (iFileSize > 5048576)
             {
                 clsUtil.ShowToastr(this.Page, "The file uploaded is less than 5mb, Please Upload again!", "warning");
             }
 
-            using (Stream fs = fuUploadAttachment.PostedFile.InputStream)
+            using (Stream fs = fuUploadAttachmentAgain.PostedFile.InputStream)
             {
                 using (BinaryReader br = new BinaryReader(fs))
                 {
@@ -870,8 +870,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                         string query = "insert into t_ProposedAttachment(ticket_header_id,file_name,description,content_type,data,uploaded_by,created_at) values (@HDheaderId ,@FileName,@Description,@FileContentType,@FileBin,@Uploaded_By,CURRENT_TIMESTAMP)";
                         using (SqlCommand cmd = new SqlCommand(query))
                         {
-                            string filename = fuUploadAttachment.PostedFile.FileName.Replace(",", "");
-                            string contentType = fuUploadAttachment.PostedFile.ContentType;
+                            string filename = fuUploadAttachmentAgain.PostedFile.FileName.Replace(",", "");
+                            string contentType = fuUploadAttachmentAgain.PostedFile.ContentType;
 
                             cmd.Connection = con;
                             cmd.Parameters.AddWithValue("@FileName", filename);
@@ -1076,6 +1076,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             txtRejectProposedRemarks.Text = dt.Rows[0]["user_recent_rejected_solution_remarks"].ToString();
             txtAttachmentRejectDesc.Text = dt.Rows[0]["description_attachment"].ToString();
 
+
             txtRejectProposedRemarks.Enabled = false;
             txtAttachmentRejectDesc.Enabled = false;
 
@@ -1083,7 +1084,7 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             string ticketHeader = hfTicketHeaderUserReject.Value.ToString();
 
-            sql = "EXEC sp_vgHelpDesk_User_GetProposedAttachmentDetails ";
+            sql = "EXEC sp_vgHelpDesk_ITPIC_GetRejectedAttachmentDetails ";
             sql += "@TicketHeaderId ='" + ticketHeader + "'";
 
             clsQueries.executeQuery(sql);
@@ -1205,10 +1206,14 @@ namespace HelpDeskVG.IT_PIC_Portal
             {
                 insertProposedSolutionAttachmentAgain();
                 insertDetailsProposedAgain();
+
+                txtRemarksProposedSolutionAgain.Text = "";
+                txtAttachmentDescriptionAgain.Text = "";
             }
             else
             {
                 insertDetailsProposedAgain();
+                txtAttachmentDescriptionAgain.Text = "";
             }
 
             DisplayAcceptOrRejectTicket();
@@ -1241,7 +1246,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_for
                     LEFT JOIN t_AttachmentReport AS g ON a.ticket_id  =  g.ticket_header_id
 					LEFT JOIN m_Priority AS h ON h.priority_id = a.priority_id
-					WHERE a.approval_transactional_level IN ('0','1','2','3','4','5', '8', '9') AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND ticket_id=" + hfMyTicketITPIC.Value.ToString();
+					WHERE a.approval_transactional_level IN ('0','1','2','3','4','5','6','7','8','9') AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND ticket_id=" + hfMyTicketITPIC.Value.ToString();
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -1308,7 +1313,13 @@ namespace HelpDeskVG.IT_PIC_Portal
                         lnkEditDetails.Visible = true;
                     }
 
+                    else if(approvalLevel == "6")
+                    {
 
+                        lnkEditDetails.Visible = false;
+                        clsUtil.ShowToastr(this.Page, "Check Pending List of Resolved Ticket to Accept the Proposed Solution!", "info");       
+                    }
+     
                     else
                     {
                         fuUploadAttachmentInEdit.Visible = false;
@@ -1921,13 +1932,16 @@ namespace HelpDeskVG.IT_PIC_Portal
                 DisplayMyTickets();
                 DisplayPendingApprovalResolved();
                 DisplayRejectedTicketsByAdmin();
+
+                txtRejectRemarks.Text = "";
+                txtAttachmentDescReject.Text = "";
             }
 
             else
             {
                 string sql = "";
                 sql = "EXEC sp_vgHelpDesk_User_RejectResolvedTicket ";
-                sql += "@Ticket_Header_Id='" + ticketHeaderId + "'";
+                sql += "@Ticket_Header_Id='" + ticketHeaderId + "',";
                 sql += "@UserRejectSolutionRemarks='" + clsUtil.replaceQuote(txtRejectRemarks.Text) + "',";
                 sql += "@Transacted_By='" + Session["EmployeeNo"].ToString() + "'";
 
@@ -1940,6 +1954,9 @@ namespace HelpDeskVG.IT_PIC_Portal
                 DisplayMyTickets();
                 DisplayPendingApprovalResolved();
                 DisplayRejectedTicketsByAdmin();
+
+                txtRejectRemarks.Text = "";
+                txtAttachmentDescReject.Text = "";
             }
         }
 
@@ -2116,6 +2133,42 @@ namespace HelpDeskVG.IT_PIC_Portal
         {
             gvRejectedSolution.PageIndex = e.NewPageIndex;
             DisplayRejectedSolution();
+        }
+
+        protected void lnkDownloadFileRejectAttachment_Click(object sender, EventArgs e)
+        {
+            string attachment_id = (sender as LinkButton).CommandArgument.ToString();
+            byte[] bytes;
+            string file_name, content_type;
+            string constr = ConfigurationManager.ConnectionStrings["con_VG_Helpdesk"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandText = "SELECT [data], content_type, file_name FROM t_AttachmentReport WHERE attachment_id=@attachment_id";
+                    cmd.Parameters.AddWithValue("@attachment_id", attachment_id);
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        sdr.Read();
+                        bytes = (byte[])sdr["data"];
+                        content_type = sdr["content_type"].ToString();
+                        file_name = sdr["file_name"].ToString();
+                    }
+                    con.Close();
+                }
+            }
+
+            Response.Clear();
+            Response.Buffer = true;
+            Response.Charset = "";
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.ContentType = content_type;
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + file_name);
+            Response.BinaryWrite(bytes);
+            Response.Flush();
+            Response.End();
         }
     }
 }

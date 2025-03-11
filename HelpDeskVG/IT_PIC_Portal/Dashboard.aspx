@@ -130,11 +130,9 @@
         }
 
         function validateResolveAgainForm() {
-            var uploadFile = document.getElementById('<%= fuUploadAttachmentAgain.ClientID%>').value;
                 var remarks = document.getElementById('<%= txtRemarksProposedSolutionAgain.ClientID%>').value;
-                var description = document.getElementById('<%= txtAttachmentDescriptionAgain.ClientID%>').value;
 
-                if (uploadFile === "" || remarks === "" || description === "") {
+                if (remarks === "") {
                     alert("Please fill up the field that is Required.");
                     return false;
                 }
@@ -157,7 +155,15 @@
             var thirdptgiven = document.getElementById('<%= hfMdTicketDateGiven3rdParty.ClientID %>').value;
             var datereceivedto3rdpt = document.getElementById('<%= txt3rdPtReceivedDate.ClientID%>').value;
 
-            if (datereceivedto3rdpt < thirdptgiven) {
+            var date = new Date(datereceivedto3rdpt);
+            date.setHours(23, 59, 0, 0); // Set end of the day to avoid timezone issues
+            var receivedformattedDate = date.toISOString().slice(0, 16).replace('T', ' ');
+
+            var givenDate = new Date(thirdptgiven);
+            givenDate.setHours(23, 59, 0, 0);
+            var givenformattedDate = givenDate.toISOString().slice(0, 16).replace('T', ' ');
+
+            if (receivedformattedDate < givenformattedDate) {
                 alert("The received date cannot be earlier than the date given.");
                 document.getElementById('<%= txt3rdPtReceivedDate.ClientID%>').value = "";
                 return false;
@@ -165,6 +171,7 @@
 
             return confirm("Do you want to proceed?");
         }
+
 
         function CheckDateIfFutureGiven3rdPt(txtinput) {
 
@@ -200,16 +207,14 @@
             return false;
         }
 
-        function validateRejectSolution(){
-              var remarks = document.getElementById('<%= txtRejectRemarks.ClientID%>').value;
-              var attachmentdesc = document.getElementById('<%= txtAttachmentDescReject.ClientID%>').value;
-              var file = document.getElementById('<%= fuUploadAttachmentReject.ClientID%>').value;
+        function validateRejectSolution() {
+            var remarks = document.getElementById('<%= txtRejectRemarks.ClientID%>').value;
 
-              if (remarks === "" || attachmentdesc === "" || file === "") {
-                  alert("Please fill up the field that is Required.");
-                  return false;
-              }
-           return confirm("Do you want to proceed?");
+            if (remarks === "") {
+                alert("Please fill up the field that is Required.");
+                return false;
+            }
+            return confirm("Do you want to proceed?");
         }
 
         $(document).ready(function () {
@@ -450,7 +455,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active show" id="myCreatedTicket" role="tabpanel">
                         <asp:Label ID="lblMyCreatedTicket" runat="server" CssClass="h4" Text="Ny Created Tickets"></asp:Label>
-                        <div class="table-nowrap table-responsive">
+                        <div class="table-responsive">
                             <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketList_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
@@ -630,6 +635,7 @@
                                         <asp:BoundField DataField="description_section" HeaderText="Section" />
                                         <asp:BoundField DataField="description_category" HeaderText="Category" />
                                         <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                        <asp:BoundField DataField="user_recent_rejected_solution_remarks" HeaderText="Reason Rejected" />
                                         <asp:BoundField DataField="created_at" HeaderText="Created At" />
                                         <asp:BoundField DataField="created_for" HeaderText="Created By" />
                                         <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
@@ -726,7 +732,9 @@
                                 <asp:GridView ID="gvDownloadableAttachment" runat="server" CssClass="table table-hover table-bordered table-striped no-wrap" GridLines="None" AutoGenerateColumns="false">
                                     <Columns>
                                         <asp:BoundField DataField="file_name" HeaderText="File Name" />
+                                        <asp:BoundField DataField="description_attachment" HeaderText="Attachment Description" />
                                         <asp:TemplateField HeaderText="Actions">
+                                            
                                             <ItemTemplate>
                                                 <%--<asp:HiddenField ID="hfAttachmentId" Value='<%# Eval("attachment_id")%>' runat="server" />--%>
                                                 <div class="d-flex justify-content-center gap-2">
@@ -881,6 +889,9 @@
                 <div class="modal-body">
                     <asp:Label ID="Label12" runat="server" Text="Received Date from 3rd Party" CssClass="form-label status status-primary required mb-2 mt-2"></asp:Label>
                     <asp:TextBox ID="txt3rdPtReceivedDate" runat="server" CssClass="form-control text-reset mt-2" TextMode="Date" Placeholder="Select a Date"></asp:TextBox>   
+                    <script>
+            
+                    </script>
                     
                     <div class="modal-footer">
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
@@ -961,9 +972,9 @@
                 </div>
                 <asp:HiddenField ID="hfHeaderTicketProposedAgain" runat="server" />
                 <div class="modal-body">
-                    <asp:Label ID="Label3" runat="server" Text="Remarks" Placeholder="Input Remarks" CssClass="form-label status status-primary required"></asp:Label>
+                    <asp:Label ID="Label3" runat="server" Text="Remarks:" Placeholder="Input Remarks" CssClass="form-label status status-primary required"></asp:Label>
                     <asp:TextBox ID="txtRemarksProposedSolutionAgain" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset mt-2"></asp:TextBox>
-                    <asp:Label ID="Label6" runat="server" Text="Remarks" CssClass="form-label status status-primary required mt-2"></asp:Label>
+                    <asp:Label ID="Label6" runat="server" Text="Attachment:" CssClass="form-label status status-primary mt-2"></asp:Label>
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">
@@ -975,7 +986,7 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="mb-2 mt-2">
-                                        <asp:Label ID="Label7" runat="server" CssClass="form-label status status-primary required">Attachment Description:</asp:Label>
+                                        <asp:Label ID="Label7" runat="server" CssClass="form-label status status-primary">Attachment Description:</asp:Label>
                                     </div>
                                     <div class="col-md-12">
                                         <asp:TextBox ID="txtAttachmentDescriptionAgain" runat="server" CssClass="form-control text-reset mt-2" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>
@@ -1010,28 +1021,41 @@
                     <asp:Label ID="lblRemarks" runat="server" Text="Reject Remarks" CssClass="form-label"></asp:Label>
                     <asp:TextBox ID="txtRejectProposedRemarks" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset"></asp:TextBox>
                     <asp:Label ID="Label4" runat="server" Text="Attachment" CssClass="form-label mt-2"></asp:Label>
-                    <asp:GridView ID="gvUserRejectSolutionAttachment" runat="server" AutoGenerateColumns="false" CssClass="table table-vcenter table-hover text-nowrap">
-                        <Columns>
-                            <asp:BoundField DataField="file_name" runat="server" HeaderText="File Name" />
-                            <asp:TemplateField HeaderText="Actions">
-                                <ItemTemplate>
-<%--                                    <asp:LinkButton ID="lnkDeleteAttachment" OnClick="lnkDeleteAttachment_Click" runat="server"><i class="ti ti-pencil">Edit</i></asp:LinkButton>--%>
-                              </ItemTemplate>
-                            </asp:TemplateField>
-                        </Columns>
-                        <EmptyDataTemplate>
-                            No Data Found
-                        </EmptyDataTemplate>
-                    </asp:GridView>
+                    <div class="table-responsive">
+                        <asp:GridView ID="gvUserRejectSolutionAttachment" runat="server" AutoGenerateColumns="false" CssClass="table table-vcenter table-hover text-nowrap">
+                            <Columns>
+                                <asp:BoundField DataField="file_name" runat="server" HeaderText="File Name" />
+                                <asp:BoundField DataField="created_at" runat="server" HeaderText="Rejected At" />
+                                <asp:BoundField DataField="description_attachment" HeaderText="Reject Remarks" />
+                                <asp:TemplateField HeaderText="Actions">
+                                    <ItemTemplate>
+                                        <%--                                    <asp:LinkButton ID="lnkDeleteAttachment" OnClick="lnkDeleteAttachment_Click" runat="server"><i class="ti ti-pencil">Edit</i></asp:LinkButton>--%>
+                                        <asp:LinkButton ID="lnkDownloadFileRejectAttachment" OnClick="lnkDownloadFileRejectAttachment_Click" CommandArgument='<%# Eval("attachment_id") %>' Text="Download" CssClass="btn btn-success"
+                                            runat="server"> <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  
+                                            stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-download">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" />
+                                            <path d="M12 4l0 12" /></svg>
+                                        Download
+                                        </asp:LinkButton>
+
+
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                            </Columns>
+                            <EmptyDataTemplate>
+                                No Data Found
+                            </EmptyDataTemplate>
+                        </asp:GridView>
+                    </div>
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="mb-2 mt-2">
-                                        <asp:Label ID="Label5" runat="server" CssClass="form-label">Attachment Description:</asp:Label>
+                                        <asp:Label ID="Label5" runat="server" Visible="false" CssClass="form-label">Attachment Description:</asp:Label>
                                     </div>
                                     <div class="col-md-12">
-                                        <asp:TextBox ID="txtAttachmentRejectDesc" runat="server" CssClass="form-control text-reset" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>
+                                        <asp:TextBox ID="txtAttachmentRejectDesc" runat="server" CssClass="form-control text-reset" TextMode="MultiLine" Rows="3" Visible="false" placeholder="Attachment Description"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -1068,6 +1092,9 @@
                                     <asp:GridView ID="gvDownloadAttachmentInResolved" runat="server" CssClass="table table-hover table-bordered table-striped no-wrap" GridLines="None" AutoGenerateColumns="false">
                                         <Columns>
                                             <asp:BoundField DataField="file_name" HeaderText="File Name" />
+                                            <asp:BoundField DataField="created_at" HeaderText="Attachment Description" />
+                                            <asp:BoundField DataField="proposed_remarks" HeaderText="Proposed Remarks" />
+                                            <asp:BoundField DataField="description_attachment" HeaderText="Attachment Description" />
                                             <asp:TemplateField HeaderText="Actions">
                                                 <ItemTemplate>
                                                     <%--<asp:HiddenField ID="hfAttachmentId" Value='<%# Eval("attachment_id")%>' runat="server" />--%>
@@ -1086,8 +1113,7 @@
                                     </asp:GridView>
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Attachment Description:</label>
-                                            <asp:TextBox ID="txtDescriptionAttachmentProposed" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset" Value='<%# Eval("description_attachment")%>'></asp:TextBox>
+                                            <asp:TextBox ID="txtDescriptionAttachmentProposed" runat="server" TextMode="MultiLine" Visible="false" Rows="6" CssClass="form-control text-area text-reset" Value='<%# Eval("description_attachment")%>'></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
@@ -1112,14 +1138,14 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Reject Proposed Ticket</h5>
+                    <h5 class="modal-title">Reject Solution</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <asp:HiddenField ID="hfUserRejectHeaderID" runat="server" />
                 <div class="modal-body">
                     <asp:Label ID="lblRejectRemarks" runat="server" Text="Remarks" Placeholder="Input Remarks" CssClass="form-label status status-primary required"></asp:Label>
                     <asp:TextBox ID="txtRejectRemarks" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset mt-2"></asp:TextBox>
-                    <asp:Label ID="lblRejectAttachment" runat="server" Text="Attachment" CssClass="form-label status status-primary required"></asp:Label>
+                    <asp:Label ID="lblRejectAttachment" runat="server" Text="Attachment" CssClass="form-label status status-primary mt-2"></asp:Label>
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">
@@ -1128,7 +1154,7 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="mb-2 mt-2">
-                                        <asp:Label ID="Label10" runat="server" CssClass="form-label status status-primary required">Attachment Description:</asp:Label>
+                                        <asp:Label ID="Label10" runat="server" CssClass="form-label status status-primary">Attachment Description:</asp:Label>
                                     </div>
                                     <div class="col-md-12">
                                         <asp:TextBox ID="txtAttachmentDescReject" runat="server" CssClass="form-control text-reset mt-2" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>
