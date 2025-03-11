@@ -441,7 +441,7 @@ namespace HelpDeskVG.User_Portal
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdRejectedList") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.ticket_code, a.created_for, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_name, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -456,7 +456,7 @@ namespace HelpDeskVG.User_Portal
             dt = clsQueries.fetchData(sql);
 
             txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
-            txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
+            txtCreatedFor.Text = dt.Rows[0]["created_for_name"].ToString();
             txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
             txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
