@@ -727,11 +727,12 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <label class="form-label">Attachment</label>
+                            <label class="form-label status status-primary mt-2">Attachment</label>
                             <div class="table-responsive">
                                 <asp:GridView ID="gvDownloadableAttachment" runat="server" CssClass="table table-hover table-bordered table-striped no-wrap" GridLines="None" AutoGenerateColumns="false">
                                     <Columns>
                                         <asp:BoundField DataField="file_name" HeaderText="File Name" />
+                                        <asp:BoundField DataField="created_at" HeaderText="Created At" />                                        
                                         <asp:BoundField DataField="description_attachment" HeaderText="Attachment Description" />
                                         <asp:TemplateField HeaderText="Actions">
                                             
@@ -751,7 +752,7 @@
                                     </Columns>
                                 </asp:GridView>
                                 <div class="mb-2 mt-2">
-                                    <asp:Label ID="Label8" runat="server" CssClass="form-label status status-primary">Attachment Description:</asp:Label>
+                                    <asp:Label ID="lblAttachDesccc" runat="server" CssClass="form-label status status-primary">Attachment Description:</asp:Label>
                                 </div>
                                 <div class="col-md-12">
                                     <asp:TextBox ID="txtAttachmentDescriptionMd" runat="server" CssClass="form-control text-reset mt-2" TextMode="MultiLine" Rows="3" placeholder="Attachment Description"></asp:TextBox>

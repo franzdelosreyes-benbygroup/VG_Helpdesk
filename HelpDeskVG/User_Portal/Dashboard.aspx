@@ -407,9 +407,11 @@
                                     <asp:GridView ID="gvDownloadableAttachment" runat="server" CssClass="table table-hover table-bordered table-striped no-wrap" GridLines="None" AutoGenerateColumns="false">
                                         <Columns>
                                             <asp:BoundField DataField="file_name" HeaderText="File Name" />
+                                            <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                            <asp:BoundField DataField="description_attachment" HeaderText="Attachment Description" />
                                             <asp:TemplateField HeaderText="Actions">
                                                 <ItemTemplate>
-                                                    <div class="d-flex justify-content-center gap-2">
+                                                    <div class="d-flex justify-content-center gap-2">   
                                                         <%--<asp:LinkButton ID="lnkViewFile" OnClick="lnkViewFile_Click" CommandName="ViewFile" CommandArgument='<%# Eval("attachment_id") %>' Text="View" CssClass="btn btn-primary" runat="server">
                                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                                     </asp:LinkButton>--%>
@@ -422,7 +424,7 @@
                                         </Columns>
                                     </asp:GridView>
                                         <div class="mb-2 mt-2">
-                                            <asp:Label ID="Label2" runat="server" CssClass="form-label status status-primary">Attachment Description:</asp:Label>
+                                            <asp:Label ID="lblAttachDesc" runat="server" CssClass="form-label status status-primary">Attachment Description:</asp:Label>
                                         </div>
                                         <div class="col-md-12">
                                             <asp:TextBox ID="txtAttachmentDescriptionMd" runat="server" CssClass="form-control text-reset mt-2" Enabled="false" TextMode="MultiLine" Rows="3" placeholder="Precvious Attachment Description"></asp:TextBox>
@@ -536,6 +538,8 @@
                                     <asp:GridView ID="gvDownloadAttachmentInResolved" runat="server" CssClass="table table-hover table-bordered table-striped no-wrap" GridLines="None" AutoGenerateColumns="false">
                                         <Columns>
                                             <asp:BoundField DataField="file_name" HeaderText="File Name" />
+                                            <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                            <asp:BoundField DataField="description_attachment" HeaderText="Attachment Description" />
                                             <asp:TemplateField HeaderText="Actions">
                                                 <ItemTemplate>
                                                     <%--<asp:HiddenField ID="hfAttachmentId" Value='<%# Eval("attachment_id")%>' runat="server" />--%>

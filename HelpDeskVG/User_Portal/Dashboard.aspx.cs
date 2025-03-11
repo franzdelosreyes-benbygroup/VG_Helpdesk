@@ -219,21 +219,6 @@ namespace HelpDeskVG.User_Portal
             gvRejectedTicketByAdmin.Dispose();
         }
 
-        protected void gvUserTicketList_PageIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void gvUserPendingApproval_PageIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void gvRejectedTicketByAdmin_PageIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         protected void lnkDetailsUserListTicket_Click(object sender, EventArgs e)
         {
             clsQueries.DisplaySection(ddlSectionMd);
@@ -254,7 +239,7 @@ namespace HelpDeskVG.User_Portal
                     LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_for
                     LEFT JOIN t_AttachmentReport AS g ON a.ticket_id  =  g.ticket_header_id
 					LEFT JOIN m_Priority AS h ON h.priority_id = a.priority_id
-					WHERE a.approval_transactional_level IN ('0','1','2', '3', '4', '5', '7','8','9') AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND ticket_id=" + hfTicketHeaderId.Value.ToString();
+					WHERE a.approval_transactional_level IN ('0','1','2', '3', '4', '5', '6', '7','8','9') AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND ticket_id=" + hfTicketHeaderId.Value.ToString();
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -343,6 +328,11 @@ namespace HelpDeskVG.User_Portal
                     lblAttachNewAttachment.Visible = false;
                     fuUploadAttachmentInEdit.Visible = false;
                     lnkEditDetails.Visible = false;
+                    ddlCreatedForMd.Enabled = false;
+                    txtSubjectMd.Enabled = false;
+                    txtDescriptionMd.Enabled = false;
+                    ddlSectionMd.Enabled = false;
+                    ddlPriorityMd.Enabled = false;
                 }
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
             }
@@ -368,58 +358,73 @@ namespace HelpDeskVG.User_Portal
                     LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_for
                     LEFT JOIN t_AttachmentReport AS g ON a.ticket_id  =  g.ticket_header_id
 					LEFT JOIN m_Priority AS h ON h.priority_id = a.priority_id
+					WHERE a.approval_transactional_level = '6' AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND a.ticket_id=" + hfTicketHeaderId.Value.ToString();
 
-
-					WHERE a.approval_transactional_level = '6' AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND a.ticket_id=" +hfTicketHeaderId.Value.ToString();
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
 
 
-                txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
-                txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
+
+            txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
+            txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
+            txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
+            txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
+
+            try
+            {
+                ddlCreatedForMd.SelectedValue = dt.Rows[0]["created_for"].ToString();
                 ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
                 ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
                 ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
-                txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
                 ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
 
+            }
+            catch
+            {
+                ddlCreatedForMd.SelectedValue = "";
+                ddlSectionMd.SelectedValue = "";
+                ddlCategoryMd.SelectedValue = "";
+                ddlNatureofprobMd.SelectedValue = "";
+                ddlPriorityMd.SelectedValue = "";
+            }
 
-                txtCreatedBy.Enabled = false;
-                txtCreatedFor.Enabled = false;
-                txtSubjectMd.Enabled = false;
-                txtDescriptionMd.Enabled = false;
-                ddlSectionMd.Enabled = false;
-                ddlCategoryMd.Enabled = false;
-                ddlNatureofprobMd.Enabled = false;
-                ddlPriorityMd.Enabled = false;
-                ddlCreatedForMd.Visible = false;
-                lblAttachNewAttachment.Visible = false;
-                fuUploadAttachmentInEdit.Visible = false;
-                lblNewAttachmentEdit.Visible = false;
-                txtNewAttachmentInEdit.Visible = false;
+            lblAttachDesc.Visible = false;
+            txtAttachmentDescriptionMd.Visible = false;
+            txtCreatedBy.Enabled = false;
+            txtCreatedFor.Enabled = false;
+            txtSubjectMd.Enabled = false;
+            txtDescriptionMd.Enabled = false;
+            ddlSectionMd.Enabled = false;
+            ddlCategoryMd.Enabled = false;
+            ddlNatureofprobMd.Enabled = false;
+            ddlPriorityMd.Enabled = false;
+            ddlCreatedForMd.Visible = false;
+            lblAttachNewAttachment.Visible = false;
+            fuUploadAttachmentInEdit.Visible = false;
+            lblNewAttachmentEdit.Visible = false;
+            txtNewAttachmentInEdit.Visible = false;
 
-                hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
+            hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
 
-                string ticketHeader = hfMdTicketHeaderId.Value.ToString();
+            string ticketHeader = hfMdTicketHeaderId.Value.ToString();
 
-                sql = "EXEC sp_vgHelpDesk_Admin_GetAttachmentDetails ";
-                sql += "@TicketHeaderId ='" + ticketHeader + "'";
+            sql = "EXEC sp_vgHelpDesk_Admin_GetAttachmentDetails ";
+            sql += "@TicketHeaderId ='" + ticketHeader + "'";
 
-                clsQueries.executeQuery(sql);
+            clsQueries.executeQuery(sql);
 
-                DataTable dtAttachment = new DataTable();
-                dtAttachment = clsQueries.fetchData(sql);
+            DataTable dtAttachment = new DataTable();
+            dtAttachment = clsQueries.fetchData(sql);
 
-                gvDownloadableAttachment.DataSource = dtAttachment;
-                gvDownloadableAttachment.DataBind();
-                gvDownloadableAttachment.Dispose();
+            gvDownloadableAttachment.DataSource = dtAttachment;
+            gvDownloadableAttachment.DataBind();
+            gvDownloadableAttachment.Dispose();
 
 
-                lnkEditDetails.Visible = false;
-                
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+            lnkEditDetails.Visible = false;
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
 
             dt.Dispose();
         }
@@ -679,6 +684,7 @@ namespace HelpDeskVG.User_Portal
 
                 lnkAcceptResolvedTicket.Visible = true;
                 lnkRejectResolvedTicket.Visible = true;
+                
 
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "resolvedDetailsModal();", true);
                 

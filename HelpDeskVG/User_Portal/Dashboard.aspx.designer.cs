@@ -357,13 +357,13 @@ namespace HelpDeskVG.User_Portal
         protected global::System.Web.UI.WebControls.GridView gvDownloadableAttachment;
 
         /// <summary>
-        /// Label2 control.
+        /// lblAttachDesc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.WebControls.Label lblAttachDesc;
 
         /// <summary>
         /// txtAttachmentDescriptionMd control.

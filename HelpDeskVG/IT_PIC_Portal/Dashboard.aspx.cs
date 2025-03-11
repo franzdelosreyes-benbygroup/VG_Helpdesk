@@ -724,6 +724,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                     lnkEditDetails.Visible = false;
                     lnkTagThisToThirdParty.Visible = true;
                     lnkSaveReceivedDate.Visible = false;
+                    txtAttachmentDescriptionMd.Visible = false;
+                    lblAttachDesccc.Visible = false;
                 }
 
                 else if (iswithThirdParty == "True") 
@@ -734,6 +736,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     ddlCategoryMd.Enabled = false;
                     ddlNatureofprobMd.Enabled = false;
                     ddlCreatedForMd.Enabled = false;
+
 
 
                     ddlPriorityMd.Enabled = false;
@@ -747,6 +750,10 @@ namespace HelpDeskVG.IT_PIC_Portal
                     lnkAcceptWithThirdParty.Visible = false;
                     lnkProposedTicketResolution.Visible = true;
                     lnkEditDetails.Visible = false;
+                    lnkTagThisToThirdParty.Visible = true;
+                    lnkSaveReceivedDate.Visible = false;
+                    txtAttachmentDescriptionMd.Visible = false;
+                    lblAttachDesccc.Visible = false;
                     lnkTagThisToThirdParty.Visible = false;
                     lnkSaveReceivedDate.Visible = true;
                 }

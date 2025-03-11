@@ -474,13 +474,13 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected global::System.Web.UI.WebControls.GridView gvDownloadableAttachment;
 
         /// <summary>
-        /// Label8 control.
+        /// lblAttachDesccc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label8;
+        protected global::System.Web.UI.WebControls.Label lblAttachDesccc;
 
         /// <summary>
         /// txtAttachmentDescriptionMd control.
