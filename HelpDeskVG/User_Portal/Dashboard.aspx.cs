@@ -364,8 +364,6 @@ namespace HelpDeskVG.User_Portal
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
 
-
-
             txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
             txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
             txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
@@ -437,6 +435,8 @@ namespace HelpDeskVG.User_Portal
             clsQueries.DisplayCategory(ddlCategoryMd);
             clsQueries.DisplayNatureOfProblem(ddlNatureofprobMd);
             clsQueries.DisplayPriority(ddlPriorityMd);
+            clsQueries.DisplayEmployee(ddlCreatedForMd);
+
 
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdRejectedList") as HiddenField;
 
@@ -455,25 +455,44 @@ namespace HelpDeskVG.User_Portal
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
 
-
             txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
             txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
-            ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
-            ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
-            ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
             txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
             txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
-            ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
 
-            ddlCreatedForMd.Visible = false;
-            txtCreatedBy.Enabled = true;
+            try
+            {
+                ddlCreatedForMd.SelectedValue = dt.Rows[0]["created_for"].ToString();
+                ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
+                ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
+                ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
+                ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
+
+            }
+            catch
+            {
+                ddlCreatedForMd.SelectedValue = "";
+                ddlSectionMd.SelectedValue = "";
+                ddlCategoryMd.SelectedValue = "";
+                ddlNatureofprobMd.SelectedValue = "";
+                ddlPriorityMd.SelectedValue = "";
+            }
+
+            lblAttachDesc.Visible = false;
+            txtAttachmentDescriptionMd.Visible = false;
+            txtCreatedBy.Enabled = false;
             txtCreatedFor.Enabled = false;
-            txtSubjectMd.Enabled = true;
-            txtDescriptionMd.Enabled = true;
-            ddlSectionMd.Enabled = true;
-            ddlCategoryMd.Enabled = true;
-            ddlNatureofprobMd.Enabled = true;
-            ddlPriorityMd.Enabled = true;
+            txtSubjectMd.Enabled = false;
+            txtDescriptionMd.Enabled = false;
+            ddlSectionMd.Enabled = false;
+            ddlCategoryMd.Enabled = false;
+            ddlNatureofprobMd.Enabled = false;
+            ddlPriorityMd.Enabled = false;
+            ddlCreatedForMd.Visible = false;
+            lblAttachNewAttachment.Visible = true;
+            fuUploadAttachmentInEdit.Visible = true;
+            lblNewAttachmentEdit.Visible = true;
+            txtNewAttachmentInEdit.Visible = true;
 
             hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
 
