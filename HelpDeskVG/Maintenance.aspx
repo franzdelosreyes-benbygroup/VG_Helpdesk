@@ -139,7 +139,47 @@
                 return true;
             }
 
+            function validatePriorityEdit() {
+                var color = document.getElementById('<%= ddlEditColorPriority.ClientID %>').value;
+                var allotedhr = document.getElementById('<%= txtNewEditedAllotedHr.ClientID %>').value;
+                var desc_prio = document.getElementById('<%= txtNewEditedDescriptionPriority.ClientID %>').value;
+
+                if (desc_prio === "" || allotedhr === "" || color === "") {
+
+                    alert("Please fill up the field that is Required.");
+                    return false;
+                }
+
+                return true;
+            }
+
+            function validatePriority() {
+                var color = document.getElementById('<%= ddlPriorityColor.ClientID %>').value;
+                var allotedhr = document.getElementById('<%= txtNewAllotedHrs.ClientID %>').value;
+                var desc_prio = document.getElementById('<%= txtNewDescPriority.ClientID %>').value;
+
+                if (desc_prio === "" || allotedhr === "" || color === "") {
+
+                    alert("Please fill up the field that is Required.");
+                    return false;
+                }
+
+                return true;
+            }
+
         </script>
+
+    <style>
+        .color-box {
+            display: inline-block;
+            width: 50px;
+            height: 20px;
+            border-radius: 5px;
+            text-align: center;
+            color: white; /* Adjust depending on background */
+            font-weight: bold;
+        }
+    </style>
 
 </asp:Content>
 
@@ -376,9 +416,23 @@
                                     <div class="table-responsive-xl">
                                         <asp:GridView ID="gvPriorityList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4">
                                             <Columns>
-                                                <asp:BoundField DataField="description" HeaderText="Description" />
+                                                <asp:TemplateField HeaderText="Description">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblDescription" runat="server"
+                                                            Text='<%# Eval("description") %>'
+                                                            Style='<%# "color: " + Eval("color_code") %>' Font-Bold="true">
+                                                        </asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:BoundField DataField="alloted_hour" HeaderText="Alloted Hours" />
                                                 <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                                <asp:TemplateField HeaderText="Color">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblColorCode" runat="server" CssClass="color-box"
+                                                            Style='<%# "background-color:" + Eval("color_code") + "; padding: 5px; display: inline-block; width: 50px; height: 20px;" %>'>
+                                                        </asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Actions">
                                                     <ItemTemplate>
                                                         <asp:HiddenField ID="hfPriority" Value='<%# Eval("priority_id")%>' runat="server" />
@@ -612,7 +666,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <asp:Label ID="Label11" CssClass="form-label" runat="server">Description</asp:Label>
+                                    <asp:Label ID="Label11" CssClass="form-label status status-primary required" runat="server">Description</asp:Label>
                                 </div>
                             </div>
                             <div class="row">
@@ -626,7 +680,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <asp:Label ID="Label12" CssClass="form-label" runat="server">Alloted Hours</asp:Label>
+                                    <asp:Label ID="Label12" CssClass="form-label status status-primary required" runat="server">Alloted Hours</asp:Label>
                                 </div>
                             </div>
                             <div class="row">
@@ -636,12 +690,35 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <asp:Label ID="Label21" CssClass="form-label status status-primary required" runat="server">Priority Color</asp:Label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <asp:DropDownList ID="ddlPriorityColor" runat="server" CssClass="form-select">
+                                                <asp:ListItem Text="Dark Red" Value="#bd081c" style="background-color: #bd081c; color: white;"></asp:ListItem>
+                                                <asp:ListItem Text="Orange" Value="#ffa500" style="background-color: #ffa500; color: black;"></asp:ListItem>
+                                                <asp:ListItem Text="Light Blue" Value="#1ab7ea" style="background-color: #1ab7ea; color: white;"></asp:ListItem>
+                                                <asp:ListItem Text="Pink Red" Value="#e4405f" style="background-color: #e4405f; color: white;"></asp:ListItem>
+                                                <asp:ListItem Text="Green" Value="#74b816" style="background-color: #74b816; color: white;"></asp:ListItem>
+                                                <asp:ListItem Text="Teal" Value="#17a2b8" style="background-color: #17a2b8; color: white;"></asp:ListItem>
+                                                <asp:ListItem Text="Purple" Value="#ae3ec9" style="background-color: #ae3ec9; color: white;"></asp:ListItem>
+                                                <asp:ListItem Text="Dark Orange" Value="#f76707" style="background-color: #f76707; color: white;"></asp:ListItem>
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                    <asp:LinkButton ID="lnkSaveNewPrio" runat="server" OnClick="lnkSaveNewPrio_Click" CssClass="btn btn-primary">
+                    <asp:LinkButton ID="lnkSaveNewPrio" runat="server" OnClick="lnkSaveNewPrio_Click" OnClientClick="return validatePriority();" CssClass="btn btn-primary">
                          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
                         Save New Priority</asp:LinkButton>
@@ -813,7 +890,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <asp:Label ID="Label19" CssClass="form-label" runat="server">Priority Description</asp:Label>
+                                    <asp:Label ID="Label19" CssClass="form-label status status-primary required" runat="server">Priority Description</asp:Label>
                                 </div>
                             </div>
                             <div class="row">
@@ -826,7 +903,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <asp:Label ID="label20" CssClass="form-label" runat="server">Priority Alloted Hour/s</asp:Label>
+                                        <asp:Label ID="label20" CssClass="form-label status status-primary required" runat="server">Priority Alloted Hour/s</asp:Label>
                                     </div>
                                 </div>
                             </div>
@@ -837,12 +914,35 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <asp:Label ID="lblColorEdit" runat="server" CssClass="form-label status status-primary required">Color</asp:Label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <asp:DropDownList ID="ddlEditColorPriority" runat="server" CssClass="form-select">
+                                            <asp:ListItem Text="Dark Red" Value="#bd081c" style="background-color: #bd081c; color: white;"></asp:ListItem>
+                                            <asp:ListItem Text="Orange" Value="#ffa500" style="background-color: #ffa500; color: black;"></asp:ListItem>
+                                            <asp:ListItem Text="Light Blue" Value="#1ab7ea" style="background-color: #1ab7ea; color: white;"></asp:ListItem>
+                                            <asp:ListItem Text="Pink Red" Value="#e4405f" style="background-color: #e4405f; color: white;"></asp:ListItem>
+                                            <asp:ListItem Text="Green" Value="#74b816" style="background-color: #74b816; color: white;"></asp:ListItem>
+                                            <asp:ListItem Text="Teal" Value="#17a2b8" style="background-color: #17a2b8; color: white;"></asp:ListItem>
+                                            <asp:ListItem Text="Purple" Value="#ae3ec9" style="background-color: #ae3ec9; color: white;"></asp:ListItem>
+                                            <asp:ListItem Text="Dark Orange" Value="#f76707" style="background-color: #f76707; color: white;"></asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                    <asp:LinkButton ID="lnkSaveEditedPriority" runat="server" OnClick="lnkSaveEditedPriority_Click" CssClass="btn btn-primary">
+                    <asp:LinkButton ID="lnkSaveEditedPriority" runat="server" OnClick="lnkSaveEditedPriority_Click" CssClass="btn btn-primary" OnClientClick="return validatePriorityEdit();">
                          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
                         Save Edited Priority</asp:LinkButton>

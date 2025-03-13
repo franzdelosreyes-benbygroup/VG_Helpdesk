@@ -573,6 +573,15 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected global::System.Web.UI.WebControls.LinkButton lnkEditDetails;
 
         /// <summary>
+        /// lnkITPICReject3rdParty control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkITPICReject3rdParty;
+
+        /// <summary>
         /// lnkTagThisToThirdParty control.
         /// </summary>
         /// <remarks>
@@ -1048,5 +1057,50 @@ namespace HelpDeskVG.IT_PIC_Portal
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lnkUserRejectProposedSolution;
+
+        /// <summary>
+        /// Label8 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label8;
+
+        /// <summary>
+        /// txt3rdPartyRejectedDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt3rdPartyRejectedDate;
+
+        /// <summary>
+        /// lbl3rdptrejectreason control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl3rdptrejectreason;
+
+        /// <summary>
+        /// txt3rdPtRejectReason control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt3rdPtRejectReason;
+
+        /// <summary>
+        /// lnkReject3rdParty control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkReject3rdParty;
     }
 }

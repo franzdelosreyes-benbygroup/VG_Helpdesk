@@ -52,7 +52,7 @@ namespace HelpDeskVG.User_Portal
         {
             string sql = "";
 
-            sql = "EXEC  sp_vgHelpDesk_User_DisplayMyTicket ";
+            sql = "EXEC sp_vgHelpDesk_User_DisplayMyTicket ";
             sql += "@DateTo='" + txtFilterDateTo.Text.ToString() + "',";
             sql += "@DateFrom='" + txtFilterDateFrom.Text.ToString() + "',";
             sql += "@ApprovalStatus='" + ddlTicketStatus.SelectedValue.ToString() + "',";

@@ -252,22 +252,30 @@
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                     <asp:BoundField DataField="status" HeaderText="Status" />
+                                    <asp:TemplateField HeaderText="Priority">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblDescription" runat="server"
+                                                Text='<%# Eval("priority_level") %>' Style='<%# "color: " + Eval("color_code") %>' Font-Bold="true">
+                                            </asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                                     <asp:BoundField DataField="description_section" HeaderText="Section" />
                                     <asp:BoundField DataField="description_category" HeaderText="Category" />
                                     <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                     <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                    <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                     <asp:TemplateField HeaderText="Actions">
                                         <ItemTemplate>
                                             <asp:HiddenField ID="hfTicketHeaderId" Value='<%# Eval("ticket_id")%>' runat="server" />
                                             <asp:HiddenField ID="hfIsDraftId" Value='<%# Eval("approval_transactional_level") %>' runat="server" />
+
                                             <asp:LinkButton ID="lnkDetailsUserListTicket" OnClick="lnkDetailsUserListTicket_Click" CssClass="btn btn-info" runat="server">
-                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
-                                            View Details</asp:LinkButton>
-                                            <asp:LinkButton ID="lnkDeleteDraft" runat="server" ToolTip="Delete Draft" Visible='<%# (Eval("is_draft").ToString() == "True" ? true : false) %>' CommandArgument='<%# Eval("ticket_id")%>' OnClick="lnkDeleteDraft_Click" CssClass="btn btn-danger position--relative w-50">
-                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />
-                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
-                                    Delete
+                                                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+                                                                View Details
+                                            </asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkDeleteDraft" runat="server" ToolTip="Delete Draft" Visible='<%# (Eval("is_draft").ToString() == "True" ? true : false) %>' CommandArgument='<%# Eval("ticket_id")%>' OnClick="lnkDeleteDraft_Click" CssClass="btn btn-danger position--relative w-50">
+                                                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />
+                                                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                                                                Delete
                                             </asp:LinkButton>
                                         </ItemTemplate>
                                     </asp:TemplateField>
@@ -282,11 +290,18 @@
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                     <asp:BoundField DataField="status" HeaderText="Status" />
+                                    <asp:TemplateField HeaderText="Priority">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblDescription" runat="server"
+                                                Text='<%# Eval("priority_level") %>'
+                                                Style='<%# "color: " + Eval("color_code") %>' Font-Bold="true">
+                                            </asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                                     <asp:BoundField DataField="description_section" HeaderText="Section" />
                                     <asp:BoundField DataField="description_category" HeaderText="Category" />
                                     <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                     <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                    <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                     <asp:TemplateField HeaderText="Actions">
                                         <ItemTemplate>
                                             <asp:HiddenField ID="hfTicketHeaderIdAcceptTicket" runat="server" Value='<%# Eval("ticket_id")%>' />
@@ -312,11 +327,18 @@
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                     <asp:BoundField DataField="status" HeaderText="Status" />
+                                    <asp:TemplateField HeaderText="Priority">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblDescription" runat="server"
+                                                Text='<%# Eval("priority_level") %>'
+                                                Style='<%# "color: " + Eval("color_code") %>' Font-Bold="true">
+                                            </asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                                     <asp:BoundField DataField="description_section" HeaderText="Section" />
                                     <asp:BoundField DataField="description_category" HeaderText="Category" />
                                     <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                     <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                    <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                     <asp:BoundField DataField="admin_recent_reject_remarks" HeaderText="Admin Reject Remarks" />
                                     <asp:BoundField DataField="admin_rejector" HeaderText="Admin Disapprover" />
                                     <asp:BoundField DataField="created_at" HeaderText="Rejected At" />

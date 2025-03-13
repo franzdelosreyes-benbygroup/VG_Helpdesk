@@ -784,6 +784,12 @@ namespace HelpDeskVG
                 clsQueries.executeQuery(sql);
 
                 DisplayMyTickets();
+                DisplayPendingApprovalResolved();
+                DisplayRejectedTicketsByAdmin();
+                DisplayUsersTickets();
+                DisplayITPICReassignTickets();
+                DisplayAssignedTickets();
+                DisplayRejectedList();
 
                 clsUtil.ShowToastr(this.Page, "Successfully Edited the Ticket!", "success");
             }
@@ -809,9 +815,12 @@ namespace HelpDeskVG
             }
 
             DisplayMyTickets();
+            DisplayPendingApprovalResolved();
+            DisplayRejectedTicketsByAdmin();
             DisplayUsersTickets();
             DisplayITPICReassignTickets();
             DisplayAssignedTickets();
+            DisplayRejectedList();
         }
 
 
@@ -822,6 +831,7 @@ namespace HelpDeskVG
             txtRejectTicketRemarks.Enabled = true;
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "rejectUserTicketRemarks();", true);
+
         }
 
         protected void lnkAssignTicketToITPIC_Click(object sender, EventArgs e)
@@ -830,7 +840,6 @@ namespace HelpDeskVG
             ddlMdEmployeeITPIC.Enabled = true;
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "assignITPICModal();", true);
-
         }
 
         protected void lnkAssignITPICTicket_Click(object sender, EventArgs e)
@@ -845,10 +854,13 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
+            DisplayMyTickets();
+            DisplayPendingApprovalResolved();
+            DisplayRejectedTicketsByAdmin();
             DisplayUsersTickets();
-            DisplayRejectedList();
-            DisplayAssignedTickets();
             DisplayITPICReassignTickets();
+            DisplayAssignedTickets();
+            DisplayRejectedList();
 
             clsUtil.ShowToastr(this.Page, "Successfully Assigned IT PIC for the Ticket", "success");
 
@@ -868,10 +880,13 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
+            DisplayMyTickets();
+            DisplayPendingApprovalResolved();
+            DisplayRejectedTicketsByAdmin();
             DisplayUsersTickets();
-            DisplayRejectedList();
-            DisplayAssignedTickets();
             DisplayITPICReassignTickets();
+            DisplayAssignedTickets();
+            DisplayRejectedList();
 
             clsUtil.ShowToastr(this.Page, "Successfully Rejected the Ticket", "success");
             //Response.Redirect("Dashboard.aspx");
@@ -897,7 +912,7 @@ namespace HelpDeskVG
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
-                    cmd.CommandText = "SELECT [data], content_type, file_name FROM t_AttachmentReport WHERE attachment_id=@attachment_id";
+                    cmd.CommandText = "SELECT [data], content_type, file_name FROM t_ProposedAttachment WHERE attachment_proposed_id=@attachment_id";
                     cmd.Parameters.AddWithValue("@attachment_id", attachment_id);
                     cmd.Connection = con;
                     con.Open();
@@ -1007,7 +1022,7 @@ namespace HelpDeskVG
                     LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_for
                     LEFT JOIN t_AttachmentReport AS g ON a.ticket_id  =  g.ticket_header_id
 					LEFT JOIN m_Priority AS h ON h.priority_id = a.priority_id
-					WHERE a.approval_transactional_level IN ('0', '3', '1', '4', '8', '9') AND a.created_for =" + Session["EmployeeNo"].ToString( ) + " AND ticket_id=" + hfMyTicketITPIC.Value.ToString();
+					WHERE a.approval_transactional_level IN ('0','1','2','3','4','5','6','7','8','9') AND a.created_for =" + Session["EmployeeNo"].ToString( ) + " AND ticket_id=" + hfMyTicketITPIC.Value.ToString();
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -1064,6 +1079,7 @@ namespace HelpDeskVG
 
                     gvDownloadableAttachment.DataSource = dtAttachment;
                     gvDownloadableAttachment.DataBind();
+                    gvDownloadableAttachment.Dispose();
 
 
                     if (approvalLevel == "0")
@@ -1088,6 +1104,19 @@ namespace HelpDeskVG
                     }
                     else
                     {
+                        txtCreatedBy.Enabled = false;
+                        ddlCreatedForMd.Enabled = false;
+                        ddlAssignToEmpITMd.Enabled = false;
+                        txtSubjectMd.Visible = false;
+                        txtDescriptionMd.Enabled = false;
+                        ddlSectionMd.Enabled = false;
+                        ddlCategoryMd.Enabled = false;
+                        ddlNatureofprobMd.Enabled = false;
+                        lblAttachmentDescription.Visible = false;
+                        txtAttachmentDescriptionMd.Visible = false;
+                        txtNewAttachmentInEdit.Visible = false;
+                        lblNewAttachmentInEdit.Visible = false;
+                        ddlPriorityMd.Enabled = false;
                         lnkAcceptTicketProposal.Visible = false;
                         lnkRejectTicketProposal.Visible = false;
                         txtCreatedFor.Visible = false;
@@ -1103,7 +1132,6 @@ namespace HelpDeskVG
                 }
                 dt.Dispose();
             }
-            dt.Dispose();
         }
 
         protected void ddlSectionMd_SelectedIndexChanged(object sender, EventArgs e)
@@ -1131,67 +1159,96 @@ namespace HelpDeskVG
 
         protected void ddlNatureofprobMd_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string ticketHeaderId = hfMdTicketHeaderId.Value.ToString();
+            //string ticketHeaderId = hfMdTicketHeaderId.Value.ToString();
+            //string sql = "";
+
+            //sql = "SELECT approval_transactional_level AS trans_level FROM t_TicketHeader WHERE ticket_id =" + ticketHeaderId + "AND approval_transactional_level IN (1,5)";
+            //DataTable dtTrans = new DataTable();
+            //dtTrans = clsQueries.fetchData(sql);
+
+            //if (dtTrans.Rows.Count > 0)
+            //{
+            //    string trans_level = dtTrans.Rows[0]["trans_level"].ToString();
+
+            //    if(trans_level != "5" || trans_level != "1")
+            //    {
+            //        if (ddlCategoryMd.SelectedValue == "")
+            //        {
+            //            ddlNatureofprobMd.SelectedValue = "";
+
+            //            ddlNatureofprobMd.Enabled = false;
+            //            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+
+            //        }
+            //        else
+            //        {
+            //            sql = "SELECT * FROM m_NatureOfProblem WHERE is_active = '1' AND nature_of_prob_id = " + ddlNatureofprobMd.SelectedValue;
+
+            //            DataTable dt = new DataTable();
+
+            //            dt = clsQueries.fetchData(sql);
+
+            //            if (dt.Rows.Count > 0)
+            //            {
+            //                ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
+            //                ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
+            //            }
+
+            //            dt.Dispose();
+
+            //            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        ddlCategoryMd.Enabled = true;
+            //        ddlNatureofprobMd.Enabled = true;
+
+            //        sql = "SELECT * FROM m_NatureOfProblem WHERE is_active = '1' AND nature_of_prob_id = " + ddlNatureofprobMd.SelectedValue;
+
+            //        DataTable dt = new DataTable();
+
+            //        dt = clsQueries.fetchData(sql);
+
+            //        if (dt.Rows.Count > 0)
+            //        {
+            //            ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
+            //            ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
+            //        }
+
+            //        dt.Dispose();
+
+            //        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+            //    }
+            //}
+
             string sql = "";
 
-            sql = "SELECT approval_transactional_level AS trans_level FROM t_TicketHeader WHERE ticket_id =" + ticketHeaderId + "AND approval_transactional_level IN (1,5)";
-            DataTable dtTrans = new DataTable();
-            dtTrans = clsQueries.fetchData(sql);
-
-            if (dtTrans.Rows.Count > 0)
+            if (ddlCategoryMd.SelectedValue == "")
             {
-                string trans_level = dtTrans.Rows[0]["trans_level"].ToString();
+                ddlNatureofprobMd.SelectedValue = "";
 
-                if(trans_level != "5" || trans_level != "1")
+                ddlNatureofprobMd.Enabled = false;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+
+            }
+            else
+            {
+                sql = "SELECT * FROM m_NatureOfProblem WHERE is_active = '1' AND nature_of_prob_id = " + ddlNatureofprobMd.SelectedValue;
+
+                DataTable dt = new DataTable();
+
+                dt = clsQueries.fetchData(sql);
+
+                if (dt.Rows.Count > 0)
                 {
-                    if (ddlCategoryMd.SelectedValue == "")
-                    {
-                        ddlNatureofprobMd.SelectedValue = "";
-
-                        ddlNatureofprobMd.Enabled = false;
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
-
-                    }
-                    else
-                    {
-                        sql = "SELECT * FROM m_NatureOfProblem WHERE is_active = '1' AND nature_of_prob_id = " + ddlNatureofprobMd.SelectedValue;
-
-                        DataTable dt = new DataTable();
-
-                        dt = clsQueries.fetchData(sql);
-
-                        if (dt.Rows.Count > 0)
-                        {
-                            ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
-                            ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
-                        }
-
-                        dt.Dispose();
-
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
-                    }
+                    ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
+                    ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
                 }
-                else
-                {
-                    ddlCategoryMd.Enabled = true;
-                    ddlNatureofprobMd.Enabled = true;
 
-                    sql = "SELECT * FROM m_NatureOfProblem WHERE is_active = '1' AND nature_of_prob_id = " + ddlNatureofprobMd.SelectedValue;
+                dt.Dispose();
 
-                    DataTable dt = new DataTable();
-
-                    dt = clsQueries.fetchData(sql);
-
-                    if (dt.Rows.Count > 0)
-                    {
-                        ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
-                        ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
-                    }
-
-                    dt.Dispose();
-
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
-                }
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
             }
         }
 
@@ -1215,82 +1272,129 @@ namespace HelpDeskVG
 
         protected void ddlCategoryMd_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string ticketHeaderId = hfMdTicketHeaderId.Value.ToString();
-            string sql = "";
+            //string ticketHeaderId = hfMdTicketHeaderId.Value.ToString();
+            //string sql = "";
 
-            sql = "SELECT approval_transactional_level AS trans_level FROM t_TicketHeader WHERE ticket_id =" + ticketHeaderId + "AND approval_transactional_level IN (1,5)";
-            DataTable dtTrans = new DataTable();
-            dtTrans = clsQueries.fetchData(sql);
+            //sql = "SELECT approval_transactional_level AS trans_level FROM t_TicketHeader WHERE ticket_id =" + ticketHeaderId + "AND approval_transactional_level IN (1,5)";
+            //DataTable dtTrans = new DataTable();
+            //dtTrans = clsQueries.fetchData(sql);
 
-            if (dtTrans.Rows.Count > 0)
+            //if (dtTrans.Rows.Count > 0)
+            //{
+            //    string trans_level = dtTrans.Rows[0]["trans_level"].ToString();
+
+            //    if(trans_level != "5" || trans_level != "1")
+            //    {
+            //        if (ddlCategoryMd.SelectedValue == "")
+            //        {
+            //            ddlNatureofprobMd.SelectedValue = "";
+
+            //            ddlCategoryMd.Enabled = false;
+            //            ddlNatureofprobMd.Enabled = false;
+
+            //            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+            //        }
+            //        else
+            //        {
+
+            //            DisplayNatureOfProblem();
+
+            //            ddlNatureofprobMd.SelectedValue = "";
+            //            ddlSectionMd.Enabled = true;
+            //            ddlNatureofprobMd.Enabled = true;
+
+            //            sql = @"SELECT category_id, section_id, [description_category] FROM m_Category WHERE is_active = '1' AND section_id = " + ddlSectionMd.SelectedValue;
+
+            //            DataTable dt = new DataTable();
+
+            //            dt = clsQueries.fetchData(sql);
+
+            //            if (dt.Rows.Count > 0)
+            //            {
+            //                ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
+            //            }
+
+            //            dt.Dispose();
+
+            //            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+            //        }
+            //    }
+
+            //    if (ddlCategoryMd.SelectedValue == "")
+            //    {
+            //        ddlNatureofprobMd.SelectedValue = "";
+
+            //        ddlCategoryMd.Enabled = false;
+            //        ddlNatureofprobMd.Enabled = false;
+
+            //        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+            //    }
+            //    else
+            //    {
+
+            //        DisplayNatureOfProblem();
+
+            //        ddlNatureofprobMd.SelectedValue = "";
+            //        ddlSectionMd.Enabled = true;
+            //        ddlNatureofprobMd.Enabled = true;
+
+            //        sql = @"SELECT category_id, section_id, [description_category] FROM m_Category WHERE is_active = '1' AND section_id = " + ddlSectionMd.SelectedValue;
+
+            //        DataTable dt = new DataTable();
+
+            //        dt = clsQueries.fetchData(sql);
+
+            //        if (dt.Rows.Count > 0)
+            //        {
+            //            ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
+            //        }
+
+            //        dt.Dispose();
+
+            //        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
+            //    }
+            //}
+
+            //else
+            //{
+            //    Response.Redirect("Dashboard.aspx");
+            //}
+
+            if (ddlCategoryMd.SelectedValue == "")
             {
-                string trans_level = dtTrans.Rows[0]["trans_level"].ToString();
+                ddlNatureofprobMd.SelectedValue = "";
 
-                if(trans_level != "5" || trans_level != "1")
-                {
-                    if (ddlCategoryMd.SelectedValue == "")
-                    {
-                        ddlNatureofprobMd.SelectedValue = "";
+                ddlCategoryMd.Enabled = false;
+                ddlNatureofprobMd.Enabled = false;
 
-                        ddlCategoryMd.Enabled = false;
-                        ddlNatureofprobMd.Enabled = false;
-
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
-                    }
-                    else
-                    {
-
-                        DisplayNatureOfProblem();
-
-                        ddlNatureofprobMd.SelectedValue = "";
-                        ddlSectionMd.Enabled = true;
-                        ddlNatureofprobMd.Enabled = true;
-
-                        sql = @"SELECT category_id, section_id, [description_category] FROM m_Category WHERE is_active = '1' AND section_id = " + ddlSectionMd.SelectedValue;
-
-                        DataTable dt = new DataTable();
-
-                        dt = clsQueries.fetchData(sql);
-
-                        if (dt.Rows.Count > 0)
-                        {
-                            ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
-                        }
-
-                        dt.Dispose();
-
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
-                    }
-                }
-
-                else
-                {
-                    DisplayNatureOfProblem();
-
-                    ddlNatureofprobMd.SelectedValue = "";
-                    ddlSectionMd.Enabled = true;
-                    ddlNatureofprobMd.Enabled = true;
-
-                    sql = @"SELECT category_id, section_id, [description_category] FROM m_Category WHERE is_active = '1' AND section_id = " + ddlSectionMd.SelectedValue;
-
-                    DataTable dt = new DataTable();
-
-                    dt = clsQueries.fetchData(sql);
-
-                    if (dt.Rows.Count > 0)
-                    {
-                        ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
-                    }
-
-                    dt.Dispose();
-
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
-                }
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
             }
-
             else
             {
-                Response.Redirect("Dashboard.aspx");
+
+                DisplayNatureOfProblem();
+
+                ddlNatureofprobMd.SelectedValue = "";
+                ddlSectionMd.Enabled = true;
+                ddlNatureofprobMd.Enabled = true;
+
+                string sql = "";
+
+
+                sql = @"SELECT category_id, section_id, [description_category] FROM m_Category WHERE is_active = '1' AND section_id = " + ddlSectionMd.SelectedValue;
+
+                DataTable dt = new DataTable();
+
+                dt = clsQueries.fetchData(sql);
+
+                if (dt.Rows.Count > 0)
+                {
+                    ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
+                }
+
+                dt.Dispose();
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
             }
         }
 
@@ -1501,9 +1605,11 @@ namespace HelpDeskVG
             txtDescriptionAttachmentProposed.Text = dt.Rows[0]["description_attachment"].ToString();
             txtProposedRemarksMd.Text = dt.Rows[0]["proposed_remarks"].ToString();
 
-
             txtProposedRemarksMd.Enabled = false;
             txtDescriptionAttachmentProposed.Enabled = false;
+
+            lblAttachDesc.Visible = false;
+            txtDescriptionAttachmentProposed.Visible = false;
 
             hfTicketHeaderIdforResolved.Value = hfTicketHeaderId.Value;
 
@@ -1517,15 +1623,14 @@ namespace HelpDeskVG
             DataTable dtAttachment = new DataTable();
             dtAttachment = clsQueries.fetchData(sql);
 
-
             gvDownloadAttachmentInResolved.DataSource = dtAttachment;
             gvDownloadAttachmentInResolved.DataBind();
             gvDownloadAttachmentInResolved.Dispose();
 
+
             lnkAcceptResolvedTicket.Visible = true;
             lnkRejectResolvedTicket.Visible = true;
             
-
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "resolvedDetailsModal();", true);
 
             dt.Dispose();
@@ -1653,11 +1758,13 @@ namespace HelpDeskVG
             clsQueries.DisplayNatureOfProblem(ddlNatureofprobMd);
             clsQueries.DisplayPriority(ddlPriorityMd);
             clsQueries.DisplayEmployee(ddlCreatedForMd);
+            clsQueries.DisplayITPICEmployee(ddlAssignToEmpITMd);
+
 
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdRejectedList") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.ticket_code, a.created_for, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.ticket_code, a.assigned_emp_no_log, a.created_for, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -1684,6 +1791,7 @@ namespace HelpDeskVG
                     ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
                     ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
                     ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
+                    ddlAssignToEmpITMd.SelectedValue = dt.Rows[0]["assigned_emp_no_log"].ToString();
                 }
 
                 catch
@@ -1693,6 +1801,7 @@ namespace HelpDeskVG
                     ddlCategoryMd.SelectedValue = "";
                     ddlNatureofprobMd.SelectedValue = "";
                     ddlPriorityMd.SelectedValue = "";
+                    ddlAssignToEmpITMd.SelectedValue = "";
                 }
 
                 txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();

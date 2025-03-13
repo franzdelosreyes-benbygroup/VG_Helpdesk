@@ -375,6 +375,24 @@ namespace HelpDeskVG
         protected global::System.Web.UI.WebControls.TextBox txtNewAllotedHrs;
 
         /// <summary>
+        /// Label21 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label21;
+
+        /// <summary>
+        /// ddlPriorityColor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlPriorityColor;
+
+        /// <summary>
         /// lnkSaveNewPrio control.
         /// </summary>
         /// <remarks>
@@ -589,6 +607,24 @@ namespace HelpDeskVG
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNewEditedAllotedHr;
+
+        /// <summary>
+        /// lblColorEdit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblColorEdit;
+
+        /// <summary>
+        /// ddlEditColorPriority control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlEditColorPriority;
 
         /// <summary>
         /// lnkSaveEditedPriority control.

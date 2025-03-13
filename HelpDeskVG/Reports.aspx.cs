@@ -13,5 +13,20 @@ namespace HelpDeskVG
         {
 
         }
+
+        protected void lnkTixClosedReport_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void lnkTixFullyResolved_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void lnkTixAutoClosed_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

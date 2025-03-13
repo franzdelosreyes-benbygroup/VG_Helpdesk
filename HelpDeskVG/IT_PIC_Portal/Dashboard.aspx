@@ -63,6 +63,13 @@
             });
         }
 
+        function reject3rdPartyITPIC() {
+            $(document).ready(function () {
+                $("#mdITPICRejected3rdParty").modal('show');
+            });
+        }
+
+
         function received3rdPartyITPIC() {
             $(document).ready(function () {
                 $("#mdITPICReceivedTicket3rdParty").modal('show');
@@ -138,6 +145,27 @@
                 }
 
                 return confirm("Do you want to proceed?");
+        }
+
+        function validateReject3rdPartySolution() {
+            var thirdptgiven = document.getElementById('<%= hfMdTicketDateGiven3rdParty.ClientID %>').value;
+            var daterejected3rdpartysolution = document.getElementById('<%= txt3rdPartyRejectedDate.ClientID%>').value;
+
+            var date = new Date(daterejected3rdpartysolution);
+            date.setHours(23, 59, 0, 0); // Set end of the day to avoid timezone issues
+            var rejectformattedDate = date.toISOString().slice(0, 16).replace('T', ' ');
+
+            var givenDate = new Date(thirdptgiven);
+            givenDate.setHours(23, 59, 0, 0);
+            var givenformattedDate = givenDate.toISOString().slice(0, 16).replace('T', ' ');
+
+            if (rejectformattedDate < givenformattedDate) {
+                alert("The received date cannot be earlier than the date given.");
+                document.getElementById('<%= txt3rdPartyRejectedDate.ClientID%>').value = "";
+                return false;
+            }
+
+            return confirm("Do you want to proceed?");
         }
 
         function validateRejectTicketToUser() {
@@ -460,11 +488,18 @@
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                     <asp:BoundField DataField="status" HeaderText="Status" />
+                                    <asp:TemplateField HeaderText="Priority">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblDescription" runat="server"
+                                                Text='<%# Eval("priority_level") %>'
+                                                Style='<%# "color: " + Eval("color_code") %>' Font-Bold="true">
+                                            </asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:BoundField DataField="created_at" HeaderText="Created At" />
                                     <asp:BoundField DataField="description_section" HeaderText="Section" />
                                     <asp:BoundField DataField="description_category" HeaderText="Category" />
-                                    <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
-                                    <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                    <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                                    <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />      
                                     <asp:TemplateField HeaderText="Actions">
                                         <ItemTemplate>
                                             <asp:HiddenField ID="hfTicketHeaderMyTicket" Value='<%# Eval("ticket_id")%>' runat="server" />
@@ -491,12 +526,19 @@
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                     <asp:BoundField DataField="status" HeaderText="Status" />
+                                    <asp:TemplateField HeaderText="Priority">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblDescription" runat="server"
+                                                Text='<%# Eval("priority_level") %>'
+                                                Style='<%# "color: " + Eval("color_code") %>' Font-Bold="true">
+                                            </asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                                     <asp:BoundField DataField="description_section" HeaderText="Section" />
                                     <asp:BoundField DataField="description_category" HeaderText="Category" />
                                     <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                     <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                    <asp:BoundField DataField="created_for" HeaderText="Created By" />
-                                    <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                                    <asp:BoundField DataField="created_for" HeaderText="Ticket Owner" />
                                     <asp:TemplateField HeaderText="Actions">
                                         <ItemTemplate>
                                             <asp:HiddenField ID="hfTicketHeaderIdAcceptTicket" runat="server" Value='<%# Eval("ticket_id")%>' />
@@ -522,12 +564,21 @@
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                     <asp:BoundField DataField="status" HeaderText="Status" />
+                                    <asp:TemplateField HeaderText="Priority">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblDescription" runat="server"
+                                                Text='<%# Eval("priority_level") %>'
+                                                Style='<%# "color: " + Eval("color_code") %>' Font-Bold="true">
+                                            </asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                                     <asp:BoundField DataField="description_section" HeaderText="Section" />
                                     <asp:BoundField DataField="description_category" HeaderText="Category" />
                                     <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                     <asp:BoundField DataField="admin_recent_reject_remarks" HeaderText="Admin Reject Remarks" />
                                     <asp:BoundField DataField="admin_rejector" HeaderText="Admin Disapprover" />
                                     <asp:BoundField DataField="created_at" HeaderText="Rejected At" />
+                                    <asp:BoundField DataField="created_for" HeaderText="Ticket Owner" />
                                     <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                     <asp:TemplateField HeaderText="Actions">
                                         <ItemTemplate>
@@ -547,11 +598,19 @@
                             <asp:GridView ID="gvITPICAcceptOrRejectList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICAcceptOrRejectList_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                    <asp:TemplateField HeaderText="Priority">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblDescription" runat="server"
+                                                Text='<%# Eval("priority_level") %>'
+                                                Style='<%# "color: " + Eval("color_code") %>' Font-Bold="true">
+                                            </asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                                     <asp:BoundField DataField="description_section" HeaderText="Section" />
                                     <asp:BoundField DataField="description_category" HeaderText="Category" />
                                     <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                     <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                    <asp:BoundField DataField="created_for" HeaderText="Created For" />
+                                    <asp:BoundField DataField="created_for" HeaderText="Ticket Owner" />
                                     <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                     <asp:TemplateField HeaderText="Actions">
                                         <ItemTemplate>
@@ -573,6 +632,14 @@
                             <asp:GridView ID="gvITPICAcceptedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICAcceptedTickets_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                    <asp:TemplateField HeaderText="Priority">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblDescription" runat="server"
+                                                Text='<%# Eval("priority_level") %>'
+                                                Style='<%# "color: " + Eval("color_code") %>' Font-Bold="true">
+                                            </asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                                 <asp:BoundField DataField="third_party_name" HeaderText="Third Party" />
                                 <asp:BoundField DataField="third_party_date_given" HeaderText="Given Date to 3rd Party" DataFormatString="{0:MM/dd/yyyy}" HtmlEncode="false" />  
                                 <asp:BoundField DataField="third_party_date_received" HeaderText="Date Received 3rd Party" DataFormatString="{0:MM/dd/yyyy}" HtmlEncode="false" />  
@@ -580,8 +647,7 @@
                                 <asp:BoundField DataField="description_category" HeaderText="Category" />
                                 <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                 <asp:BoundField DataField="created_at" HeaderText="Created At" />
-                                <asp:BoundField DataField="created_for" HeaderText="Created By" />
-                                <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
+                                <asp:BoundField DataField="created_for" HeaderText="Ticket Owner" />
                                     <asp:TemplateField HeaderText="Actions">
                                         <ItemTemplate>
                                             <asp:HiddenField ID="hfThirdPtDateGiven" runat="server" Value='<%# Eval("third_party_date_given")%>' />
@@ -605,12 +671,19 @@
                                         <asp:BoundField DataField="third_party_name" HeaderText="Third Party" />
                                         <asp:BoundField DataField="third_party_date_given" HeaderText="Given Date to 3rd Party" />
                                         <asp:BoundField DataField="third_party_date_received" HeaderText="Date Received 3rd Party" />
+                                        <asp:TemplateField HeaderText="Priority">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblDescription" runat="server"
+                                                    Text='<%# Eval("priority_level") %>'
+                                                    Style='<%# "color: " + Eval("color_code") %>' Font-Bold="true">
+                                                </asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                         <asp:BoundField DataField="description_section" HeaderText="Section" />
                                         <asp:BoundField DataField="description_category" HeaderText="Category" />
                                         <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                         <asp:BoundField DataField="created_at" HeaderText="Created At" />
                                         <asp:BoundField DataField="created_for" HeaderText="Ticket Owner" />
-                                        <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
                                         <asp:TemplateField HeaderText="Actions">
                                             <ItemTemplate>
                                                 <asp:HiddenField ID="hfTicketHeaderIdITPICRejectedList" runat="server" Value='<%#Eval("ticket_id") %>' />
@@ -632,13 +705,20 @@
                                         <asp:BoundField DataField="third_party_name" HeaderText="Third Party" />
                                         <asp:BoundField DataField="third_party_date_given" HeaderText="Given Date to 3rd Party" />
                                         <asp:BoundField DataField="third_party_date_received" HeaderText="Received Date from 3rd Party" />
+                                        <asp:TemplateField HeaderText="Priority">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblDescription" runat="server"
+                                                    Text='<%# Eval("priority_level") %>'
+                                                    Style='<%# "color: " + Eval("color_code") %>' Font-Bold="true">
+                                                </asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                         <asp:BoundField DataField="description_section" HeaderText="Section" />
                                         <asp:BoundField DataField="description_category" HeaderText="Category" />
                                         <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                         <asp:BoundField DataField="user_recent_rejected_solution_remarks" HeaderText="Reason Rejected" />
                                         <asp:BoundField DataField="created_at" HeaderText="Created At" />
                                         <asp:BoundField DataField="created_for" HeaderText="Created By" />
-                                        <asp:BoundField DataField="priority_level" HeaderText="Priority Level" />
 
                                         <asp:TemplateField HeaderText="Actions">
                                             <ItemTemplate>
@@ -648,7 +728,7 @@
                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
 
                                                  Reject Details</asp:LinkButton>
-                                                <%--                                            <asp:LinkButton ID="lnkDetailsRejectedTicketList" OnClick="lnkDetailsRejectedTicketList_Click" CssClass="btn btn-info w-25" runat="server">Details</asp:LinkButton>--%>
+                                                <%-- <asp:LinkButton ID="lnkDetailsRejectedTicketList" OnClick="lnkDetailsRejectedTicketList_Click" CssClass="btn btn-info w-25" runat="server">Details</asp:LinkButton>--%>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                     </Columns>
@@ -727,7 +807,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <label class="form-label status status-primary mt-2">Attachment</label>
+                            <label class="form-label status status-primary mt-2 mb-2">Attachment</label>
                             <div class="table-responsive">
                                 <asp:GridView ID="gvDownloadableAttachment" runat="server" CssClass="table table-hover table-bordered table-striped no-wrap" GridLines="None" AutoGenerateColumns="false">
                                     <Columns>
@@ -784,7 +864,7 @@
                     <div class="row d-flex flex-wrap gap-2">
                         <div class="d-grid gap-2 d-md-flex">
                             <div class="col-md-12">
-                                <asp:LinkButton ID="lnkAcceptTicket" runat="server" CssClass="btn btn-success w-100" OnClick="lnkAcceptTicket_Click">
+                                <asp:LinkButton ID="lnkAcceptTicket" runat="server" CssClass="btn w-100 btn-block btn-success" OnClick="lnkAcceptTicket_Click">
                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>                               
                                 Accept Ticket
                                 </asp:LinkButton>
@@ -792,7 +872,7 @@
                         </div>
                         <div class="d-grid gap-2 d-md-flex">
                             <div class="col-md-12">
-                                <asp:LinkButton ID="lnkRejectTicketUser" runat="server" CssClass="btn btn-danger w-100" OnClick="lnkRejectTicketUser_Click">
+                                <asp:LinkButton ID="lnkRejectTicketUser" runat="server" CssClass="btn btn-block btn-danger w-100" OnClick="lnkRejectTicketUser_Click">
                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                                         Reject Ticket
                                 </asp:LinkButton>
@@ -800,7 +880,7 @@
                         </div>
                         <div class="d-grid gap-2 d-md-flex">
                             <div class="col-md-12">
-                                <asp:LinkButton ID="lnkAcceptWithThirdParty" CssClass="btn btn-success w-100" OnClick="lnkAcceptWithThirdParty_Click" runat="server">
+                                <asp:LinkButton ID="lnkAcceptWithThirdParty" CssClass="btn w-100 btn-block btn-success" OnClick="lnkAcceptWithThirdParty_Click" runat="server">
                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  
                                             stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users-plus">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
@@ -812,7 +892,7 @@
                         </div>
                         <div class="d-grid gap-2 d-md-flex">
                             <div class="col-md-12">
-                                <asp:LinkButton ID="lnkEditDetails" runat="server" CssClass="btn btn-primary w-100" OnClick="lnkEditDetails_Click" OnClientClick="return validateForm();">
+                                <asp:LinkButton ID="lnkEditDetails" runat="server" CssClass="btn w-100 btn-block btn-primary" OnClick="lnkEditDetails_Click" OnClientClick="return validateForm();">
                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
                                                 Save Edited Details
                                 </asp:LinkButton>
@@ -820,7 +900,15 @@
                         </div>
                         <div class="d-grid gap-2 d-md-flex">
                             <div class="col-md-12">
-                                <asp:LinkButton ID="lnkTagThisToThirdParty" runat="server" CssClass="btn btn-success w-100" OnClick="lnkTagThisToThirdParty_Click">
+                                <asp:LinkButton ID="lnkITPICReject3rdParty" runat="server" CssClass="btn w-100 btn-block btn-red" Visible="false" OnClick="lnkITPICReject3rdParty_Click">
+                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-flag-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13.533 15.028a4.988 4.988 0 0 1 -1.533 -1.028a5 5 0 0 0 -7 0v-9a5 5 0 0 1 7 0a5 5 0 0 0 7 0v8.5" /><path d="M5 21v-7" /><path d="M22 22l-5 -5" /><path d="M17 22l5 -5" /></svg>
+                                    Reject 3rd Party
+                                </asp:LinkButton>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex">
+                            <div class="col-md-12">
+                                <asp:LinkButton ID="lnkTagThisToThirdParty" runat="server" CssClass="btn w-100 btn-blue btn-success" OnClick="lnkTagThisToThirdParty_Click">
                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4c.96 0 1.84 .338 2.53 .901" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
                                                 Update Tag to Third Party
                                 </asp:LinkButton>
@@ -829,7 +917,7 @@
 
                         <div class="d-grid gap-2 d-md-flex">
                             <div class="col-md-12">
-                                <asp:LinkButton ID="lnkSaveReceivedDate" runat="server" CssClass="btn btn-azure w-100" OnClick="lnkSaveReceivedDate_Click">
+                                <asp:LinkButton ID="lnkSaveReceivedDate" runat="server" CssClass="btn w-100 btn-block btn-indigo" OnClick="lnkSaveReceivedDate_Click">
                                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-navigation-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16.573 12.914l-4.573 -9.914l-7.97 17.275c-.07 .2 -.017 .424 .135 .572c.15 .148 .374 .193 .57 .116l7.265 -2.463" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
                                                 Save 3rd Party Received
                                 </asp:LinkButton>
@@ -838,7 +926,7 @@
 
                         <div class="d-grid gap-2 d-md-flex">
                             <div class="col-md-12">
-                                <asp:LinkButton ID="lnkProposedTicketResolution" runat="server" CssClass="btn btn-info w-100" OnClick="lnkProposedTicketResolution_Click">
+                                <asp:LinkButton ID="lnkProposedTicketResolution" runat="server" CssClass="btn w-100 btn-block btn-info" OnClick="lnkProposedTicketResolution_Click">
                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>                               
                                                 Save as Resolved
                                 </asp:LinkButton>
@@ -1205,5 +1293,33 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdITPICRejected3rdParty">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reject 3rd Party</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <asp:Label ID="Label8" runat="server" Text="Rejected Date from 3rd Party:" CssClass="form-label status status-primary required mb-2 mt-2"></asp:Label>
+                        <asp:TextBox ID="txt3rdPartyRejectedDate" runat="server" CssClass="form-control text-reset mt-2" TextMode="Date" Placeholder="Select a Date"></asp:TextBox>
+                    </div>
+                    <div class="col-md-12">
+                        <asp:Label ID="lbl3rdptrejectreason" runat="server" CssClass="form-label status status-primary required mt-2">Remarks:</asp:Label>
+                        <asp:TextBox ID="txt3rdPtRejectReason" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset mt-2"></asp:TextBox>
+                        <div class="modal-footer">
+                            <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+                            <asp:LinkButton ID="lnkReject3rdParty" runat="server" CssClass="btn btn-danger" OnClientClick="return validateReject3rdPartySolution();" OnClick="lnkReject3rdParty_Click">Reject 3rd Party</asp:LinkButton>
+                            <%--<asp:LinkButton ID="lnkReject3rdPartySolution" runat="server" CssClass="btn btn-danger" OnClientClick=" return validateReject3rdPartySolution();" OnClick="lnkReject3rdPartySolution_Click">Reject 3rd Party Solution</asp:LinkButton>--%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </asp:Content>

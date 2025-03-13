@@ -20,13 +20,16 @@ namespace HelpDeskVG
 
                 DisplaySection();
                 DisplaySection2();
+
                 DisplayPriorityList();
                 DisplaySectionList();
                 DisplayCategoryList();
                 DisplayNatureOfProbList();
                 DisplayRoleAdminandITPIC();
-                clsQueries.DisplayITPICEmployeeMaintenance(ddlEmployeeIT);
                 DisplayRole();
+
+                clsQueries.DisplayITPICEmployeeMaintenance(ddlEmployeeIT);
+
             }
         }
         protected void lnkRolesandPermission_Click(object sender, EventArgs e)
@@ -114,7 +117,7 @@ namespace HelpDeskVG
         protected void DisplayPriorityList()
         {
             string sql = "";
-            sql = @"SELECT description, alloted_hour, created_at, priority_id FROM m_Priority WHERE is_active = '1'";
+            sql = @"SELECT description, alloted_hour, created_at, color_code, priority_id FROM m_Priority WHERE is_active = '1'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -221,7 +224,16 @@ namespace HelpDeskVG
             sql += " @Section='" + txtNewSection.Text + "'";
 
             clsQueries.executeQuery(sql);
+
+            txtNewSection.Text = "";
+
+            DisplayPriorityList();
             DisplaySectionList();
+            DisplayCategoryList();
+            DisplayNatureOfProbList();
+            DisplayRoleAdminandITPIC();
+            DisplayRole();
+
         }
 
         protected void lnkSaveCategory_Click(object sender, EventArgs e)
@@ -234,7 +246,17 @@ namespace HelpDeskVG
             sql += " @Category='" + txtNewCategory.Text + "'";
 
             clsQueries.executeQuery(sql);
+
+            DisplayPriorityList();
+            DisplaySectionList();
             DisplayCategoryList();
+            DisplayNatureOfProbList();
+            DisplayRoleAdminandITPIC();
+            DisplayRole();
+
+            ddlSection.SelectedValue = "";
+            txtNewCategory.Text = "";
+
         }
 
         protected void ddlSection2_SelectedIndexChanged(object sender, EventArgs e)
@@ -258,7 +280,18 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
+
+            ddlSection2.SelectedValue = "";
+            ddlCategory2.SelectedValue = "";
+            txtNewNatureOfProb.Text = "";
+
+            DisplayPriorityList();
+            DisplaySectionList();
+            DisplayCategoryList();
             DisplayNatureOfProbList();
+            DisplayRoleAdminandITPIC();
+            DisplayRole();
+
         }
 
         protected void lnkSaveNewPrio_Click(object sender, EventArgs e)
@@ -267,18 +300,32 @@ namespace HelpDeskVG
             string sql = "";
             if (allocatedHours > 0)
             {
+
+                string colorCode = ddlPriorityColor.SelectedValue;
+
                 sql = "EXEC sp_vgHelpDesk_Admin_InsertNewPriority ";
                 sql += " @CreatedBy='" + Session["EmployeeNo"].ToString() + "',";
                 sql += " @DescPriority='" + txtNewDescPriority.Text + "',";
-                sql += " @AllotedHrs='" + txtNewAllotedHrs.Text + "'";
+                sql += " @AllotedHrs='" + txtNewAllotedHrs.Text + "',";
+                sql += " @ColorCode='" + colorCode + "'";
 
                 clsQueries.executeQuery(sql);
+
+                clsUtil.ShowToastr(this.Page, "Successfully Added New Priority", "success");
+
+                DisplayPriorityList();
+                DisplaySectionList();
+                DisplayCategoryList();
+                DisplayNatureOfProbList();
+                DisplayRoleAdminandITPIC();
+                DisplayRole();
+
             }
             else
             {
                 clsUtil.ShowToastr(this.Page, "Please Insert Integer Only", "warning");
             }
-            DisplayPriorityList();
+
         }
 
         protected void lnkEditSection_Click(object sender, EventArgs e)
@@ -298,6 +345,7 @@ namespace HelpDeskVG
             txtEditSection.Text = dt.Rows[0]["description_section"].ToString();
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "editSectionModal();", true);
+
         }
 
         protected void lnkSaveNewEditedSection_Click(object sender, EventArgs e)
@@ -312,7 +360,12 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
+            DisplayPriorityList();
             DisplaySectionList();
+            DisplayCategoryList();
+            DisplayNatureOfProbList();
+            DisplayRoleAdminandITPIC();
+            DisplayRole();
         }
 
         protected void lnkEditCategory_Click(object sender, EventArgs e)
@@ -347,7 +400,12 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
+            DisplayPriorityList();
+            DisplaySectionList();
             DisplayCategoryList();
+            DisplayNatureOfProbList();
+            DisplayRoleAdminandITPIC();
+            DisplayRole();
         }
 
         protected void lnkEditNatureOfProb_Click(object sender, EventArgs e)
@@ -387,7 +445,12 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
+            DisplayPriorityList();
+            DisplaySectionList();
+            DisplayCategoryList();
             DisplayNatureOfProbList();
+            DisplayRoleAdminandITPIC();
+            DisplayRole();
         }
 
         protected void lnkEditPriority_Click(object sender, EventArgs e)
@@ -397,7 +460,7 @@ namespace HelpDeskVG
 
             string sql = "";
 
-            sql = "SELECT [description], alloted_hour FROM m_Priority WHERE is_active = '1' AND priority_id=" + hfMdPriorityId.Value.ToString();
+            sql = "SELECT [description], color_code, alloted_hour FROM m_Priority WHERE is_active = '1' AND priority_id=" + hfMdPriorityId.Value.ToString();
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -417,11 +480,17 @@ namespace HelpDeskVG
             sql = "EXEC sp_vgHelpDesk_Admin_UpdateEditedPriority";
             sql += " @PriorityId = '" + priorityId + "',";
             sql += " @NewEditedPriorityDesc = '" + txtNewEditedDescriptionPriority.Text + "',";
-            sql += " @NewEditedAllotedHrs = '" + txtNewEditedAllotedHr.Text + "'";
+            sql += " @NewEditedAllotedHrs = '" + txtNewEditedAllotedHr.Text + "',";
+            sql += " @ColorCode = '" + ddlEditColorPriority.SelectedValue + "'";
 
             clsQueries.executeQuery(sql);
 
             DisplayPriorityList();
+            DisplaySectionList();
+            DisplayCategoryList();
+            DisplayNatureOfProbList();
+            DisplayRoleAdminandITPIC();
+            DisplayRole();
 
         }
 
@@ -446,7 +515,12 @@ namespace HelpDeskVG
                     clsQueries.executeQuery(sql);
                 }
             }
+            DisplayPriorityList();
+            DisplaySectionList();
+            DisplayCategoryList();
+            DisplayNatureOfProbList();
             DisplayRoleAdminandITPIC();
+            DisplayRole();
         }
 
         protected void lnkActivate_Click(object sender, EventArgs e)
@@ -464,7 +538,12 @@ namespace HelpDeskVG
                 clsQueries.executeQuery(sql);
             }
 
+            DisplayPriorityList();
+            DisplaySectionList();
+            DisplayCategoryList();
+            DisplayNatureOfProbList();
             DisplayRoleAdminandITPIC();
+            DisplayRole();
 
         }
 
@@ -479,7 +558,12 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
+            DisplayPriorityList();
             DisplaySectionList();
+            DisplayCategoryList();
+            DisplayNatureOfProbList();
+            DisplayRoleAdminandITPIC();
+            DisplayRole();
 
         }
 
@@ -494,7 +578,12 @@ namespace HelpDeskVG
             sql += " @CategoryId='" + hfCategoryId.Value.ToString() + "'";
 
             clsQueries.executeQuery(sql);
+            DisplayPriorityList();
+            DisplaySectionList();
             DisplayCategoryList();
+            DisplayNatureOfProbList();
+            DisplayRoleAdminandITPIC();
+            DisplayRole();
         }
 
         protected void lnkDeleteNatureOfProb_Click(object sender, EventArgs e)
@@ -508,7 +597,12 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
+            DisplayPriorityList();
+            DisplaySectionList();
+            DisplayCategoryList();
             DisplayNatureOfProbList();
+            DisplayRoleAdminandITPIC();
+            DisplayRole();
         }
 
         protected void lnkDeletePriority_Click(object sender, EventArgs e)
@@ -523,6 +617,11 @@ namespace HelpDeskVG
             clsQueries.executeQuery(sql);
 
             DisplayPriorityList();
+            DisplaySectionList();
+            DisplayCategoryList();
+            DisplayNatureOfProbList();
+            DisplayRoleAdminandITPIC();
+            DisplayRole();
 
         }
     }
