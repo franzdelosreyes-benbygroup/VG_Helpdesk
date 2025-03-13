@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,7 +24,8 @@ namespace HelpDeskVG
             string _course_series = (sender as LinkButton).CommandArgument;
             Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("LearningSystem.Reports.ReportEmployeeNotEnrolled.xlsx");
             ExcelPackage pck = new ExcelPackage(stream);
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            ExcelPackage.LicenseContext = LicenseContext;
 
             using (pck)
             {
