@@ -2215,5 +2215,61 @@ namespace HelpDeskVG.IT_PIC_Portal
             txt3rdPtRejectReason.Text = "";
             txt3rdPartyRejectedDate.Text = "";
         }
+
+        protected void lnkViewHistory_Click(object sender, EventArgs e)
+        {
+            HiddenField hfMyTicketITPIC = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderMyTicket") as HiddenField;
+
+            string ticketHeader = hfMyTicketITPIC.Value.ToString();
+
+            string sql = "EXEC sp_vgHelpDesk_ViewTicketHistory ";
+            sql += "@TicketHeader ='" + ticketHeader + "'";
+
+            DataTable dt = new DataTable();
+            dt = clsQueries.fetchData(sql);
+
+            if (dt.Rows.Count > 0)
+            {
+                gvTicketHistory.DataSource = dt;
+                gvTicketHistory.DataBind();
+                dt.Dispose();
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showTicketHistory();", true);
+
+            }
+
+            else
+            {
+                Response.Redirect("Login.aspx");
+            }
+        }
+
+        protected void lnkViewHistory3rdParty_Click(object sender, EventArgs e)
+        {
+            HiddenField hfMyTicketITPIC = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptedTicket") as HiddenField;
+
+            string ticketHeader = hfMyTicketITPIC.Value.ToString();
+
+            string sql = "EXEC sp_vgHelpDesk_ITPIC_View3rdPartyHistory ";
+            sql += "@TicketHeader ='" + ticketHeader + "'";
+
+            DataTable dt = new DataTable();
+            dt = clsQueries.fetchData(sql);
+
+            if (dt.Rows.Count > 0)
+            {
+                gvTicketHistory.DataSource = dt;
+                gvTicketHistory.DataBind();
+                dt.Dispose();
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showTicketHistory();", true);
+
+            }
+
+            else
+            {
+                Response.Redirect("Login.aspx");
+            }
+        }
     }
 }

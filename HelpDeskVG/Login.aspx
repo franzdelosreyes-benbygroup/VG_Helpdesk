@@ -9,7 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title><%= Page.Title %></title>
+
     <!-- CSS files -->
+    <link rel="icon" href="img/logoVGnewicon.jpg" type="image/jpg" />
     <link href="tabler/dist/css/tabler.min.css" rel="stylesheet" />
     <link href="tabler/dist/css/tabler-flags.min.css" rel="stylesheet" />
     <link href="tabler/dist/css/tabler-payments.min.css" rel="stylesheet" />

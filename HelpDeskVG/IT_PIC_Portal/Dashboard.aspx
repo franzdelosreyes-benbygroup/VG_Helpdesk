@@ -32,6 +32,11 @@
             });
         }
 
+        function showTicketHistory() {
+            $(document).ready(function () {
+                $("#mdTicketHistory").modal("show");
+            });
+        }
 
         function rejectITPICTicketRemarks() {
             $(document).ready(function () {
@@ -508,6 +513,14 @@
                                              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                        View Details
                                             </asp:LinkButton>
+                                            <asp:LinkButton ID="lnkViewHistory" runat="server" Visible='<%# (Eval("is_draft").ToString() != "True" ? true : false) %>' OnClick="lnkViewHistory_Click" CssClass="btn btn-warning position-relative w-50">
+                                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-history">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 8l0 4l2 2" />
+                                                        <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+                                                    </svg>
+                                                View History
+                                            </asp:LinkButton>
                                             <asp:LinkButton ID="lnkDeleteDraft" runat="server" ToolTip="Delete Draft" Visible='<%# (Eval("is_draft").ToString() == "True" ? true : false)%>' CommandArgument='<%# Eval("ticket_id")%>' OnClick="lnkDeleteDraft_Click" CssClass="btn btn-danger position--relative w-50">
                                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />
                                      <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
@@ -653,9 +666,19 @@
                                             <asp:HiddenField ID="hfThirdPtDateGiven" runat="server" Value='<%# Eval("third_party_date_given")%>' />
                                             <asp:HiddenField ID="hfTicketHeaderIdAcceptedTicket" runat="server" Value='<%# Eval("ticket_id")%>' />
                                             <asp:LinkButton ID="lnkAcceptedTicketDetails" OnClick="lnkAcceptedTicketDetails_Click" CssClass="btn btn-info" runat="server">
-                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
-
-                                                Ticket Details</asp:LinkButton>
+                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                 <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+                                                Ticket Details
+                                            </asp:LinkButton>
+                                            <asp:LinkButton ID="lnkViewHistory3rdParty" runat="server" OnClick="lnkViewHistory3rdParty_Click" CssClass="btn btn-warning position-relative w-50">
+                                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-history">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 8l0 4l2 2" />
+                                                        <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+                                                    </svg>
+                                                View History
+                                                
+                                            </asp:LinkButton>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>
@@ -745,7 +768,7 @@
     <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdDetailsUsersTicket">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Ticket Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -942,7 +965,7 @@
     <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdITPICAcceptTicket3rdParty">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Accept Ticket w/ Third Party</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -971,7 +994,7 @@
     <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdITPICReceivedTicket3rdParty">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Accept Ticket w/ Third Party</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -994,7 +1017,7 @@
     <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdITPICRejectTicketRemarks">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Reject Ticket Remarks</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -1012,7 +1035,7 @@
   <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdITPICProposedSolution">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Proposed Solution</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -1055,7 +1078,7 @@
       <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdITPICProposedSolutionAgain">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Proposed Solution</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -1100,7 +1123,7 @@
   <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdUSERRejectedSolution">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Rejected Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -1162,7 +1185,7 @@
        <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdResolvedDetailsUsersTicket">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-red">
                         <h5 class="modal-title">Resolution</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -1226,7 +1249,7 @@
     <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdUserRejectProposedTicket">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Reject Solution</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -1298,7 +1321,7 @@
     <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdITPICRejected3rdParty">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Reject 3rd Party</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -1321,5 +1344,35 @@
         </div>
     </div>
 
+    <div class="modal modal-blur fade show" tabindex="-1" aria-modal="true" role="dialog" id="mdTicketHistory">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-red">
+                    <h5 class="modal-title">Ticket History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <asp:HiddenField ID="hfTicketHeaderForHistory" runat="server" />
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <asp:GridView ID="gvTicketHistory" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4">
+                            <Columns>
+                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                <asp:BoundField DataField="status" HeaderText="Status" />
+                                <asp:BoundField DataField="created_at" HeaderText="Date Transacted" />
+                                <asp:BoundField DataField="priority_description" HeaderText="Priority Level" />
+                                <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                <asp:BoundField DataField="transacted_by" HeaderText="Transacted By" />
+                            </Columns>
+                            <EmptyDataTemplate>
+                                No Data Found
+                            </EmptyDataTemplate>
+                        </asp:GridView>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </asp:Content>

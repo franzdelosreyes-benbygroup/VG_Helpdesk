@@ -662,7 +662,7 @@
     <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdDetailsUsersTicket">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Ticket Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -857,7 +857,7 @@
     <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdRejectTicketRemarks">
              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-red">
                 <h5 class="modal-title">Reject Ticket Remarks</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -876,7 +876,7 @@
     <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdAssignTicketToITPIC">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Assign Ticket To</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -894,7 +894,7 @@
     <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdResolvedDetailsUsersTicket">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Resolution</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -959,7 +959,7 @@
         <div class="modal modal-blur fade" tabindex="-1" role="dialog" aria-hidden="true" id="mdUserRejectProposedTicket">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Reject Proposed Ticket</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -1011,7 +1011,7 @@
     <div class="modal modal-blur fade show" tabindex="-1" aria-modal="true" role="dialog" id="mdTicketHistory">
         <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-red">
                     <h5 class="modal-title">Ticket History</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     <asp:HiddenField ID="hfTicketHeaderForHistory" runat="server" />

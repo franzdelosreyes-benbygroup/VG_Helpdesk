@@ -1017,5 +1017,33 @@ namespace HelpDeskVG.User_Portal
             gvRejectedTicketByAdmin.PageIndex = e.NewPageIndex;
             DisplayRejectedTicketsByAdmin();
         }
+
+        protected void lnkViewHistory_Click(object sender, EventArgs e)
+        {
+            HiddenField hfMyTicketITPIC = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderId") as HiddenField;
+
+            string ticketHeader = hfMyTicketITPIC.Value.ToString();
+
+            string sql = "EXEC sp_vgHelpDesk_ViewTicketHistory ";
+            sql += "@TicketHeader ='" + ticketHeader + "'";
+
+            DataTable dt = new DataTable();
+            dt = clsQueries.fetchData(sql);
+
+            if (dt.Rows.Count > 0)
+            {
+                gvTicketHistory.DataSource = dt;
+                gvTicketHistory.DataBind();
+                dt.Dispose();
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showTicketHistory();", true);
+
+            }
+
+            else
+            {
+                Response.Redirect("Login.aspx");
+            }
+        }
     }
 }
