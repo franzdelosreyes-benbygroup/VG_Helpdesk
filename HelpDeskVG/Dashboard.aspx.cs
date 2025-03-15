@@ -431,8 +431,9 @@ namespace HelpDeskVG
                     lnkRejectTicketUser.Visible = true;
                     lnkAcceptTicketProposal.Visible = false;
                     lnkRejectTicketProposal.Visible = false;
-                    ddlCategoryMd.Enabled = true;
-                    ddlNatureofprobMd.Enabled = true;
+                    ddlSectionMd.Enabled = false;
+                    ddlCategoryMd.Enabled = false;
+                    ddlNatureofprobMd.Enabled = false;
                     lnkEditDetailsForReassignAndAssignTicket.Visible = true;
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
                 }

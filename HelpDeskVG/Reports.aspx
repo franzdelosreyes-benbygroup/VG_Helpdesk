@@ -20,10 +20,10 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-4">
-                                <asp:Label ID="lblNoOfTixClosed" runat="server" CssClass="form-label status status-primary mb-2">No. of Tickets Fully Closed</asp:Label>
+                                <asp:Label ID="lblNoOfTixClosed" runat="server" CssClass="form-label status status-primary mb-2"></asp:Label>
                             </div>
                             <div class="col-md-4">
-                                <asp:Label ID="lblNoOfTicketsResolved" runat="server" CssClass="form-label status status-primary mb-2">No. of Tickets Fully Resolved</asp:Label>
+                                <asp:Label ID="lblNoOfTicketsResolved" runat="server" CssClass="form-label status status-primary mb-2"></asp:Label>
                             </div>
                             <div class="col-md-4">
                                 <asp:Label ID="lblNoOfTicketsAutoClosed" runat="server" CssClass="form-label status status-primary mb-2">No. of Tickets Auto Closed</asp:Label>

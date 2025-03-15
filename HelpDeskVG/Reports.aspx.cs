@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.EnterpriseServices;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Web;
+using System.Web; 
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using HelpDeskVG.Classes;
 using OfficeOpenXml;
 
 namespace HelpDeskVG
@@ -16,7 +18,11 @@ namespace HelpDeskVG
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if(!IsPostBack)
+            {
+                CountClosedTicket();
+                CountFullyResolved();
+            }
         }
 
         protected void lnkTixClosedReport_Click(object sender, EventArgs e)
@@ -142,5 +148,37 @@ namespace HelpDeskVG
             //Response.Flush();
             //Response.End();
         }
+
+        protected void CountClosedTicket()
+        {
+            string sql = " SELECT COUNT(a.ticket_code) FROM t_TicketHeader AS a WHERE a.approval_transactional_level = '8' AND a.[status] = 'CLOSED' ";
+            clsQueries.fetchData(sql);
+            DataTable dt = new DataTable();
+
+            dt = clsQueries.fetchData(sql);
+
+            int ticketCount = Convert.ToInt32(dt.Rows[0][0]);
+
+            lblNoOfTixClosed.Text = "No. of Tickets Fully Closed: " + ticketCount.ToString();
+
+            dt.Dispose();
+
+        }
+
+        protected void CountFullyResolved()
+        {
+            string sql = " SELECT COUNT(a.ticket_code) FROM t_TicketHeader AS a WHERE a.approval_transactional_level = '6' AND a.[status] = 'RESOLVED'";
+            clsQueries.fetchData(sql);
+            DataTable dt = new DataTable();
+
+            dt = clsQueries.fetchData(sql);
+
+            int ticketCount = Convert.ToInt32(dt.Rows[0][0]);
+
+            lblNoOfTicketsResolved.Text = "No. of Tickets Fully Resovled: " + ticketCount.ToString();
+
+            dt.Dispose();
+        }
+
     }
 }
