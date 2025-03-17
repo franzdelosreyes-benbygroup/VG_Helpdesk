@@ -1,9 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Reports.aspx.cs" Inherits="HelpDeskVG.Reports" %>
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="head">
+    <title>Reports</title>
 
-    <style>
-    </style>
 </asp:Content>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">

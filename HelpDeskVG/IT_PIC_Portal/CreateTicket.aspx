@@ -2,6 +2,8 @@
 
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="head">
+        <title>Create Ticket</title>
+
     <script type="text/javascript">
         function validateForm() {
             var natureOfProblem = document.getElementById('<%= ddlNatureOfProblem.ClientID %>').value;

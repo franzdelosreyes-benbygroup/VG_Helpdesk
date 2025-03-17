@@ -1,6 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/User_Portal/User_Portal.Master" CodeBehind="CreateTicket.aspx.cs" Inherits="HelpDeskVG.User_Portal.CreateTicket" %>
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderId="head">
+        <title>Create Ticket</title>
+
     <script type="text/javascript">
     function validateForm() {
         var natureOfProblem = document.getElementById('<%= ddlNatureOfProblem.ClientID %>').value;

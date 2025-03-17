@@ -247,7 +247,9 @@
     <Content Include="Global.asax" />
     <Content Include="img\logoVGnewicon.jpg" />
     <Content Include="img\logoVGnewpng.png" />
+    <Content Include="img\VG High Res - Revised Long Logo Final Original.png" />
     <Content Include="img\vghelpdesk_login_bg.svg" />
+    <Content Include="img\VGlogonobg.png" />
     <Content Include="IT_PIC_Portal\CreateTicket.aspx" />
     <Content Include="IT_PIC_Portal\Dashboard.aspx" />
     <Content Include="Login.aspx" />

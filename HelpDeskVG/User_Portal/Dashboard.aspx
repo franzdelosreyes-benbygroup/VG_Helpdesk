@@ -2,6 +2,8 @@
 <%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/User_Portal/User_Portal.Master" CodeBehind="Dashboard.aspx.cs" Inherits="HelpDeskVG.User_Portal.Dashboard" %>
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderId="head">
+        <title>Dashboard</title>
+
     <script type="text/javascript">
         function detailsModal() {
             $(document).ready(function () {

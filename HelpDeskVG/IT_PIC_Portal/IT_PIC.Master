@@ -14,6 +14,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <!-- CSS files -->
+    <link rel="icon" href="../img/VGlogonobg.png" type="image/png" />
     <link href="../tabler/dist/css/tabler.min.css" rel="stylesheet" />
     <link href="../tabler/dist/css/demo.min.css" rel="stylesheet" />
     <link href="../tabler/dist/css/tabler-flags.min.css" rel="stylesheet" />

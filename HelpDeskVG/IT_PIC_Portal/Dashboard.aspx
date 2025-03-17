@@ -2,6 +2,9 @@
 
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="head">
+
+        <title>Dashboard</title>
+
         <link href="../dist/css/select2.css" rel="stylesheet" />
     <script src="../dist/js/select2.min.js"></script>
 

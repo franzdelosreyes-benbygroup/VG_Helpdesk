@@ -3,6 +3,7 @@
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="head">
 
+        <title>Dashboard</title>
 
     <script type="text/javascript">
 
@@ -139,7 +140,6 @@
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <section class="row" aria-labelledby="aspnetTitle">
-        <h1><%=Page.Title %></h1>
     </section>
     <div class="col-md-12">
         <div class="row">

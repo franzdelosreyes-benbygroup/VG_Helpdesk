@@ -1,6 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Maintenance.aspx.cs" Inherits="HelpDeskVG.Maintenance" %>
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="head">
+        <title>Maintenance</title>
+
         <script type="text/javascript">
             function assignRoleModal() {
                 $(document).ready(function () {
