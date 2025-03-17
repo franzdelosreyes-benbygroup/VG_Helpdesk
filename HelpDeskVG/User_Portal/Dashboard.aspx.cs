@@ -350,7 +350,7 @@ namespace HelpDeskVG.User_Portal
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.approval_transactional_level ,a.[subject], a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.approval_transactional_level ,a.[subject], a.created_for, a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -365,7 +365,7 @@ namespace HelpDeskVG.User_Portal
             dt = clsQueries.fetchData(sql);
 
             txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
-            txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
+            txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
             txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
             txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
@@ -667,6 +667,7 @@ namespace HelpDeskVG.User_Portal
             clsQueries.DisplaySection(ddlSectionMd);
             clsQueries.DisplayCategory(ddlCategoryMd);
             clsQueries.DisplayNatureOfProblem(ddlNatureofprobMd);
+
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptTicket") as HiddenField;
 
             string sql = "";
@@ -675,39 +676,42 @@ namespace HelpDeskVG.User_Portal
 					LEFT JOIN t_ProposedAttachment AS h ON a.ticket_id  =  h.ticket_header_id
 					WHERE a.approval_transactional_level = '6' AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND a.ticket_id=" + hfTicketHeaderId.Value.ToString();
 
-                DataTable dt = new DataTable();
-                dt = clsQueries.fetchData(sql);
-                txtDescriptionAttachmentProposed.Text = dt.Rows[0]["description_attachment"].ToString();
-                txtProposedRemarksMd.Text = dt.Rows[0]["proposed_remarks"].ToString();
+            DataTable dt = new DataTable();
+            dt = clsQueries.fetchData(sql);
+            txtDescriptionAttachmentProposed.Text = dt.Rows[0]["description_attachment"].ToString();
+            txtProposedRemarksMd.Text = dt.Rows[0]["proposed_remarks"].ToString();
+
+            txtProposedRemarksMd.Enabled = false;
+            txtDescriptionAttachmentProposed.Enabled = false;
+
+            lblAttachDesc.Visible = false;
+            txtDescriptionAttachmentProposed.Visible = false;
+            lblAttachDescriptionProposed.Visible = false;
+
+            hfTicketHeaderIdforResolved.Value = hfTicketHeaderId.Value;
+
+            string ticketHeader = hfTicketHeaderIdforResolved.Value.ToString();
+
+            sql = "EXEC sp_vgHelpDesk_User_GetProposedAttachmentDetails ";
+            sql += "@TicketHeaderId ='" + ticketHeader + "'";
+
+            clsQueries.executeQuery(sql);
+
+            DataTable dtAttachment = new DataTable();
+            dtAttachment = clsQueries.fetchData(sql);
+
+            gvDownloadAttachmentInResolved.DataSource = dtAttachment;
+            gvDownloadAttachmentInResolved.DataBind();
+            gvDownloadAttachmentInResolved.Dispose();
 
 
-                txtProposedRemarksMd.Enabled = false;
-                txtDescriptionAttachmentProposed.Enabled = false;
+            lnkAcceptResolvedTicket.Visible = true;
+            lnkRejectResolvedTicket.Visible = true;
 
-                hfTicketHeaderIdforResolved.Value = hfTicketHeaderId.Value;
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "resolvedDetailsModal();", true);
 
-                string ticketHeader = hfTicketHeaderIdforResolved.Value.ToString();
-
-                sql = "EXEC sp_vgHelpDesk_User_GetProposedAttachmentDetails ";
-                sql += "@TicketHeaderId ='" + ticketHeader + "'";
-
-                clsQueries.executeQuery(sql);
-
-                DataTable dtAttachment = new DataTable();
-                dtAttachment = clsQueries.fetchData(sql);
-
-
-                gvDownloadAttachmentInResolved.DataSource = dtAttachment;
-                gvDownloadAttachmentInResolved.DataBind();
-                gvDownloadAttachmentInResolved.Dispose();
-
-                lnkAcceptResolvedTicket.Visible = true;
-                lnkRejectResolvedTicket.Visible = true;
-                
-
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "resolvedDetailsModal();", true);
-                
             dt.Dispose();
+
         }
 
         protected void lnkUserRejectProposedSolution_Click(object sender, EventArgs e)

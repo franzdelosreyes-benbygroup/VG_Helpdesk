@@ -1512,7 +1512,7 @@ namespace HelpDeskVG
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.approval_transactional_level ,a.[subject], a.created_for, a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.approval_transactional_level ,a.[subject], a.assigned_emp_no, a.created_for, a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -1533,6 +1533,7 @@ namespace HelpDeskVG
                 ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
                 ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
                 ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
+                ddlAssignToEmpITMd.SelectedValue = dt.Rows[0]["assigned_emp_no"].ToString();
 
             }
             catch
@@ -1542,6 +1543,7 @@ namespace HelpDeskVG
                 ddlCategoryMd.SelectedValue = "";
                 ddlNatureofprobMd.SelectedValue = "";
                 ddlPriorityMd.SelectedValue = "";
+                ddlAssignToEmpITMd.SelectedValue = "";
             }
 
             txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
@@ -1558,6 +1560,14 @@ namespace HelpDeskVG
             ddlCategoryMd.Enabled = false;
             ddlNatureofprobMd.Enabled = false;
             ddlPriorityMd.Enabled = false;
+            ddlAssignToEmpITMd.Enabled = false;
+            ddlCreatedForMd.Enabled = false;
+            lblAttachmentDescription.Visible = false;
+            txtAttachmentDescriptionMd.Visible = false;
+            lblAttachNewAttachment.Visible = false;
+            fuUploadAttachmentInEdit.Visible = false;
+            lblNewAttachmentInEdit.Visible = false;
+            txtNewAttachmentInEdit.Visible = false;
 
             hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
 
@@ -1596,7 +1606,7 @@ namespace HelpDeskVG
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, a.proposed_remarks, h.attachment_proposed_id, h.[data], h.description AS description_attachment, h.[file_name], h.content_type FROM t_TicketHeader AS a 
+            sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, a.proposed_remarks, a.assigned_emp_no ,h.attachment_proposed_id, h.[data], h.description AS description_attachment, h.[file_name], h.content_type FROM t_TicketHeader AS a 
                     INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id
 					LEFT JOIN t_ProposedAttachment AS h ON a.ticket_id  =  h.ticket_header_id
 					WHERE a.approval_transactional_level = '6' AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND a.ticket_id=" + hfTicketHeaderId.Value.ToString();

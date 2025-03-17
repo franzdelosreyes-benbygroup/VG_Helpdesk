@@ -170,7 +170,8 @@ namespace HelpDeskVG.IT_PIC_Portal
             sql += "@Category='" + ddlCategoryFilter.SelectedValue.ToString() + "',";
             sql += "@Section='" + ddlSectionFilter.SelectedValue.ToString() + "',";
             sql += "@CreatedBy='" + ddlEmployeeVg.SelectedValue.ToString() + "',";
-            sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue.ToString() + "'";
+            sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue.ToString() + "',";
+            sql += "@Assigned_Emp_No='" + Session["EmployeeNo"].ToString() + "'";
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -433,6 +434,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     lnkProposedTicketResolution.Visible = false;
                     lnkEditDetails.Visible = false;
                     lnkReject3rdParty.Visible = false;
+                    lnkITPICReject3rdParty.Visible = false;
 
                     lnkTagThisToThirdParty.Visible = false;
                     lblAttachNewAttachment.Visible = false;
@@ -510,10 +512,12 @@ namespace HelpDeskVG.IT_PIC_Portal
             clsQueries.DisplayCategory(ddlCategoryMd);
             clsQueries.DisplayNatureOfProblem(ddlNatureofprobMd);
             clsQueries.DisplayPriority(ddlPriorityMd);
+            clsQueries.DisplayEmployee(ddlCreatedForMd);
+
 
 
             string sql = "";
-            sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, c.description_section, c.section_id, d.description_category, d.category_id, e.description_natureofprob, e.nature_of_prob_id, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_by, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS created_for, h.attachment_id, h.[data], h.[file_name], h.content_type, i.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, a.created_for, c.description_section, c.section_id, d.description_category, d.category_id, e.description_natureofprob, e.nature_of_prob_id, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_by, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS created_for_text, h.attachment_id, h.[data], h.[file_name], h.content_type, i.priority_id FROM t_TicketHeader AS a
                     INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id
                     INNER JOIN m_Section AS c ON c.section_id = a.section_id
                     INNER JOIN m_Category AS d ON d.category_id = a.category_id
@@ -522,7 +526,7 @@ namespace HelpDeskVG.IT_PIC_Portal
 					INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS g ON g.employee_code = a.created_for
                     LEFT JOIN t_AttachmentReport AS h ON a.ticket_id = h.ticket_header_id
 					LEFT JOIN m_Priority AS i ON i.priority_id = a.priority_id
-                    WHERE a.approval_transactional_level = '7' AND a.[assigned_emp_no_log] =" + Session["EmployeeNo"].ToString();
+                    WHERE a.approval_transactional_level = '5' AND a.[assigned_emp_no_log] =" + Session["EmployeeNo"].ToString();
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
@@ -539,7 +543,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                 else
                 {
                     txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
-                    txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
+                    txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
                     txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
@@ -549,6 +553,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                         ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString(); 
                         ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
                         ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
+                        ddlCreatedForMd.SelectedValue = dt.Rows[0]["created_for"].ToString();
 
                     }
                     catch
@@ -557,6 +562,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                         ddlCategoryMd.SelectedValue = "";
                         ddlNatureofprobMd.SelectedValue = "";
                         ddlPriorityMd.SelectedValue = "";
+                        ddlCreatedForMd.SelectedValue = "";
                     }
 
 
@@ -582,12 +588,24 @@ namespace HelpDeskVG.IT_PIC_Portal
                     ddlCategoryMd.Enabled = false;
                     ddlNatureofprobMd.Enabled = false;
                     ddlCreatedForMd.Enabled = false;
+                    ddlPriorityMd.Enabled = false;
+                    txtAttachmentDescriptionMd.Visible = false;
+                    lblAttachDesccc.Visible = false;
+                    lblAttachNewAttachment.Visible = false;
+                    fuUploadAttachmentInEdit.Visible = false;
+                    lblNewAttachmentInEdit.Visible = false;
+                    txtNewAttachmentInEdit.Visible = false;
 
                     lnkReject3rdParty.Visible = false;
                     lnkAcceptTicket.Visible = false;
                     lnkRejectTicketUser.Visible = false;
                     lnkAcceptWithThirdParty.Visible = false;
                     lnkEditDetails.Visible = false;
+                    lnkTagThisToThirdParty.Visible = false;
+                    lnkSaveReceivedDate.Visible = false;
+                    lnkProposedTicketResolution.Visible = false;
+
+
 
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);        
                 }
@@ -1717,7 +1735,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.approval_transactional_level ,a.[subject], a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.approval_transactional_level ,a.[subject], a.created_for, a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -1750,11 +1768,11 @@ namespace HelpDeskVG.IT_PIC_Portal
             }
 
             txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
-            txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
+            txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
             txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
             txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
-            ddlCreatedForMd.Visible = false;
+            ddlCreatedForMd.Visible = true;
 
             txtCreatedBy.Enabled = false;
             txtCreatedFor.Enabled = false;
@@ -1781,6 +1799,8 @@ namespace HelpDeskVG.IT_PIC_Portal
             gvDownloadableAttachment.DataBind();
             gvDownloadableAttachment.Dispose();
 
+
+
             lnkEditDetails.Visible = false;
             lnkAcceptWithThirdParty.Visible = false;
             lnkEditDetails.Visible = false;
@@ -1788,6 +1808,17 @@ namespace HelpDeskVG.IT_PIC_Portal
             lnkSaveReceivedDate.Visible = false;
             lnkProposedTicketResolution.Visible = false;
             lnkReject3rdParty.Visible = false;
+            lnkITPICReject3rdParty.Visible = false;
+            lnkAcceptTicket.Visible = false;
+            lnkRejectTicketUser.Visible = false;
+
+            lblAttachmentDescription.Visible = false;
+            lblAttachDesccc.Visible = false;
+            txtAttachmentDescriptionMd.Visible = false;
+            lblAttachNewAttachment.Visible = false;
+            fuUploadAttachmentInEdit.Visible = false;
+            lblNewAttachmentInEdit.Visible = false;
+            txtNewAttachmentInEdit.Visible = false;
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
 
@@ -1799,11 +1830,13 @@ namespace HelpDeskVG.IT_PIC_Portal
             clsQueries.DisplaySection(ddlSectionMd);
             clsQueries.DisplayCategory(ddlCategoryMd);
             clsQueries.DisplayNatureOfProblem(ddlNatureofprobMd);
+            clsQueries.DisplayPriority(ddlPriorityMd);
+            clsQueries.DisplayEmployee(ddlCreatedForMd);
 
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, a.proposed_remarks, h.attachment_proposed_id, h.[data], h.description AS description_attachment, h.[file_name], h.content_type FROM t_TicketHeader AS a 
+            sql = @"SELECT a.subject, a.description, a.ticket_id, a.created_for, a.ticket_code, a.proposed_remarks, h.attachment_proposed_id, h.[data], h.description AS description_attachment, h.[file_name], h.content_type FROM t_TicketHeader AS a 
                     INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id
 					LEFT JOIN t_ProposedAttachment AS h ON a.ticket_id  =  h.ticket_header_id
 					WHERE a.approval_transactional_level = '6' AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND a.ticket_id=" + hfTicketHeaderId.Value.ToString();

@@ -537,6 +537,15 @@ namespace HelpDeskVG.User_Portal
         protected global::System.Web.UI.WebControls.GridView gvDownloadAttachmentInResolved;
 
         /// <summary>
+        /// lblAttachDescriptionProposed control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAttachDescriptionProposed;
+
+        /// <summary>
         /// txtDescriptionAttachmentProposed control.
         /// </summary>
         /// <remarks>

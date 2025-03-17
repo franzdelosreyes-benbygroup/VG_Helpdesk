@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.EnterpriseServices;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace HelpDeskVG
             {
                 CountClosedTicket();
                 CountFullyResolved();
+                CountAutoClose();
+                CountTicketsUnresolved();
             }
         }
 
@@ -167,7 +170,7 @@ namespace HelpDeskVG
 
         protected void CountFullyResolved()
         {
-            string sql = " SELECT COUNT(a.ticket_code) FROM t_TicketHeader AS a WHERE a.approval_transactional_level = '6' AND a.[status] = 'RESOLVED'";
+            string sql = " SELECT COUNT(a.ticket_code) FROM t_TicketHeader AS a WHERE a.approval_transactional_level = '6' AND a.[status] = 'RESOLVED' ";
             clsQueries.fetchData(sql);
             DataTable dt = new DataTable();
 
@@ -175,10 +178,40 @@ namespace HelpDeskVG
 
             int ticketCount = Convert.ToInt32(dt.Rows[0][0]);
 
-            lblNoOfTicketsResolved.Text = "No. of Tickets Fully Resovled: " + ticketCount.ToString();
+            lblNoOfTicketsResolved.Text = "No. of Tickets Fully Resolved: " + ticketCount.ToString();
 
             dt.Dispose();
         }
 
+        protected void CountAutoClose()
+        {
+            string sql = " SELECT COUNT(a.ticket_code) FROM t_TicketHeader AS a WHERE a.approval_transactional_level = '9' AND a.[status] = 'AUTO CLOSED' ";
+            clsQueries.fetchData(sql);
+            DataTable dt = new DataTable();
+
+            dt = clsQueries.fetchData(sql);
+
+            int ticketCount = Convert.ToInt32(dt.Rows[0][0]);
+
+            lblNoOfTicketsAutoClosed.Text = "No. of Tickets Auto Closed: " + ticketCount.ToString();
+
+            dt.Dispose();
+        }
+       
+
+        protected void CountTicketsUnresolved()
+        {
+            string sql = " SELECT COUNT(a.ticket_code) FROM t_TicketHeader AS a WHERE a.approval_transactional_level = '7' AND a.[status] = 'NOT RESOLVED' ";
+            clsQueries.fetchData(sql);
+            DataTable dt = new DataTable();
+
+            dt = clsQueries.fetchData(sql);
+
+            int ticketCount = Convert.ToInt32(dt.Rows[0][0]);
+
+            lblTixUnresolved.Text = "No. of Tickets Unresolved: " + ticketCount.ToString();
+            dt.Dispose();
+
+        }
     }
 }

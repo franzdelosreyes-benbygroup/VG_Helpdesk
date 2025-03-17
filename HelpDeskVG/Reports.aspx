@@ -22,11 +22,11 @@
                             <div class="col-md-4">
                                 <asp:Label ID="lblNoOfTixClosed" runat="server" CssClass="form-label status status-primary mb-2"></asp:Label>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4">  
                                 <asp:Label ID="lblNoOfTicketsResolved" runat="server" CssClass="form-label status status-primary mb-2"></asp:Label>
                             </div>
                             <div class="col-md-4">
-                                <asp:Label ID="lblNoOfTicketsAutoClosed" runat="server" CssClass="form-label status status-primary mb-2">No. of Tickets Auto Closed</asp:Label>
+                                <asp:Label ID="lblNoOfTicketsAutoClosed" runat="server" CssClass="form-label status status-primary mb-2"></asp:Label>
                             </div>
                         </div>
                         <div class="row">
@@ -50,13 +50,13 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <asp:Label ID="lblTixReportTimeToBeAssigned" runat="server" CssClass="form-label status status-primary mb-2">No. of Tickets Fully Closed</asp:Label>
+                                    <asp:Label ID="lblTixReportTimeToBeAssigned" runat="server" CssClass="form-label status status-primary mb-2">Time Tickets to be Assigned</asp:Label>
                                 </div>
                                 <div class="col-md-4">
-                                    <asp:Label ID="lblTixUnresolved" runat="server" CssClass="form-label status status-primary mb-2">No. of Tickets Fully Resolved</asp:Label>
+                                    <asp:Label ID="lblTixUnresolved" runat="server" CssClass="form-label status status-primary mb-2"></asp:Label>
                                 </div>
                                 <div class="col-md-4">
-                                    <asp:Label ID="lblTixRawReport" runat="server" CssClass="form-label status status-primary mb-2">No. of Tickets Auto Closed</asp:Label>
+                                    <asp:Label ID="lblTixRawReport" runat="server" CssClass="form-label status status-primary mb-2">Raw Report</asp:Label>
                                 </div>
                             </div>
                             <div class="row">

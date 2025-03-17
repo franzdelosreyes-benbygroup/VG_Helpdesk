@@ -1000,10 +1000,13 @@
                 </div>
                 <div class="modal-body">
                     <asp:Label ID="Label12" runat="server" Text="Received Date from 3rd Party" CssClass="form-label status status-primary required mb-2 mt-2"></asp:Label>
-                    <asp:TextBox ID="txt3rdPtReceivedDate" runat="server" CssClass="form-control text-reset mt-2" TextMode="Date" Placeholder="Select a Date"></asp:TextBox>   
-                    <script>
-            
-                    </script>
+                    <asp:TextBox ID="txt3rdPtReceivedDate" runat="server" CssClass="form-control text-reset mt-2" TextMode="Date" Placeholder="Select a Date"></asp:TextBox>
+                    <script type="text/javascript">
+                        // Automatically set the maximum date to today
+                        var txtBox = document.getElementById('<%= txt3rdPtReceivedDate.ClientID %>');
+                        var today = new Date().toISOString().split('T')[0];
+                        txtBox.max = today;
+                     </script>
                     
                     <div class="modal-footer">
                         <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
@@ -1043,7 +1046,7 @@
                 <div class="modal-body">
                     <asp:Label ID="lblRemarksProposed" runat="server" Text="Remarks" Placeholder="Input Remarks" CssClass="form-label status status-primary required-label"></asp:Label>
                     <asp:TextBox ID="txtRemarksProposedSolution" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset mt-2"></asp:TextBox>
-                    <asp:Label ID="lblAttachmentProposed" runat="server" Text="Remarks" CssClass="form-label status status-primary"></asp:Label>
+                    <asp:Label ID="lblAttachmentProposed" runat="server" Text="Attachment Solution" CssClass="form-label status status-primary mt-2"></asp:Label>
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">
@@ -1330,6 +1333,12 @@
                         <asp:Label ID="Label8" runat="server" Text="Rejected Date from 3rd Party:" CssClass="form-label status status-primary required mb-2 mt-2"></asp:Label>
                         <asp:TextBox ID="txt3rdPartyRejectedDate" runat="server" CssClass="form-control text-reset mt-2" TextMode="Date" Placeholder="Select a Date"></asp:TextBox>
                     </div>
+                    <script type="text/javascript">
+                        // Automatically set the maximum date to today
+                        var txtBox = document.getElementById('<%= txt3rdPartyRejectedDate.ClientID %>');
+                        var today = new Date().toISOString().split('T')[0];
+                        txtBox.max = today;
+                    </script>
                     <div class="col-md-12">
                         <asp:Label ID="lbl3rdptrejectreason" runat="server" CssClass="form-label status status-primary required mt-2">Remarks:</asp:Label>
                         <asp:TextBox ID="txt3rdPtRejectReason" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset mt-2"></asp:TextBox>

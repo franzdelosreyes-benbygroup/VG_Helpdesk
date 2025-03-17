@@ -123,7 +123,7 @@
                             <asp:TextBox ID="txtSearchTicket" CssClass="form-control text text-reset mt-2" Placeholder="Search Ticket Code.." runat="server"></asp:TextBox>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary">Filter Created By:</asp:Label>
+                            <asp:Label ID="lblSearchByCreatedBy" runat="server" CssClass="form-label status status-primary mb-2">Filter Created By:</asp:Label>
                             <asp:DropDownList ID="ddlEmployeeVg" CssClass="custom-select text text-reset mt-2" runat="server">
                             </asp:DropDownList>
                         </div>
@@ -574,7 +574,8 @@
                                     <asp:GridView ID="gvDownloadAttachmentInResolved" runat="server" CssClass="table table-hover table-bordered table-striped no-wrap" GridLines="None" AutoGenerateColumns="false">
                                         <Columns>
                                             <asp:BoundField DataField="file_name" HeaderText="File Name" />
-                                            <asp:BoundField DataField="created_at" HeaderText="Created At" />
+                                            <asp:BoundField DataField="created_at" HeaderText="Attachment Date" />
+                                            <asp:BoundField DataField="proposed_remarks" HeaderText="Proposed Remarks" />
                                             <asp:BoundField DataField="description_attachment" HeaderText="Attachment Description" />
                                             <asp:TemplateField HeaderText="Actions">
                                                 <ItemTemplate>
@@ -594,7 +595,7 @@
                                     </asp:GridView>
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Attachment Description:</label>
+                                            <asp:Label ID="lblAttachDescriptionProposed" CssClass="form-label" runat="server">Attachment Description:</asp:Label>
                                             <asp:TextBox ID="txtDescriptionAttachmentProposed" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset" Value='<%# Eval("description_attachment")%>'></asp:TextBox>
                                         </div>
                                     </div>
