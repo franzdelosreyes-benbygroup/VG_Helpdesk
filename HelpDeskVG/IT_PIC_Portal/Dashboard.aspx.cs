@@ -1330,6 +1330,17 @@ namespace HelpDeskVG.IT_PIC_Portal
                         lblNewAttachmentInEdit.Visible = true;
                         txtNewAttachmentInEdit.Visible = true;
                         lnkEditDetails.Visible = true;
+
+
+                        ddlCreatedForMd.Enabled = true;
+                        txtSubjectMd.Enabled = true;
+                        txtDescriptionMd.Enabled = true;
+                        ddlSectionMd.Enabled = true;
+                        ddlCategoryMd.Enabled = true;
+                        ddlNatureofprobMd.Enabled = true;
+                        lblAttachDesccc.Visible = false;
+                        txtAttachmentDescriptionMd.Visible = false;
+                        ddlPriorityMd.Enabled = true;
                     }
 
                     else if (approvalLevel == "2")
@@ -1339,6 +1350,18 @@ namespace HelpDeskVG.IT_PIC_Portal
                         lblNewAttachmentInEdit.Visible = true;
                         txtNewAttachmentInEdit.Visible = true;
                         lnkEditDetails.Visible = true;
+
+                        ddlCreatedForMd.Enabled = true;
+                        txtSubjectMd.Enabled = true;
+                        txtDescriptionMd.Enabled = true;
+                        ddlSectionMd.Enabled = true;
+                        ddlCategoryMd.Enabled = true;
+                        ddlNatureofprobMd.Enabled = true;
+                        lblAttachDesccc.Visible = false;
+                        txtAttachmentDescriptionMd.Visible = false;
+                        ddlPriorityMd.Enabled = true;
+
+
                     }
 
                     else if(approvalLevel == "6")
@@ -1355,6 +1378,17 @@ namespace HelpDeskVG.IT_PIC_Portal
                         lnkEditDetails.Visible = false;
                         lblNewAttachmentInEdit.Visible = false;
                         txtNewAttachmentInEdit.Visible = false;
+
+                        ddlCreatedForMd.Enabled = false;
+                        txtSubjectMd.Enabled = false;
+                        txtDescriptionMd.Enabled = false;
+                        ddlSectionMd.Enabled = false;
+                        ddlCategoryMd.Enabled = false;
+                        ddlNatureofprobMd.Enabled = false;
+                        lblAttachDesccc.Visible = false;
+                        txtAttachmentDescriptionMd.Visible = false;
+                        ddlPriorityMd.Enabled = false;
+
                     }
 
 

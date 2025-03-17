@@ -1092,6 +1092,22 @@ namespace HelpDeskVG
                         txtAttachmentDescriptionMd.Enabled = false;
                         lnkEditDetails.Visible = true;
                         lnkEditDetailsForReassignAndAssignTicket.Visible = false;
+
+                        ddlCreatedForMd.Enabled = true;
+                        ddlAssignToEmpITMd.Enabled = true;
+                        txtSubjectMd.Enabled = true;
+                        txtDescriptionMd.Enabled = true;
+                        ddlSectionMd.Enabled = true;
+                        ddlCategoryMd.Enabled = true;
+                        ddlNatureofprobMd.Enabled = true;
+                        lblAttachmentDescription.Visible = false;
+                        txtAttachmentDescriptionMd.Visible = false;
+                        txtNewAttachmentInEdit.Visible = true;
+                        lblNewAttachmentInEdit.Visible = true;
+                        ddlPriorityMd.Enabled = true;
+   
+                        lnkEditDetailsForReassignAndAssignTicket.Visible = false;
+
                     }
                     else if (approvalLevel == "2")
                     {
@@ -1102,13 +1118,26 @@ namespace HelpDeskVG
                         lnkRejectTicketUser.Visible=false;
                         lnkEditDetails.Visible = true;
                         lnkEditDetailsForReassignAndAssignTicket.Visible = false;
+                        
+                        ddlCreatedForMd.Enabled = true;
+                        ddlAssignToEmpITMd.Enabled = true;
+                        txtSubjectMd.Enabled = true;
+                        txtDescriptionMd.Enabled = true;
+                        ddlSectionMd.Enabled = true;
+                        ddlCategoryMd.Enabled = true;
+                        ddlNatureofprobMd.Enabled = true;
+                        lblAttachmentDescription.Visible = false;
+                        txtAttachmentDescriptionMd.Visible = false;
+                        txtNewAttachmentInEdit.Visible = true;
+                        lblNewAttachmentInEdit.Visible = true;
+                        ddlPriorityMd.Enabled = true;
                     }
                     else
                     {
                         txtCreatedBy.Enabled = false;
                         ddlCreatedForMd.Enabled = false;
                         ddlAssignToEmpITMd.Enabled = false;
-                        txtSubjectMd.Visible = false;
+                        txtSubjectMd.Enabled = false;
                         txtDescriptionMd.Enabled = false;
                         ddlSectionMd.Enabled = false;
                         ddlCategoryMd.Enabled = false;

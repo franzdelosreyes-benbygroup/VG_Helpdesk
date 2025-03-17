@@ -307,6 +307,18 @@ namespace HelpDeskVG.User_Portal
                     lblAttachNewAttachment.Visible = true;
                     fuUploadAttachmentInEdit.Visible = true;
                     lnkEditDetails.Visible = true;
+
+
+                    ddlCreatedForMd.Enabled = true;
+                    txtSubjectMd.Enabled = true;
+                    txtDescriptionMd.Enabled = true;
+                    ddlSectionMd.Enabled = true;
+                    ddlCategoryMd.Enabled = true;
+                    ddlNatureofprobMd.Enabled = true;
+                    lblAttachDesc.Visible = false;
+                    txtAttachmentDescriptionMd.Visible = false;
+                    ddlPriorityMd.Enabled = true;
+
                 }
 
                 else if (approvalLevel == "2")
@@ -317,6 +329,17 @@ namespace HelpDeskVG.User_Portal
                     lblAttachNewAttachment.Visible = true;
                     fuUploadAttachmentInEdit.Visible = true;
                     lnkEditDetails.Visible = true;
+
+                    ddlCreatedForMd.Enabled = true;
+                    txtSubjectMd.Enabled = true;
+                    txtDescriptionMd.Enabled = true;
+                    ddlSectionMd.Enabled = true;
+                    ddlCategoryMd.Enabled = true;
+                    ddlNatureofprobMd.Enabled = true;
+                    lblAttachDesc.Visible = false;
+                    txtAttachmentDescriptionMd.Visible = false;
+                    ddlPriorityMd.Enabled = true;
+
                 }
 
                 else
@@ -332,6 +355,7 @@ namespace HelpDeskVG.User_Portal
                     txtSubjectMd.Enabled = false;
                     txtDescriptionMd.Enabled = false;
                     ddlSectionMd.Enabled = false;
+                    ddlNatureofprobMd.Enabled = false;
                     ddlPriorityMd.Enabled = false;
                 }
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
