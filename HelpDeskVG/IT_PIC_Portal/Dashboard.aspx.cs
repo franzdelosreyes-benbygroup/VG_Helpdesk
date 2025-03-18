@@ -656,7 +656,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptedTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.[subject], a.is_with_third_party, a.created_for, CONVERT(varchar, a.third_party_date_given, 120) AS third_party_date_given ,a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.description AS descriptionreport, g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.[subject], a.is_with_third_party, a.third_party_date_received, a.created_for, CONVERT(varchar, a.third_party_date_given, 120) AS third_party_date_given ,a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.description AS descriptionreport, g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -682,6 +682,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
                     txtAttachmentDescriptionMd.Text = dt.Rows[0]["descriptionreport"].ToString();
                     string iswithThirdParty = dt.Rows[0]["is_with_third_party"].ToString();
+                    string iswithReceivedDateFromThirdParty = dt.Rows[0]["third_party_date_received"].ToString();
                     hfMdTicketDateGiven3rdParty.Value = dt.Rows[0]["third_party_date_given"].ToString();
 
                     try
@@ -771,12 +772,22 @@ namespace HelpDeskVG.IT_PIC_Portal
                     lnkProposedTicketResolution.Visible = true;
                     lnkEditDetails.Visible = false;
                     lnkTagThisToThirdParty.Visible = true;
-                    lnkSaveReceivedDate.Visible = false;
                     txtAttachmentDescriptionMd.Visible = false;
                     lblAttachDesccc.Visible = false;
                     lnkTagThisToThirdParty.Visible = false;
                     lnkSaveReceivedDate.Visible = true;
                     lnkITPICReject3rdParty.Visible = true;
+
+                    if (iswithReceivedDateFromThirdParty != "")
+                    {
+                        lnkSaveReceivedDate.Visible = false;
+                        lnkProposedTicketResolution.Visible = true;
+                    }
+                    else
+                    {
+                        lnkSaveReceivedDate.Visible = true;
+                        lnkProposedTicketResolution.Visible = false;
+                    }
                 }
 
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
@@ -2311,6 +2322,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             }
         }
 
+
         protected void lnkViewHistory3rdParty_Click(object sender, EventArgs e)
         {
             HiddenField hfMyTicketITPIC = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptedTicket") as HiddenField;
@@ -2325,17 +2337,12 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             if (dt.Rows.Count > 0)
             {
-                gvTicketHistory.DataSource = dt;
-                gvTicketHistory.DataBind();
+                gvThirdPartyLogsHistory.DataSource = dt;
+                gvThirdPartyLogsHistory.DataBind();
                 dt.Dispose();
 
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showTicketHistory();", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showTicketHistory3rdPtLogs();", true);
 
-            }
-
-            else
-            {
-                Response.Redirect("Login.aspx");
             }
         }
     }

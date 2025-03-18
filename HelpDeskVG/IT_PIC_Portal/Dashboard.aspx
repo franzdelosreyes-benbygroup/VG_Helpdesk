@@ -41,6 +41,13 @@
             });
         }
 
+        function showTicketHistory3rdPtLogs() {
+            $(document).ready(function () {
+                $("#mdTicketThirdPartyHistory").modal("show");
+            });
+        }
+
+
         function rejectITPICTicketRemarks() {
             $(document).ready(function () {
                 $("#mdITPICRejectTicketRemarks").modal('show');
@@ -679,7 +686,7 @@
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 8l0 4l2 2" />
                                                         <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
                                                     </svg>
-                                                View History
+                                                History 3rd Party Logs
                                                 
                                             </asp:LinkButton>
                                         </ItemTemplate>
@@ -928,7 +935,7 @@
                             <div class="col-md-12">
                                 <asp:LinkButton ID="lnkITPICReject3rdParty" runat="server" CssClass="btn w-100 btn-block btn-red" Visible="false" OnClick="lnkITPICReject3rdParty_Click">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-flag-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13.533 15.028a4.988 4.988 0 0 1 -1.533 -1.028a5 5 0 0 0 -7 0v-9a5 5 0 0 1 7 0a5 5 0 0 0 7 0v8.5" /><path d="M5 21v-7" /><path d="M22 22l-5 -5" /><path d="M17 22l5 -5" /></svg>
-                                    Reject 3rd Party
+                                    Reset 3rd Party Information
                                 </asp:LinkButton>
                             </div>
                         </div>
@@ -1376,6 +1383,42 @@
                                 <asp:BoundField DataField="description_category" HeaderText="Category" />
                                 <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                                 <asp:BoundField DataField="transacted_by" HeaderText="Transacted By" />
+                            </Columns>
+                            <EmptyDataTemplate>
+                                No Data Found
+                            </EmptyDataTemplate>
+                        </asp:GridView>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="modal modal-blur fade show" tabindex="-1" aria-modal="true" role="dialog" id="mdTicketThirdPartyHistory">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-red">
+                    <h5 class="modal-title">3rd Party History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <asp:HiddenField ID="hfTicketHeaderForHistory3rdPtLog" runat="server" />
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <asp:GridView ID="gvThirdPartyLogsHistory" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4">
+                            <Columns>
+                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
+                                <asp:BoundField DataField="third_party_name" HeaderText="Third Party Name" />
+                                <asp:BoundField DataField="ticket_given_date" HeaderText="Given Date to Third Party" />
+                                <asp:BoundField DataField="ticket_received_date" HeaderText="Received Date from Third Party" />
+                                <asp:BoundField DataField="transaction_type" HeaderText="Transaction Type" />
+                                <asp:BoundField DataField="transacted_by" HeaderText="Transacted By" />
+                                <asp:BoundField DataField="logs_created_at" HeaderText="Date Transacted" />
+                                <asp:BoundField DataField="reason_rejected_solution" HeaderText="Reject Remarks" />
+                                <asp:BoundField DataField="status" HeaderText="Status" />
+                                <asp:BoundField DataField="priority_description" HeaderText="Priority Level" />
+                                <asp:BoundField DataField="description_section" HeaderText="Section" />
+                                <asp:BoundField DataField="description_category" HeaderText="Category" />
+                                <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
                             </Columns>
                             <EmptyDataTemplate>
                                 No Data Found

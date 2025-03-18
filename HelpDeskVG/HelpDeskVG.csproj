@@ -254,6 +254,10 @@
     <Content Include="IT_PIC_Portal\Dashboard.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Maintenance.aspx" />
+    <EmbeddedResource Include="ReportFiles\AUTOCLOSEDTICKETS.xlsx" />
+    <EmbeddedResource Include="ReportFiles\CLOSEDTICKET.xlsx" />
+    <EmbeddedResource Include="ReportFiles\TICKETRESOLVED.xlsx" />
+    <EmbeddedResource Include="ReportFiles\TIMETAKENTOBEASSIGNED.xlsx" />
     <Content Include="Reports.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />

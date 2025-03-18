@@ -30,48 +30,202 @@ namespace HelpDeskVG
 
         protected void lnkTixClosedReport_Click(object sender, EventArgs e)
         {
-            //string _course_series = (sender as LinkButton).CommandArgument;
-            //Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("LearningSystem.Reports.ReportEmployeeNotEnrolled.xlsx");
-            //ExcelPackage pck = new ExcelPackage(stream);
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("HelpDeskVG.ReportFiles.CLOSEDTICKET.xlsx");
+            ExcelPackage pck = new ExcelPackage(stream);
 
-            //ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
 
-            //using (pck)
-            //{
-            //    ExcelWorksheet ws = pck.Workbook.Worksheets["NotEnrolled"];
-            //    DataTable _dtCourseTitle = new DataTable();
+            using (pck)
+            {
+                ExcelWorksheet ws = pck.Workbook.Worksheets["ClosedTicket"];
+                ws.Cells["C1"].Value = DateTime.Now.ToString();
 
-            //    _dtCourseTitle = _tActions.GetCourseDetailsBySeriesID(_course_series);
-            //    ws.Cells["A1"].Value = _dtCourseTitle.Rows[0]["course_title"].ToString();
-            //    ws.Cells["B1"].Value = DateTime.Now.ToString();
+                DataTable _dt = new DataTable();
 
-            //    DataTable _dt = new DataTable();
-            //    _dt = _tActions.GetNotEnrolledInCourse(_course_series);                                  
+                string sql = @"SELECT  a.ticket_code, a.[status], b.description_section, c.description_category, d.description_natureofprob, 
+                            e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
+                            a.created_at, a.is_with_third_party, a.third_party_name, 
+                            a.third_party_date_given, a.third_party_date_received, a.proposed_remarks FROM t_TicketHeader AS a
 
-            //    ws.Cells["A3"].LoadFromDataTable(_dt, false);
+                            INNER JOIN m_Section AS b ON b.section_id = a.section_id
+                            INNER JOIN m_Category AS c ON c.category_id = a.category_id
+                            INNER JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
+                            INNER JOIN m_Priority AS e ON e.priority_id = a.priority_id
+                            INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS g ON g.employee_code = a.created_for
+                            WHERE a.approval_transactional_level = '8' AND a.[status] = 'CLOSED' ORDER BY a.ticket_code ASC";
 
-            //    System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
-            //    response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            //    response.AddHeader("content-disposition", "attachment;  filename=NotEnrolledReports" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".xlsx");
-            //    response.BinaryWrite(pck.GetAsByteArray());
-            //    response.Flush();
-            //    response.End();
-            //}
+                _dt = clsQueries.fetchData(sql);
+
+                ws.Cells["A4"].LoadFromDataTable(_dt, false);
+
+                ws.Column(8).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
+                ws.Column(11).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+
+                System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+                response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                response.AddHeader("content-disposition", "attachment;  filename=ClosedTicketsReport" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".xlsx");
+                response.BinaryWrite(pck.GetAsByteArray());
+                response.Flush();
+                response.End();
+            }
         }
 
         protected void lnkTixFullyResolved_Click(object sender, EventArgs e)
         {
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("HelpDeskVG.ReportFiles.TICKETRESOLVED.xlsx");
+            ExcelPackage pck = new ExcelPackage(stream);
 
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
+            using (pck)
+            {
+                ExcelWorksheet ws = pck.Workbook.Worksheets["ResolvedTicket"];
+                ws.Cells["C1"].Value = DateTime.Now.ToString();
+
+                DataTable _dt = new DataTable();
+
+                string sql = @"SELECT a.ticket_code, a.[status], b.description_section, c.description_category, d.description_natureofprob, 
+                              e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
+                              a.created_at, a.is_with_third_party, a.third_party_name, 
+                              a.third_party_date_given, a.third_party_date_received, a.proposed_remarks FROM t_TicketHeader AS a
+
+                              INNER JOIN m_Section AS b ON b.section_id = a.section_id
+                              INNER JOIN m_Category AS c ON c.category_id = a.category_id
+                              INNER JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
+                              INNER JOIN m_Priority AS e ON e.priority_id = a.priority_id
+                              INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_by
+                              INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS g ON g.employee_code = a.created_for
+                              WHERE a.approval_transactional_level = '6' AND a.[status] = 'RESOLVED' ORDER BY a.ticket_code ASC";
+
+                _dt = clsQueries.fetchData(sql);
+
+                ws.Cells["A5"].LoadFromDataTable(_dt, false);
+
+                ws.Column(8).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
+                ws.Column(11).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+
+                System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+                response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                response.AddHeader("content-disposition", "attachment;  filename=TICKETRESOLVED" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".xlsx");
+                response.BinaryWrite(pck.GetAsByteArray());
+                response.Flush();
+                response.End();
+            }
         }
 
         protected void lnkTixAutoClosed_Click(object sender, EventArgs e)
         {
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("HelpDeskVG.ReportFiles.AUTOCLOSEDTICKETS.xlsx");
+            ExcelPackage pck = new ExcelPackage(stream);
 
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
+            using (pck)
+            {
+                ExcelWorksheet ws = pck.Workbook.Worksheets["AutoClosedTicket"];
+                ws.Cells["C1"].Value = DateTime.Now.ToString();
+
+                DataTable _dt = new DataTable();
+
+                string sql = @"SELECT  a.ticket_code, a.[status], b.description_section, c.description_category, d.description_natureofprob, 
+                              e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
+                              a.created_at, a.is_with_third_party, a.third_party_name, 
+                              a.third_party_date_given, a.third_party_date_received, a.proposed_remarks FROM t_TicketHeader AS a
+
+                              INNER JOIN m_Section AS b ON b.section_id = a.section_id
+                              INNER JOIN m_Category AS c ON c.category_id = a.category_id
+                              INNER JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
+                              INNER JOIN m_Priority AS e ON e.priority_id = a.priority_id
+                              INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_by
+                              INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS g ON g.employee_code = a.created_for
+                              WHERE a.approval_transactional_level = '9' ORDER BY a.ticket_code ASC";
+
+                _dt = clsQueries.fetchData(sql);
+
+                ws.Cells["A5"].LoadFromDataTable(_dt, false);
+
+                ws.Column(8).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
+                ws.Column(11).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+
+                System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+                response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                response.AddHeader("content-disposition", "attachment;  filename=AUTOCLOSEDTICKETS" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".xlsx");
+                response.BinaryWrite(pck.GetAsByteArray());
+                response.Flush();
+                response.End();
+            }
         }
 
         protected void lnkTixReportTimeToBeAssigned_Click(object sender, EventArgs e)
         {
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("HelpDeskVG.ReportFiles.TIMETAKENTOBEASSIGNED.xlsx");
+            ExcelPackage pck = new ExcelPackage(stream);
 
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
+            using (pck)
+            {
+                ExcelWorksheet ws = pck.Workbook.Worksheets["TimeTakenToBeAssignedTicket"];
+                ws.Cells["C1"].Value = DateTime.Now.ToString();
+
+                DataTable _dt = new DataTable();
+
+                string sql = @"SELECT a.ticket_code, a.[status], CONCAT(DATEDIFF(hour, MAX(i.created_max),MAX(h.max_created_at)), ' hours') AS DateAged,
+                                b.description_section, c.description_category, d.description_natureofprob, 
+                                e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
+                                a.created_at, a.is_with_third_party, a.third_party_name, 
+                                a.third_party_date_given, a.third_party_date_received, a.proposed_remarks
+                                FROM t_TicketHeader AS a
+
+                                INNER JOIN m_Section AS b ON b.section_id = a.section_id
+                                INNER JOIN m_Category AS c ON c.category_id = a.category_id
+                                INNER JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
+                                INNER JOIN m_Priority AS e ON e.priority_id = a.priority_id
+                                INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_by
+                                INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS g ON g.employee_code = a.created_for
+                                LEFT JOIN (
+                                SELECT ticket_code, MAX(created_at) AS max_created_at 
+                                FROM t_TicketStages 
+                                WHERE [status] = 'ASSIGNMENT CONFIRMATION'
+                                GROUP BY ticket_code
+                                ) AS h ON h.ticket_code = a.ticket_code  
+                                LEFT JOIN (
+                                SELECT ticket_code, MAX(created_at) AS created_max 
+                                FROM t_TicketStages 
+                                WHERE [status] = 'FOR ASSIGNING'
+                                GROUP BY ticket_code
+                                ) AS i ON i.ticket_code = a.ticket_code
+
+
+                                WHERE a.approval_transactional_level = '3' 
+
+                                GROUP BY a.ticket_code, a.approval_transactional_level, a.[status], 
+                                b.description_section, c.description_category, d.description_natureofprob, 
+                                e.[description],
+                                CONCAT(f.employee_first_name, ' ', f.employee_last_name),
+                                CONCAT(g.employee_first_name, ' ', g.employee_last_name),
+                                a.created_at, a.is_with_third_party, a.third_party_name, 
+                                a.third_party_date_given, a.third_party_date_received, a.proposed_remarks
+								ORDER BY a.ticket_code ASC;";
+
+                _dt = clsQueries.fetchData(sql);
+
+                ws.Cells["A5"].LoadFromDataTable(_dt, false);
+
+                ws.Column(8).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
+                ws.Column(11).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+
+                System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+                response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                response.AddHeader("content-disposition", "attachment;  filename=TIMETAKENTOBEASSIGNED" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".xlsx");
+                response.BinaryWrite(pck.GetAsByteArray());
+                response.Flush();
+                response.End();
+            }
         }
 
         protected void lnkTixUnresolved_Click(object sender, EventArgs e)

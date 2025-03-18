@@ -1120,5 +1120,23 @@ namespace HelpDeskVG.IT_PIC_Portal
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvTicketHistory;
+
+        /// <summary>
+        /// hfTicketHeaderForHistory3rdPtLog control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfTicketHeaderForHistory3rdPtLog;
+
+        /// <summary>
+        /// gvThirdPartyLogsHistory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvThirdPartyLogsHistory;
     }
 }

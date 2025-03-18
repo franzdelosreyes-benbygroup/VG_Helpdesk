@@ -188,6 +188,10 @@ namespace HelpDeskVG
             clsQueries.executeQuery(sql);
 
             DisplayRoleAdminandITPIC();
+            Response.Redirect("Maintenance.aspx");
+
+            clsUtil.ShowToastr(this.Page, "Success!", "success");
+
 
         }
 
@@ -521,6 +525,11 @@ namespace HelpDeskVG
             DisplayNatureOfProbList();
             DisplayRoleAdminandITPIC();
             DisplayRole();
+
+            clsUtil.ShowToastr(this.Page, "Successfully deleted Role to the User!", "success");
+
+            Response.Redirect("Maintenance.aspx");
+
         }
 
         protected void lnkActivate_Click(object sender, EventArgs e)
