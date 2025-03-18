@@ -20,7 +20,7 @@
                 return false; // Prevent form submission
             }
 
-            return true;
+            return confirm("Do you like to proceed?");
         }
     </script>
 
