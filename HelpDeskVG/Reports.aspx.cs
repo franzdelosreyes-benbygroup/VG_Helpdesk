@@ -199,9 +199,6 @@ namespace HelpDeskVG
                                 GROUP BY ticket_code
                                 ) AS i ON i.ticket_code = a.ticket_code
 
-
-                                WHERE a.approval_transactional_level = '3' 
-
                                 GROUP BY a.ticket_code, a.approval_transactional_level, a.[status], 
                                 b.description_section, c.description_category, d.description_natureofprob, 
                                 e.[description],
@@ -215,9 +212,9 @@ namespace HelpDeskVG
 
                 ws.Cells["A5"].LoadFromDataTable(_dt, false);
 
-                ws.Column(8).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
-                ws.Column(11).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
-                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(9).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
+                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(13).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
 
                 System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
                 response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -230,80 +227,99 @@ namespace HelpDeskVG
 
         protected void lnkTixUnresolved_Click(object sender, EventArgs e)
         {
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("HelpDeskVG.ReportFiles.TICKETSNOTRESOLVED.xlsx");
+            ExcelPackage pck = new ExcelPackage(stream);
 
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
+            using (pck)
+            {
+                ExcelWorksheet ws = pck.Workbook.Worksheets["UnresolvedTicket"];
+                ws.Cells["C1"].Value = DateTime.Now.ToString();
+
+                DataTable _dt = new DataTable();
+
+                string sql = @"SELECT a.ticket_code, a.[status], b.description_section, c.description_category, d.description_natureofprob, 
+                              e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
+                              a.created_at, a.is_with_third_party, a.third_party_name, 
+                              a.third_party_date_given, a.third_party_date_received FROM t_TicketHeader AS a
+
+                              INNER JOIN m_Section AS b ON b.section_id = a.section_id
+                              INNER JOIN m_Category AS c ON c.category_id = a.category_id
+                              INNER JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
+                              INNER JOIN m_Priority AS e ON e.priority_id = a.priority_id
+                              INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_by
+                              INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS g ON g.employee_code = a.created_for
+                              WHERE a.approval_transactional_level = '7' AND a.[status] = 'NOT RESOLVED' ORDER BY a.ticket_code ASC";
+
+                _dt = clsQueries.fetchData(sql);
+
+                ws.Cells["A5"].LoadFromDataTable(_dt, false);
+
+                ws.Column(8).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
+                ws.Column(11).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+
+                System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+                response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                response.AddHeader("content-disposition", "attachment;  filename=TICKETSNOTRESOLVED" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".xlsx");
+                response.BinaryWrite(pck.GetAsByteArray());
+                response.Flush();
+                response.End();
+            }
         }
 
         protected void lnkTixRawReport_Click(object sender, EventArgs e)
         {
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("HelpDeskVG.ReportFiles.RAWREPORT.xlsx");
+            ExcelPackage pck = new ExcelPackage(stream);
 
-        }
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
 
-        private void GenerateChangeScheduleWithValues(string PC)
-        {
-            //Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MerchPortal2NewDesign.Template..xlsx");
-            //ExcelPackage pck = new OfficeOpenXml.ExcelPackage(stream);
+            using (pck)
+            {
+                ExcelWorksheet ws = pck.Workbook.Worksheets["RawReport"];
+                ws.Cells["C1"].Value = DateTime.Now.ToString();
 
-            //var filename = "ChangeSchedule_" + PC + "_" + DateTime.Now.ToString("yyyyMMdd HHmmss");
-            //ExcelWorksheet xlsht = pck.Workbook.Worksheets[1];
+                DataTable _dt = new DataTable();
 
-            //xlsht.Protection.AllowSelectLockedCells = false;
-            ////xlsht.Protection.SetPassword("Benby123");
-            //xlsht.Cells["A:XFD"].Style.Locked = true;
-
-            ////HEADER1
-            //xlsht.Cells["A1:C1"].Style.Locked = true;
-            //xlsht.Cells["E1"].Style.Locked = true;
-            //xlsht.Cells["F1"].Style.Locked = true;
-            ////HEADER2
-            //xlsht.Cells["A3:R3"].Style.Locked = true;
-            //xlsht.Cells["R1:R500"].Style.Locked = false;
-
-            ////RESTDAY COLUMN
-            //xlsht.Cells["D1"].Style.Locked = false;
-            ////MONDAY COLUMN
-            //xlsht.Cells["F4:F500"].Style.Locked = false;
-            ////TUESDAY COLUMN
-            //xlsht.Cells["G4:G500"].Style.Locked = false;
-            ////WEDNESDAY COLUMN
-            //xlsht.Cells["H4:H500"].Style.Locked = false;
-            ////THURSDAY COLUMN
-            //xlsht.Cells["H4:H500"].Style.Locked = false;
-            ////THURSDAY COLUMN
-            //xlsht.Cells["I4:I500"].Style.Locked = false;
-            ////FRIDAY COLUMN
-            //xlsht.Cells["J4:J500"].Style.Locked = false;
-            ////SATURDAY COLUMN
-            //xlsht.Cells["K4:K500"].Style.Locked = false;
-            ////SUNDAY COLUMN
-            //xlsht.Cells["L4:L500"].Style.Locked = false;
-            ////TIME IN COLUMN
-            //xlsht.Cells["M4:M500"].Style.Locked = false;
-            ////TIME OUT COLUMN
-            //xlsht.Cells["N4:N500"].Style.Locked = false;
+                string sql = @"SELECT a.ticket_code, a.[status], a.created_at,
+							CONCAT (b.employee_first_name, ' ', b.employee_last_name) as transacted_by,
+							CONCAT (c.employee_first_name, ' ', c.employee_last_name) as assigned_pic,
+							CONCAT (d.employee_first_name, ' ', d.employee_last_name) as admin_assignor,
+							f.description_section, g.description_category, h.description_natureofprob, i.description AS priority_description,
+							e.is_with_third_party, e.third_party_date_given, e.third_party_date_received,
+							a.itpic_recent_solution_remarks, a.itpic_previous_solution_remarks, a.itpic_recent_reject_ticket_remarks, a.itpic_previous_reject_ticket_remarks,
+							a.user_reject_solution_remarks, a.user_reject_previous_solution_remarks, a.admin_recent_reject_ticket_remarks, a.admin_previous_reject_ticket_remarks
 
 
-            //xlsht.Cells[1, 2].Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+							FROM t_TicketStages AS a
 
+							LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS b ON b.employee_code = a.transacted_by
+							LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS c ON c.employee_code = a.assigned_pic_employee_no
+							LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS d ON d.employee_code = a.administrator_assignor_emp_no 
+							LEFT JOIN t_TicketHeader AS e ON e.ticket_stage_id = a.ticket_stage_id  
+							LEFT JOIN m_Section AS f ON f.section_id = e.section_id
+							LEFT JOIN m_Category AS g ON g.category_id = e.category_id
+							LEFT JOIN m_NatureOfProblem AS h ON h.nature_of_prob_id = e.nature_of_problem_id
+							LEFT JOIN m_Priority AS i ON i.priority_id = e.priority_id
+							ORDER BY a.ticket_code, a.created_at ASC";
 
-            //string sql = "EXEC SP_Load_PlantillaDetails8 @PlantillaCode='" + PC + "'";
-            //DataTable dt = new DataTable();
-            //dt = Actions.GetData(sql);
-            //for (int x = 0; x < dt.Rows.Count; x++)
-            //{
-            //    int x1 = x + 4;
-            //    xlsht.Cells[x1, 1].Value = dt.Rows[x]["PlantillaCode"].ToString();
-            //    xlsht.Cells[x1, 2].Value = dt.Rows[x]["Storecode"].ToString();
-            //    xlsht.Cells[x1, 3].Value = dt.Rows[x]["PlannedConversion"].ToString();
-            //    xlsht.Cells[x1, 4].Value = dt.Rows[x]["PlannedDays"].ToString();
-            //    xlsht.Cells[x1, 5].Value = dt.Rows[x]["PlannedHours"].ToString();
-            //    xlsht.Cells[x1, 19].Value = dt.Rows[x]["Id"].ToString();
-            //}
+                _dt = clsQueries.fetchData(sql);
 
-            //Response.ContentType = "application/vnd.ms-Excel";
-            //Response.AddHeader("content-disposition", "attachment;  filename=" + filename + ".xlsx");
-            //Response.BinaryWrite(pck.GetAsByteArray());
-            //Response.Flush();
-            //Response.End();
+                ws.Cells["A5"].LoadFromDataTable(_dt, false);
+
+                ws.Column(3).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
+                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(13).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+
+                System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+                response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                response.AddHeader("content-disposition", "attachment;  filename=RAWREPORT" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".xlsx");
+                response.BinaryWrite(pck.GetAsByteArray());
+                response.Flush();
+                response.End();
+            }
         }
 
         protected void CountClosedTicket()

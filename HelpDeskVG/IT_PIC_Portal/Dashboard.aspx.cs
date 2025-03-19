@@ -638,6 +638,9 @@ namespace HelpDeskVG.IT_PIC_Portal
             DisplayAcceptedTicket();
             DisplayRejectedTicket();
             DisplayRejectedSolution();
+            DisplayMyTickets();
+            DisplayPendingApprovalResolved();
+            DisplayRejectedTicketsByAdmin();
 
             clsUtil.ShowToastr(this.Page, "Successfully Accepted the Ticket", "success");
 
@@ -2110,7 +2113,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                 txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
                 txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
-                txtCreatedBy.Enabled = true;
+                txtCreatedBy.Enabled = false;
                 txtCreatedFor.Enabled = true;
                 txtSubjectMd.Enabled = true;
                 txtDescriptionMd.Enabled = true;
@@ -2119,6 +2122,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                 ddlCategoryMd.Enabled = true;
                 ddlNatureofprobMd.Enabled = true;
                 ddlPriorityMd.Enabled = true;
+                ddlCreatedForMd.Enabled = true;
 
 
                 lnkAcceptTicket.Visible = false;
@@ -2266,6 +2270,7 @@ namespace HelpDeskVG.IT_PIC_Portal
 
         protected void lnkITPICReject3rdParty_Click(object sender, EventArgs e)
         {
+            lnkReject3rdParty.Visible = true;
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "reject3rdPartyITPIC();", true);
         }
         protected void lnkReject3rdParty_Click(object sender, EventArgs e)

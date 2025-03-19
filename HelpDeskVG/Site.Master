@@ -96,7 +96,7 @@
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
         }
-       /* Default nav-link styles */
+             /* Default nav-link styles */
        .nav-link {
            color: white; /* Default text color */
            background-color: transparent; /* No background by default */
@@ -293,7 +293,7 @@
                    </span>
                <div class="d-none d-xl-block ps-2">
                  <div><%= Session["FirstName"] ?? "Guest" %></div>
-                 <div class="mt-1 small text-secondary"><%=Session["EmployeePosition"] ?? "Guest" %></div>
+                 <div class="mt-1 small text-secondary"><%=Session["RoleStatus"] ?? "Guest" %></div>
                </div>
              </a>
              <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" data-bs-theme="light">

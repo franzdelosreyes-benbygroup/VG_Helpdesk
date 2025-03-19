@@ -284,12 +284,12 @@
                    </span>
                <div class="d-none d-xl-block ps-2">
                  <div><%= Session["FirstName"] ?? "Guest" %></div>
-                 <div class="mt-1 small text-secondary"><%=Session["EmployeePosition"] ?? "Guest" %></div>
+                 <div class="mt-1 small text-secondary"><%=Session["RoleStatus"] ?? "Guest" %></div>
                </div>
              </a>
              <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" data-bs-theme="light">
                <div class="dropdown-divider"></div>
-                 <asp:LinkButton ID="lnkSwitchRole" runat="server" OnClick="lnkSwitchRole_Click">Switch Role as Administrator</asp:LinkButton>
+                 <asp:LinkButton ID="lnkSwitchRole" runat="server" OnClick="lnkSwitchRole_Click" CssClass="dropdown-item">Switch Role as Administrator</asp:LinkButton>
                <asp:LinkButton ID="btnLogout" runat="server" OnClick="btnLogout_Click" class="dropdown-item">Logout
 
                </asp:LinkButton>

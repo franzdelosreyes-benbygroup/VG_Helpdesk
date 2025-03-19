@@ -505,14 +505,14 @@ namespace HelpDeskVG.User_Portal
             lblAttachDesc.Visible = false;
             txtAttachmentDescriptionMd.Visible = false;
             txtCreatedBy.Enabled = false;
-            txtCreatedFor.Enabled = false;
-            txtSubjectMd.Enabled = false;
-            txtDescriptionMd.Enabled = false;
-            ddlSectionMd.Enabled = false;
-            ddlCategoryMd.Enabled = false;
-            ddlNatureofprobMd.Enabled = false;
-            ddlPriorityMd.Enabled = false;
-            ddlCreatedForMd.Visible = false;
+            txtCreatedFor.Enabled = true;
+            txtSubjectMd.Enabled = true;
+            txtDescriptionMd.Enabled = true;
+            ddlSectionMd.Enabled = true;
+            ddlCategoryMd.Enabled = true;
+            ddlNatureofprobMd.Enabled = true;
+            ddlPriorityMd.Enabled = true;
+            ddlCreatedForMd.Visible = true;
             lblAttachNewAttachment.Visible = true;
             fuUploadAttachmentInEdit.Visible = true;
             lblNewAttachmentEdit.Visible = true;
@@ -796,6 +796,9 @@ namespace HelpDeskVG.User_Portal
 
                 clsQueries.executeQuery(sql);
 
+                txtRejectRemarks.Text = "";
+                txtAttachmentDescription.Text = "";
+
                 DisplayUserTickets();
                 DisplayPendingApprovalResolved();
                 DisplayRejectedTicketsByAdmin();
@@ -811,6 +814,9 @@ namespace HelpDeskVG.User_Portal
 
 
                 clsQueries.executeQuery(sql);
+
+                txtRejectRemarks.Text = "";
+                txtAttachmentDescription.Text = "";
 
                 DisplayUserTickets();
                 DisplayPendingApprovalResolved();

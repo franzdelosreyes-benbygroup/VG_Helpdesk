@@ -133,7 +133,7 @@
 
                 if (natureOfProblem === "" || priority === "" || category === "" || section === "" ||
                     subject === "" || description === "") {
-                    alert("Please fill up the field that is Required.");
+                    alert("Please fill up the field that is required.");
                     return false; 
                 }
 
@@ -144,7 +144,7 @@
             var remarks = document.getElementById('<%= txtRemarksProposedSolution.ClientID%>').value;
 
             if (remarks === "") {
-                alert("Please fill up the field that is Required.");
+                alert("Please fill up the field that is required.");
                 return false;
             }
 
@@ -155,7 +155,7 @@
                 var remarks = document.getElementById('<%= txtRemarksProposedSolutionAgain.ClientID%>').value;
 
                 if (remarks === "") {
-                    alert("Please fill up the field that is Required.");
+                    alert("Please fill up the field that is required!.");
                     return false;
                 }
 
@@ -165,6 +165,7 @@
         function validateReject3rdPartySolution() {
             var thirdptgiven = document.getElementById('<%= hfMdTicketDateGiven3rdParty.ClientID %>').value;
             var daterejected3rdpartysolution = document.getElementById('<%= txt3rdPartyRejectedDate.ClientID%>').value;
+            var remarks = document.getElementById('<%= txt3rdPtRejectReason.ClientID%>').value;
 
             var date = new Date(daterejected3rdpartysolution);
             date.setHours(23, 59, 0, 0); // Set end of the day to avoid timezone issues
@@ -180,6 +181,13 @@
                 return false;
             }
 
+            if (remarks === "") {
+                alert("Please fill up the field that is required!")
+                return false
+            }
+
+
+
             return confirm("Do you want to proceed?");
         }
 
@@ -187,7 +195,7 @@
             var remarks = document.getElementById('<%= txtITPICRejectTicketRemarks.ClientID%>').value;
 
             if (remarks === "") {
-                alert("Please fill up the field that is Required.");
+                alert("Please fill up the field that is required.");
                 return false;
             }
 
@@ -199,14 +207,10 @@
             var datereceivedto3rdpt = document.getElementById('<%= txt3rdPtReceivedDate.ClientID%>').value;
 
             var date = new Date(datereceivedto3rdpt);
-            date.setHours(23, 59, 0, 0); // Set end of the day to avoid timezone issues
-            var receivedformattedDate = date.toISOString().slice(0, 16).replace('T', ' ');
-
             var givenDate = new Date(thirdptgiven);
-            givenDate.setHours(23, 59, 0, 0);
-            var givenformattedDate = givenDate.toISOString().slice(0, 16).replace('T', ' ');
 
-            if (receivedformattedDate < givenformattedDate) {
+
+            if (date < givenDate) {
                 alert("The received date cannot be earlier than the date given.");
                 document.getElementById('<%= txt3rdPtReceivedDate.ClientID%>').value = "";
                 return false;
@@ -1354,7 +1358,7 @@
                         <asp:TextBox ID="txt3rdPtRejectReason" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset mt-2"></asp:TextBox>
                         <div class="modal-footer">
                             <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                            <asp:LinkButton ID="lnkReject3rdParty" runat="server" CssClass="btn btn-danger" OnClientClick="return validateReject3rdPartySolution();" OnClick="lnkReject3rdParty_Click">Reject 3rd Party</asp:LinkButton>
+                            <asp:LinkButton ID="lnkReject3rdParty" runat="server" CssClass="btn btn-danger" OnClick="lnkReject3rdParty_Click" OnClientClick="return validateReject3rdPartySolution();" >Reject 3rd Party</asp:LinkButton>
                             <%--<asp:LinkButton ID="lnkReject3rdPartySolution" runat="server" CssClass="btn btn-danger" OnClientClick=" return validateReject3rdPartySolution();" OnClick="lnkReject3rdPartySolution_Click">Reject 3rd Party Solution</asp:LinkButton>--%>
                         </div>
                     </div>
@@ -1408,8 +1412,8 @@
                             <Columns>
                                 <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                 <asp:BoundField DataField="third_party_name" HeaderText="Third Party Name" />
-                                <asp:BoundField DataField="ticket_given_date" HeaderText="Given Date to Third Party" />
-                                <asp:BoundField DataField="ticket_received_date" HeaderText="Received Date from Third Party" />
+                                <asp:BoundField DataField="ticket_given_date"  DataFormatString="{0:MM/dd/yyyy}" HtmlEncode="False" HeaderText="Given Date to Third Party" />
+                                <asp:BoundField DataField="ticket_received_date"  DataFormatString="{0:MM/dd/yyyy}" HtmlEncode="False" HeaderText="Received Date from Third Party" />
                                 <asp:BoundField DataField="transaction_type" HeaderText="Transaction Type" />
                                 <asp:BoundField DataField="transacted_by" HeaderText="Transacted By" />
                                 <asp:BoundField DataField="logs_created_at" HeaderText="Date Transacted" />

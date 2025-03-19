@@ -297,6 +297,8 @@
     <Content Include="dist\css\fonts\tabler-icons.ttf" />
     <Content Include="dist\css\fonts\tabler-icons.woff" />
     <Content Include="dist\css\fonts\tabler-icons.woff2" />
+    <EmbeddedResource Include="ReportFiles\TICKETSNOTRESOLVED.xlsx" />
+    <EmbeddedResource Include="ReportFiles\RAWREPORT.xlsx" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

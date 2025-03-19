@@ -513,7 +513,7 @@
                     <div class="modal-body">
                         <asp:Label ID="lblRejectRemarks" runat="server" Text="Remarks" Placeholder="Input Remarks" CssClass="form-label status status-primary required"></asp:Label>
                         <asp:TextBox ID="txtRejectRemarks" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control text-area text-reset mt-2"></asp:TextBox>
-                        <asp:Label ID="lblRejectAttachment" runat="server" Text="Attachment" CssClass="form-label status status-primary required"></asp:Label>
+                        <asp:Label ID="lblRejectAttachment" runat="server" Text="Attachment" CssClass="form-label status status-primary required mt-2 mb-2"></asp:Label>
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12">
@@ -540,9 +540,6 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
-                            <EmptyDataTemplate>
-                                No Data Found
-                            </EmptyDataTemplate>
                         </asp:GridView>
 
                         <div class="modal-footer">

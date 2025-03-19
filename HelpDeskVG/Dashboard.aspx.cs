@@ -1762,6 +1762,9 @@ namespace HelpDeskVG
 
                 clsQueries.executeQuery(sql);
 
+                txtRejectRemarks.Text = "";
+                txtAttachmentDescReject.Text = "";
+
                 DisplayMyTickets();
                 DisplayPendingApprovalResolved();
                 DisplayRejectedTicketsByAdmin();
@@ -1780,6 +1783,9 @@ namespace HelpDeskVG
                 sql += "@Transacted_By='" + Session["EmployeeNo"].ToString() + "'";
 
                 clsQueries.executeQuery(sql);
+
+                txtRejectRemarks.Text = "";
+                txtAttachmentDescReject.Text = "";
 
                 DisplayMyTickets();
                 DisplayPendingApprovalResolved();
@@ -1849,7 +1855,7 @@ namespace HelpDeskVG
                 txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
                 txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
 
-                txtCreatedBy.Enabled = true;
+                txtCreatedBy.Enabled = false;
                 txtCreatedFor.Enabled = true;
                 txtSubjectMd.Enabled = true;
                 txtDescriptionMd.Enabled = true;
