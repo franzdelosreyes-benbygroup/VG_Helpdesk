@@ -173,7 +173,7 @@ namespace HelpDeskVG
 
                 DataTable _dt = new DataTable();
 
-                string sql = @"SELECT a.ticket_code, a.[status], CONCAT(DATEDIFF(hour, MAX(i.created_max),MAX(h.max_created_at)), ' hours') AS DateAged,
+                string sql = @"SELECT a.ticket_code, a.[status], i.created_max, h.max_created_at,CONCAT(DATEDIFF(hour, MAX(i.created_max),MAX(h.max_created_at)), ' hours') AS DateAged,
                                 b.description_section, c.description_category, d.description_natureofprob, 
                                 e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
                                 a.created_at, a.is_with_third_party, a.third_party_name, 
@@ -204,6 +204,7 @@ namespace HelpDeskVG
                                 e.[description],
                                 CONCAT(f.employee_first_name, ' ', f.employee_last_name),
                                 CONCAT(g.employee_first_name, ' ', g.employee_last_name),
+								h.max_created_at, i.created_max,
                                 a.created_at, a.is_with_third_party, a.third_party_name, 
                                 a.third_party_date_given, a.third_party_date_received, a.proposed_remarks
 								ORDER BY a.ticket_code ASC;";
@@ -212,9 +213,11 @@ namespace HelpDeskVG
 
                 ws.Cells["A5"].LoadFromDataTable(_dt, false);
 
-                ws.Column(9).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
-                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
-                ws.Column(13).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(3).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column C (for assigning date)
+                ws.Column(4).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column D (for confirmation date)
+                ws.Column(11).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
+                ws.Column(14).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(15).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
 
                 System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
                 response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -348,7 +351,7 @@ namespace HelpDeskVG
 
             int ticketCount = Convert.ToInt32(dt.Rows[0][0]);
 
-            lblNoOfTicketsResolved.Text = "No. of Tickets Fully Resolved: " + ticketCount.ToString();
+            lblNoOfTicketsResolved.Text = "No. of Tickets Resolved: " + ticketCount.ToString();
 
             dt.Dispose();
         }
