@@ -492,7 +492,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             string sql = "";
             sql = "EXEC sp_vgHelpDesk_ITPIC_RejectTicket ";
             sql += "@TicketHeaderId = '" + ticketHeader + "',";
-            sql += "@RejectRemarks = '" + txtITPICRejectTicketRemarks.Text + "',";
+            sql += "@RejectRemarks = '" + clsUtil.replaceQuote(txtITPICRejectTicketRemarks.Text) + "',";
             sql += "@ITPIC_Assigned_Emp_No = '" + Session["EmployeeNo"].ToString() + "'";
 
             clsQueries.executeQuery(sql);
@@ -1496,8 +1496,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                 sql += "@TicketHeaderId ='" + ticketHeader + "',";
                 sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
                 sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue + "',";
-                sql += "@Description='" + txtDescriptionMd.Text + "',";
-                sql += "@Subject='" + txtSubjectMd.Text + "',";
+                sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
                 sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
                 sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
                 sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
@@ -1513,8 +1513,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                 sql += "@TicketHeaderId ='" + ticketHeader + "',";
                 sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
                 sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue + "',";
-                sql += "@Description='" + txtDescriptionMd.Text + "',";
-                sql += "@Subject='" + txtSubjectMd.Text + "',";
+                sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
                 sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
                 sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
                 sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
@@ -2279,7 +2279,7 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             string sql = "EXEC sp_vgHelpDesk_ITPIC_RejectSolutionThirdParty ";
             sql += "@TicketHeaderId = '" + ticketHeader + "',";
-            sql += "@ThirdParty_RejectRemarks = '" + txt3rdPtRejectReason.Text + "',";
+            sql += "@ThirdParty_RejectRemarks = '" + clsUtil.replaceQuote(txt3rdPtRejectReason.Text) + "',";
             sql += "@ThirdPartyDateRejected = '" + txt3rdPartyRejectedDate.Text + "',";
             sql += "@Transacted_By = '" + Session["EmployeeNo"].ToString() + "'";
 

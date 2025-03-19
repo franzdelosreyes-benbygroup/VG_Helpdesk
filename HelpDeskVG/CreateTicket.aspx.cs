@@ -180,8 +180,8 @@ namespace HelpDeskVG
                 sql = "EXEC sp_vgHelpDesk_Admin_InsertDetailsTicket ";
                 sql += "@Ticket_Header_Id='" + Request.QueryString["Id"] + "',";
                 sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "',";
-                sql += "@Description='" + txtDescription.Text + "',";
-                sql += "@Subject='" + txtSubject.Text + "',";
+                sql += "@Description='" + clsUtil.replaceQuote(txtDescription.Text) + "',";
+                sql += "@Subject='" + clsUtil.replaceQuote(txtSubject.Text) + "',";
                 sql += "@Section= '" + ddlSection.SelectedValue + "',";
                 sql += "@Category= '" + ddlCategory.SelectedValue + "',";
                 sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
@@ -198,8 +198,8 @@ namespace HelpDeskVG
                 sql = "EXEC sp_vgHelpDesk_Admin_InsertDetailsTicket ";
                 sql += "@Ticket_Header_Id='" + Request.QueryString["Id"] + "',";
                 sql += "@Employee_No='" + ddlEmployee.SelectedValue + "',";
-                sql += "@Description='" + txtDescription.Text + "',";
-                sql += "@Subject='" + txtSubject.Text + "',";
+                sql += "@Description='" + clsUtil.replaceQuote(txtDescription.Text) + "',";
+                sql += "@Subject='" + clsUtil.replaceQuote(txtSubject.Text) + "',";
                 sql += "@Section= '" + ddlSection.SelectedValue + "',";
                 sql += "@Category= '" + ddlCategory.SelectedValue + "',";
                 sql += "@Priority= '" + ddlPriority.SelectedValue + "',";

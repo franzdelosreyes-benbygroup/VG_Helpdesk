@@ -174,8 +174,8 @@ namespace HelpDeskVG.IT_PIC_Portal
             {
                 sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
                 sql += "@Ticket_Header_Id='" + Request.QueryString["Id"] + "',";
-                sql += "@Description='" + txtDescription.Text + "',";
-                sql += "@Subject='" + txtSubject.Text + "',";
+                sql += "@Description='" + clsUtil.replaceQuote(txtDescription.Text) + "',";
+                sql += "@Subject='" + clsUtil.replaceQuote(txtSubject.Text) + "',";
                 sql += "@Section= '" + ddlSection.SelectedValue + "',";
                 sql += "@Category= '" + ddlCategory.SelectedValue + "',";
                 sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
@@ -189,8 +189,8 @@ namespace HelpDeskVG.IT_PIC_Portal
             {
                 sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
                 sql += "@Ticket_Header_Id='" + Request.QueryString["Id"] + "',";
-                sql += "@Description='" + txtDescription.Text + "',";
-                sql += "@Subject='" + txtSubject.Text + "',";
+                sql += "@Description='" + clsUtil.replaceQuote(txtDescription.Text) + "',";
+                sql += "@Subject='" + clsUtil.replaceQuote(txtSubject.Text) + "',";
                 sql += "@Section= '" + ddlSection.SelectedValue + "',";
                 sql += "@Category= '" + ddlCategory.SelectedValue + "',";
                 sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
