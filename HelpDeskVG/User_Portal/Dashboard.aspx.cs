@@ -19,6 +19,19 @@ namespace HelpDeskVG.User_Portal
 
             if (!IsPostBack)
             {
+
+                if (Session["ToastrMessage"] != null)
+                {
+                    string message = Session["ToastrMessage"].ToString();
+                    string type = Session["ToastrType"].ToString();
+
+                    // Show Toastr
+                    clsUtil.ShowToastr(this.Page, message, type);
+
+                    Session.Remove("ToastrMessage");
+                    Session.Remove("ToastrType");
+                }
+
                 DisplaySection();
                 DisplaySectionFilter();
 
@@ -505,7 +518,8 @@ namespace HelpDeskVG.User_Portal
             lblAttachDesc.Visible = false;
             txtAttachmentDescriptionMd.Visible = false;
             txtCreatedBy.Enabled = false;
-            txtCreatedFor.Enabled = true;
+            txtCreatedFor.Enabled = false;
+            txtCreatedFor.Visible = false;
             txtSubjectMd.Enabled = true;
             txtDescriptionMd.Enabled = true;
             ddlSectionMd.Enabled = true;
@@ -517,6 +531,7 @@ namespace HelpDeskVG.User_Portal
             fuUploadAttachmentInEdit.Visible = true;
             lblNewAttachmentEdit.Visible = true;
             txtNewAttachmentInEdit.Visible = true;
+           
 
             hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
 
@@ -555,6 +570,7 @@ namespace HelpDeskVG.User_Portal
 
             clsQueries.executeQuery(sql);
 
+            clsUtil.ShowToastr(this.Page, "Resolution Successfully Accepted!", "success");
 
             DisplayUserTickets();
             DisplayPendingApprovalResolved();
@@ -626,6 +642,11 @@ namespace HelpDeskVG.User_Portal
                 sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "'";
                 clsQueries.executeQuery(sql);
 
+                Session["ToastrMessage"] = "Successfully Edited Details!";
+                Session["ToastrType"] = "success";
+
+                Response.Redirect("../User_Portal/Dashboard.aspx");
+
             }
             else
             {
@@ -640,6 +661,8 @@ namespace HelpDeskVG.User_Portal
                 sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "'";
 
                 clsQueries.executeQuery(sql);
+                Session["ToastrMessage"] = "Successfully Edited Details!";
+                Session["ToastrType"] = "success";
 
                 Response.Redirect("../User_Portal/Dashboard.aspx");
 
@@ -799,9 +822,13 @@ namespace HelpDeskVG.User_Portal
                 txtRejectRemarks.Text = "";
                 txtAttachmentDescription.Text = "";
 
+
                 DisplayUserTickets();
                 DisplayPendingApprovalResolved();
                 DisplayRejectedTicketsByAdmin();
+
+                clsUtil.ShowToastr(this.Page, "Resolution Successfully Rejected!", "success");
+
             }
 
             else
@@ -821,6 +848,9 @@ namespace HelpDeskVG.User_Portal
                 DisplayUserTickets();
                 DisplayPendingApprovalResolved();
                 DisplayRejectedTicketsByAdmin();
+
+                clsUtil.ShowToastr(this.Page, "Resolution Successfully Rejected!", "success");
+
             }
         }
 

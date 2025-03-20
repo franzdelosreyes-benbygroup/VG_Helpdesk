@@ -20,6 +20,19 @@ namespace HelpDeskVG.IT_PIC_Portal
         {
             if (!IsPostBack)
             {
+
+                if (Session["ToastrMessage"] != null)
+                {
+                    string message = Session["ToastrMessage"].ToString();
+                    string type = Session["ToastrType"].ToString();
+
+                    // Show Toastr
+                    clsUtil.ShowToastr(this.Page, message, type);
+
+                    Session.Remove("ToastrMessage");
+                    Session.Remove("ToastrType");
+                }
+
                 DisplaySectionFilter();
                 DisplayPriority();
                 DisplayEmployees();
@@ -1504,8 +1517,11 @@ namespace HelpDeskVG.IT_PIC_Portal
                 sql += "@Priority='" + ddlPriorityMd.SelectedValue + "'";
 
                 clsQueries.executeQuery(sql);
+
+                Session["ToastrMessage"] = "Successfully Edited Details!";
+                Session["ToastrType"] = "success";
+
                 Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
-                clsUtil.ShowToastr(this.Page, "Successfully Edited the Ticket!", "success");
             }
             else
             {
@@ -1521,12 +1537,13 @@ namespace HelpDeskVG.IT_PIC_Portal
                 sql += "@Priority='" + ddlPriorityMd.SelectedValue + "'";
 
                 clsQueries.executeQuery(sql);
-                Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
-                clsUtil.ShowToastr(this.Page, "Successfully Edited the Ticket!", "success");
-            }
-            Response.Redirect("../User_Portal/Dashboard.aspx");
-            clsUtil.ShowToastr(this.Page, "Please Try Again!", "warning");
 
+                Session["ToastrMessage"] = "Successfully Edited Details!";
+                Session["ToastrType"] = "success";
+
+                Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+            }
+            clsUtil.ShowToastr(this.Page, "Please Try Again!", "warning");
         }
 
         protected void lnkTagThisToThirdParty_Click(object sender, EventArgs e)
@@ -1948,6 +1965,8 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             clsQueries.executeQuery(sql);
 
+            clsUtil.ShowToastr(this.Page, "Successfully Accepted the Ticket!", "success");
+
             DisplayAcceptOrRejectTicket();
             DisplayAcceptedTicket();
             DisplayRejectedTicket();
@@ -2019,6 +2038,8 @@ namespace HelpDeskVG.IT_PIC_Portal
 
                 clsQueries.executeQuery(sql);
 
+                clsUtil.ShowToastr(this.Page, "Successfully Rejected the Solution!", "success");
+
                 DisplayAcceptOrRejectTicket();
                 DisplayAcceptedTicket();
                 DisplayRejectedTicket();
@@ -2040,6 +2061,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                 sql += "@Transacted_By='" + Session["EmployeeNo"].ToString() + "'";
 
                 clsQueries.executeQuery(sql);
+
+                clsUtil.ShowToastr(this.Page, "Successfully Rejected the Solution!", "success");
 
                 DisplayAcceptOrRejectTicket();
                 DisplayAcceptedTicket();

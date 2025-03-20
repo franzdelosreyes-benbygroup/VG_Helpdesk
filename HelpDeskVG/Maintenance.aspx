@@ -265,7 +265,7 @@
                                 <asp:Label ID="lblRolesandPermission" runat="server" CssClass="h4" Text="Roles and Permission"></asp:Label>
                             <div class="col-md-12">
                                 <div class="table-responsive-xl">
-                                    <asp:GridView ID="gvRolesandPermission" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanged="gvRolesandPermission_PageIndexChanged">
+                                    <asp:GridView ID="gvRolesandPermission" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4">
                                         <Columns>
                                             <asp:BoundField DataField="employee_info" HeaderText="Employee Name" />
                                             <asp:BoundField DataField="employee_no" HeaderText="Employee No" />

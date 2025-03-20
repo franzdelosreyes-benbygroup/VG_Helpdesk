@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.EnterpriseServices;
 using System.IO;
@@ -42,7 +43,7 @@ namespace HelpDeskVG
 
                 DataTable _dt = new DataTable();
 
-                string sql = @"SELECT  a.ticket_code, a.[status], b.description_section, c.description_category, d.description_natureofprob, 
+                string sql = @"SELECT  a.ticket_code, a.[status], a.subject, a.description, b.description_section, c.description_category, d.description_natureofprob, 
                             e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
                             a.created_at, a.is_with_third_party, a.third_party_name, 
                             a.third_party_date_given, a.third_party_date_received, a.proposed_remarks FROM t_TicketHeader AS a
@@ -58,9 +59,14 @@ namespace HelpDeskVG
 
                 ws.Cells["A4"].LoadFromDataTable(_dt, false);
 
-                ws.Column(8).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
-                ws.Column(11).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
-                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(3).Style.WrapText = false;
+                ws.Column(4).Style.WrapText = false;
+
+                ws.Column(10).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
+                ws.Column(13).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(14).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(15).Style.WrapText = false;
+
 
                 System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
                 response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -85,7 +91,7 @@ namespace HelpDeskVG
 
                 DataTable _dt = new DataTable();
 
-                string sql = @"SELECT a.ticket_code, a.[status], b.description_section, c.description_category, d.description_natureofprob, 
+                string sql = @"SELECT a.ticket_code, a.[status], a.subject, a.description, b.description_section, c.description_category, d.description_natureofprob, 
                               e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
                               a.created_at, a.is_with_third_party, a.third_party_name, 
                               a.third_party_date_given, a.third_party_date_received, a.proposed_remarks FROM t_TicketHeader AS a
@@ -102,9 +108,12 @@ namespace HelpDeskVG
 
                 ws.Cells["A5"].LoadFromDataTable(_dt, false);
 
-                ws.Column(8).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
-                ws.Column(11).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
-                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(3).Style.WrapText = false;
+                ws.Column(4).Style.WrapText = false;
+                ws.Column(10).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
+                ws.Column(13).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(14).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(15).Style.WrapText = false;
 
                 System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
                 response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -129,7 +138,7 @@ namespace HelpDeskVG
 
                 DataTable _dt = new DataTable();
 
-                string sql = @"SELECT  a.ticket_code, a.[status], b.description_section, c.description_category, d.description_natureofprob, 
+                string sql = @"SELECT  a.ticket_code, a.[status], a.subject, a.description, b.description_section, c.description_category, d.description_natureofprob, 
                               e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
                               a.created_at, a.is_with_third_party, a.third_party_name, 
                               a.third_party_date_given, a.third_party_date_received, a.proposed_remarks FROM t_TicketHeader AS a
@@ -146,9 +155,12 @@ namespace HelpDeskVG
 
                 ws.Cells["A5"].LoadFromDataTable(_dt, false);
 
+                ws.Column(3).Style.WrapText = false;
+                ws.Column(4).Style.WrapText = false;
                 ws.Column(8).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
                 ws.Column(11).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
                 ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(15).Style.WrapText = false;
 
                 System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
                 response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -213,11 +225,15 @@ namespace HelpDeskVG
 
                 ws.Cells["A5"].LoadFromDataTable(_dt, false);
 
+
                 ws.Column(3).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column C (for assigning date)
                 ws.Column(4).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column D (for confirmation date)
-                ws.Column(11).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
-                ws.Column(14).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
-                ws.Column(15).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(6).Style.WrapText = false;
+                ws.Column(7).Style.WrapText = false;
+                ws.Column(13).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
+                ws.Column(16).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(17).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(18).Style.WrapText = false;
 
                 System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
                 response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -242,10 +258,10 @@ namespace HelpDeskVG
 
                 DataTable _dt = new DataTable();
 
-                string sql = @"SELECT a.ticket_code, a.[status], b.description_section, c.description_category, d.description_natureofprob, 
+                string sql = @"SELECT a.ticket_code, a.[status], a.subject, a.description, b.description_section, c.description_category, d.description_natureofprob, 
                               e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
                               a.created_at, a.is_with_third_party, a.third_party_name, 
-                              a.third_party_date_given, a.third_party_date_received FROM t_TicketHeader AS a
+                              a.third_party_date_given, a.third_party_date_received, a.proposed_remarks FROM t_TicketHeader AS a
 
                               INNER JOIN m_Section AS b ON b.section_id = a.section_id
                               INNER JOIN m_Category AS c ON c.category_id = a.category_id
@@ -258,10 +274,12 @@ namespace HelpDeskVG
                 _dt = clsQueries.fetchData(sql);
 
                 ws.Cells["A5"].LoadFromDataTable(_dt, false);
-
-                ws.Column(8).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
-                ws.Column(11).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
-                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(3).Style.WrapText = false;
+                ws.Column(4).Style.WrapText = false;
+                ws.Column(10).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
+                ws.Column(13).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(14).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(15).Style.WrapText = false;
 
                 System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
                 response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -313,8 +331,19 @@ namespace HelpDeskVG
                 ws.Cells["A5"].LoadFromDataTable(_dt, false);
 
                 ws.Column(3).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
-                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
-                ws.Column(13).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(7).Style.WrapText = false;
+                ws.Column(8).Style.WrapText = false;
+
+                ws.Column(14).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(15).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(16).Style.WrapText = false;
+                ws.Column(17).Style.WrapText = false;
+                ws.Column(18).Style.WrapText = false;
+                ws.Column(19).Style.WrapText = false;
+                ws.Column(20).Style.WrapText = false;
+                ws.Column(21).Style.WrapText = false;
+                ws.Column(22).Style.WrapText = false;
+                ws.Column(23).Style.WrapText = false;
 
                 System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
                 response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";

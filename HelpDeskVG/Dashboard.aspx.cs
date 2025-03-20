@@ -23,6 +23,19 @@ namespace HelpDeskVG
         {
             if (!IsPostBack)
             {
+
+                if (Session["ToastrMessage"] != null)
+                {
+                    string message = Session["ToastrMessage"].ToString();
+                    string type = Session["ToastrType"].ToString();
+
+                    // Show Toastr
+                    clsUtil.ShowToastr(this.Page, message, type);
+
+                    Session.Remove("ToastrMessage");
+                    Session.Remove("ToastrType");
+                }
+
                 DisplaySectionFilter();
  
                 DisplayPriority();
@@ -784,15 +797,10 @@ namespace HelpDeskVG
 
                 clsQueries.executeQuery(sql);
 
-                DisplayMyTickets();
-                DisplayPendingApprovalResolved();
-                DisplayRejectedTicketsByAdmin();
-                DisplayUsersTickets();
-                DisplayITPICReassignTickets();
-                DisplayAssignedTickets();
-                DisplayRejectedList();
+                Session["ToastrMessage"] = "Successfully Edited Details!";
+                Session["ToastrType"] = "success";
 
-                clsUtil.ShowToastr(this.Page, "Successfully Edited the Ticket!", "success");
+                Response.Redirect("Dashboard.aspx");
             }
             else
             {
@@ -810,9 +818,10 @@ namespace HelpDeskVG
 
                 clsQueries.executeQuery(sql);
 
-                DisplayMyTickets();
+                Session["ToastrMessage"] = "Successfully Edited Details!";
+                Session["ToastrType"] = "success";
 
-                clsUtil.ShowToastr(this.Page, "Successfully Edited the Ticket!", "success");
+                Response.Redirect("Dashboard.aspx");
             }
 
             DisplayMyTickets();
@@ -1690,6 +1699,8 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
+            clsUtil.ShowToastr(this.Page, "Successfully Accepted the Ticket!", "success");
+
             DisplayMyTickets();
             DisplayPendingApprovalResolved();
             DisplayRejectedTicketsByAdmin();
@@ -1762,6 +1773,8 @@ namespace HelpDeskVG
 
                 clsQueries.executeQuery(sql);
 
+                clsUtil.ShowToastr(this.Page, "Successfully Rejected Proposed Solution!", "success");
+
                 txtRejectRemarks.Text = "";
                 txtAttachmentDescReject.Text = "";
 
@@ -1784,6 +1797,7 @@ namespace HelpDeskVG
 
                 clsQueries.executeQuery(sql);
 
+                clsUtil.ShowToastr(this.Page, "Successfully Rejected Proposed Solution!", "success");
                 txtRejectRemarks.Text = "";
                 txtAttachmentDescReject.Text = "";
 

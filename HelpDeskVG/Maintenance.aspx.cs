@@ -16,6 +16,18 @@ namespace HelpDeskVG
         {
             if (!IsPostBack)
             {
+                if (Session["ToastrMessage"] != null)
+                {
+                    string message = Session["ToastrMessage"].ToString();
+                    string type = Session["ToastrType"].ToString();
+
+                    // Show Toastr
+                    clsUtil.ShowToastr(this.Page, message, type);
+
+                    Session.Remove("ToastrMessage");
+                    Session.Remove("ToastrType");
+                }
+
                 ddlCategory2.Enabled = false;
 
                 DisplaySection();
@@ -35,11 +47,6 @@ namespace HelpDeskVG
         protected void lnkRolesandPermission_Click(object sender, EventArgs e)
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "assignRoleModal();", true);
-        }
-
-        protected void gvRolesandPermission_PageIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         protected void DisplayRoleAdminandITPIC()
@@ -188,10 +195,11 @@ namespace HelpDeskVG
             clsQueries.executeQuery(sql);
 
             DisplayRoleAdminandITPIC();
+
+            Session["ToastrMessage"] = "Successfully Assigned Role to the User!";
+            Session["ToastrType"] = "success";
+
             Response.Redirect("Maintenance.aspx");
-
-            clsUtil.ShowToastr(this.Page, "Success!", "success");
-
 
         }
 
@@ -231,12 +239,11 @@ namespace HelpDeskVG
 
             txtNewSection.Text = "";
 
-            DisplayPriorityList();
-            DisplaySectionList();
-            DisplayCategoryList();
-            DisplayNatureOfProbList();
-            DisplayRoleAdminandITPIC();
-            DisplayRole();
+            Session["ToastrMessage"] = "Successfully Added New Section!";
+            Session["ToastrType"] = "success";
+
+            Response.Redirect("Maintenance.aspx");
+
 
         }
 
@@ -251,15 +258,14 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
-            DisplayPriorityList();
-            DisplaySectionList();
-            DisplayCategoryList();
-            DisplayNatureOfProbList();
-            DisplayRoleAdminandITPIC();
-            DisplayRole();
+            Session["ToastrMessage"] = "Successfully Added New Category!";
+            Session["ToastrType"] = "success";
 
             ddlSection.SelectedValue = "";
             txtNewCategory.Text = "";
+
+            Response.Redirect("Maintenance.aspx");
+
 
         }
 
@@ -284,17 +290,14 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
+            Session["ToastrMessage"] = "Successfully Added New Nature of Problem!";
+            Session["ToastrType"] = "success";
 
             ddlSection2.SelectedValue = "";
             ddlCategory2.SelectedValue = "";
             txtNewNatureOfProb.Text = "";
 
-            DisplayPriorityList();
-            DisplaySectionList();
-            DisplayCategoryList();
-            DisplayNatureOfProbList();
-            DisplayRoleAdminandITPIC();
-            DisplayRole();
+            Response.Redirect("Maintenance.aspx");
 
         }
 
@@ -314,6 +317,10 @@ namespace HelpDeskVG
                 sql += " @ColorCode='" + colorCode + "'";
 
                 clsQueries.executeQuery(sql);
+
+                txtNewAllotedHrs.Text = "";
+                txtNewDescPriority.Text = "";
+                ddlPriorityColor.SelectedValue = "";
 
                 clsUtil.ShowToastr(this.Page, "Successfully Added New Priority", "success");
 
@@ -364,6 +371,8 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
+            clsUtil.ShowToastr(this.Page, "Successfully Edited Section", "success");
+
             DisplayPriorityList();
             DisplaySectionList();
             DisplayCategoryList();
@@ -403,6 +412,8 @@ namespace HelpDeskVG
             sql += " @NewEditedCategory = '" + txtEditCategory2.Text + "'";
 
             clsQueries.executeQuery(sql);
+
+            clsUtil.ShowToastr(this.Page, "Successfully Edited Category", "success");
 
             DisplayPriorityList();
             DisplaySectionList();
@@ -449,6 +460,8 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
+            clsUtil.ShowToastr(this.Page, "Successfully Edited Nature of Problem", "success");
+
             DisplayPriorityList();
             DisplaySectionList();
             DisplayCategoryList();
@@ -489,6 +502,8 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
+            clsUtil.ShowToastr(this.Page, "Successfully Edited Priority", "success");
+
             DisplayPriorityList();
             DisplaySectionList();
             DisplayCategoryList();
@@ -519,14 +534,9 @@ namespace HelpDeskVG
                     clsQueries.executeQuery(sql);
                 }
             }
-            DisplayPriorityList();
-            DisplaySectionList();
-            DisplayCategoryList();
-            DisplayNatureOfProbList();
-            DisplayRoleAdminandITPIC();
-            DisplayRole();
-
-            clsUtil.ShowToastr(this.Page, "Successfully deleted Role to the User!", "success");
+            
+            Session["ToastrMessage"] = "Successfully Deleted Role to the User!";
+            Session["ToastrType"] = "success";
 
             Response.Redirect("Maintenance.aspx");
 
@@ -567,13 +577,10 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
-            DisplayPriorityList();
-            DisplaySectionList();
-            DisplayCategoryList();
-            DisplayNatureOfProbList();
-            DisplayRoleAdminandITPIC();
-            DisplayRole();
+            Session["ToastrMessage"] = "Successfully Deleted Section!";
+            Session["ToastrType"] = "success";
 
+            Response.Redirect("Maintenance.aspx");
         }
 
         protected void lnkDeleteCategory_Click(object sender, EventArgs e)
@@ -587,12 +594,12 @@ namespace HelpDeskVG
             sql += " @CategoryId='" + hfCategoryId.Value.ToString() + "'";
 
             clsQueries.executeQuery(sql);
-            DisplayPriorityList();
-            DisplaySectionList();
-            DisplayCategoryList();
-            DisplayNatureOfProbList();
-            DisplayRoleAdminandITPIC();
-            DisplayRole();
+
+            Session["ToastrMessage"] = "Successfully Deleted Category!";
+            Session["ToastrType"] = "success";
+
+            Response.Redirect("Maintenance.aspx");
+
         }
 
         protected void lnkDeleteNatureOfProb_Click(object sender, EventArgs e)
@@ -606,12 +613,10 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
-            DisplayPriorityList();
-            DisplaySectionList();
-            DisplayCategoryList();
-            DisplayNatureOfProbList();
-            DisplayRoleAdminandITPIC();
-            DisplayRole();
+            Session["ToastrMessage"] = "Successfully Deleted Nature of Problem!";
+            Session["ToastrType"] = "success";
+
+            Response.Redirect("Maintenance.aspx");
         }
 
         protected void lnkDeletePriority_Click(object sender, EventArgs e)
@@ -625,13 +630,10 @@ namespace HelpDeskVG
 
             clsQueries.executeQuery(sql);
 
-            DisplayPriorityList();
-            DisplaySectionList();
-            DisplayCategoryList();
-            DisplayNatureOfProbList();
-            DisplayRoleAdminandITPIC();
-            DisplayRole();
+            Session["ToastrMessage"] = "Successfully Deleted Priority!";
+            Session["ToastrType"] = "success";
 
+            Response.Redirect("Maintenance.aspx");
         }
     }
 }

@@ -278,7 +278,7 @@
                                 </span>
                                 <div class="d-none d-xl-block ps-2">
                                     <div><%= Session["FirstName"] ?? "Guest" %></div>
-                                    <div class="mt-1 small text-secondary"><%=Session["RoleStatus"] ?? "Guest" %></div>
+                                    <div class="mt-1 small text-secondary"><%=Session["RoleStatus"] ?? "VG EMPLOYEE" %></div>
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" data-bs-theme="light">

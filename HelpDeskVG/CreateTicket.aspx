@@ -68,7 +68,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <asp:Label ID="lblNatureOfProb" runat="server" CssClass="form-label mb-2 status status-primary required-label">Nature of Problem</asp:Label>
-                                            <asp:DropDownList ID="ddlNatureOfProblem" OnSelectedIndexChanged="ddlNatureOfProblem_SelectedIndexChanged" CssClass="form-control text-reset" AutoPostBack="true" runat="server"></asp:DropDownList>
+                                            <asp:DropDownList ID="ddlNatureOfProblem" OnSelectedIndexChanged="ddlNatureOfProblem_SelectedIndexChanged" CssClass="form-select text-reset" AutoPostBack="true" runat="server"></asp:DropDownList>
                                         </div>
                                     </div>
                                 </div>
@@ -148,9 +148,6 @@
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
-                                                <EmptyDataTemplate>
-                                                    No Data Found
-                                                </EmptyDataTemplate>
                                             </asp:GridView>
                                         </div>
                                     </div>
