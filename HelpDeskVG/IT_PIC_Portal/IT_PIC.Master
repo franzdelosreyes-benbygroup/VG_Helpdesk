@@ -249,6 +249,75 @@
             stroke: black !important;
         }
 
+        
+       /* Pagination Container */
+       .GridPager {
+           display:inline-flex;
+           justify-content: center;
+           align-items: flex-end;
+           margin-top: 15px;
+           padding: 10px;
+           background-color: transparent;
+       }
+
+        /* Remove hover effect completely from <td> inside .GridPager */
+        .GridPager td {
+            background-color: transparent !important;
+            padding: 5px; /* Adjust if needed */
+        }
+
+        /* Ensure no background appears on hover */
+        .GridPager td:hover {
+            background-color: transparent !important;
+        }
+
+        /* If the issue persists, try removing any outline, box-shadow, or border */
+        .GridPager td {
+            outline: none;
+            box-shadow: none;
+            border: none;
+        }
+
+       /*Pagination Buttons*/
+       .GridPager a, .GridPager span {
+           display: inline-block;
+           padding: 6px 12px;
+           margin: 0 0px;
+           text-decoration: none;
+           font-size: 10px;
+           font-weight: 600;
+           border-radius: 5px;
+           transition: all 0.3s ease;
+       }
+
+       /*Active Page*/
+       .GridPager span {
+           background-color: #007bff;
+           color: #fff;
+           padding: 4px 10px;
+           cursor: default;
+       }
+
+       /*Inactive Pages*/
+       .GridPager a {
+           background-color: #f8f9fa;
+           color: #007bff;
+           border: 1px solid #007bff;
+       }
+
+           .GridPager a:hover {
+               background-color: #007bff;
+               color: #fff;
+           }
+
+       /*Disabled Buttons*/
+       .GridPager .disabled {
+           pointer-events: none;
+           background-color: #e9ecef;
+           color: #6c757d;
+           border: 1px solid #dee2e6;
+       }
+
     </style>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -330,6 +399,9 @@
                                     </asp:LinkButton>
                                 </li>
                             </ul>
+                            <div class="col-auto ms-auto">
+                                <div class="text-white fw-lighter" style="font-size: 24px;"><i>IT PIC PORTAL </i></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -338,19 +410,16 @@
             <div class="page-wrapper">
                 <div class="page-header d-print-none">
                     <div class="container-fluid">
-                        <div class="row g-2 align-items-center">
-                            <div class="col">
+                        <div class="row g-2 align-items-center justify-content-end">
+                            <div class="col-auto text-end">
                                 <!-- Page pre-title -->
                                 <div class="page-pretitle">
-                                 HELPDESK
+                                    HELPDESK
                                 </div>
-                                  <div class="page-pretitle">
-                                      VG SUPPLY CHAIN, INC.
-                                  </div>
-                                <%--<h2 class="page-title"><%= Page.Title %> </h2>--%>
-                            </div>
-                            <!-- Page title actions -->
-       
+                                <div class="page-pretitle">
+                                    VG SUPPLY CHAIN, INC.
+                                </div>
+                            </div>     
                         </div>
                     </div>
                 </div>

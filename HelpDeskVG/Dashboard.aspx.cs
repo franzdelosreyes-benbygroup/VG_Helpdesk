@@ -444,9 +444,9 @@ namespace HelpDeskVG
                     lnkRejectTicketUser.Visible = true;
                     lnkAcceptTicketProposal.Visible = false;
                     lnkRejectTicketProposal.Visible = false;
-                    ddlSectionMd.Enabled = false;
-                    ddlCategoryMd.Enabled = false;
-                    ddlNatureofprobMd.Enabled = false;
+                    ddlSectionMd.Enabled = true;
+                    ddlCategoryMd.Enabled = true;
+                    ddlNatureofprobMd.Enabled = true;
                     lnkEditDetailsForReassignAndAssignTicket.Visible = true;
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
                 }
@@ -2043,9 +2043,10 @@ namespace HelpDeskVG
 
                 clsQueries.executeQuery(sql);
 
-                DisplayMyTickets();
+                Session["ToastrMessage"] = "Successfully Edited Details!";
+                Session["ToastrType"] = "success";
 
-                clsUtil.ShowToastr(this.Page, "Successfully Edited the Ticket!", "success");
+                Response.Redirect("Dashboard.aspx");
             }
             else
             {
@@ -2061,10 +2062,10 @@ namespace HelpDeskVG
                 sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "'";
 
                 clsQueries.executeQuery(sql);
+                Session["ToastrMessage"] = "Successfully Edited Details!";
+                Session["ToastrType"] = "success";
 
-                DisplayMyTickets();
-
-                clsUtil.ShowToastr(this.Page, "Successfully Edited the Ticket!", "success");
+                Response.Redirect("Dashboard.aspx");
             }
 
             DisplayMyTickets();
@@ -2104,6 +2105,42 @@ namespace HelpDeskVG
         protected void lnkDetailsAssignedTicketList_Click1(object sender, EventArgs e)
         {
 
+        }
+
+        protected void lnkDownloadFile1_Click(object sender, EventArgs e)
+        {
+            string attachment_id = (sender as LinkButton).CommandArgument.ToString();
+            byte[] bytes;
+            string file_name, content_type;
+            string constr = ConfigurationManager.ConnectionStrings["con_VG_Helpdesk"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandText = "SELECT [data], content_type, file_name FROM t_AttachmentReport WHERE attachment_id=@attachment_id";
+                    cmd.Parameters.AddWithValue("@attachment_id", attachment_id);
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        sdr.Read();
+                        bytes = (byte[])sdr["data"];
+                        content_type = sdr["content_type"].ToString();
+                        file_name = sdr["file_name"].ToString();
+                    }
+                    con.Close();
+                }
+            }
+
+            Response.Clear();
+            Response.Buffer = true;
+            Response.Charset = "";
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.ContentType = content_type;
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + file_name);
+            Response.BinaryWrite(bytes);
+            Response.Flush();
+            Response.End();
         }
     }
 }

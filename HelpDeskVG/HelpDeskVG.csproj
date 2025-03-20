@@ -152,6 +152,8 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="CreateTicket.aspx" />
     <Content Include="Dashboard.aspx" />
     <Content Include="Default.aspx" />
@@ -299,6 +301,8 @@
     <Content Include="dist\css\fonts\tabler-icons.woff2" />
     <EmbeddedResource Include="ReportFiles\TICKETSNOTRESOLVED.xlsx" />
     <EmbeddedResource Include="ReportFiles\RAWREPORT.xlsx" />
+    <Content Include="Content\toastr.less" />
+    <Content Include="Content\toastr.scss" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

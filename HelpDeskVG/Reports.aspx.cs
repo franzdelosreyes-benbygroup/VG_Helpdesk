@@ -319,7 +319,7 @@ namespace HelpDeskVG
 							LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS b ON b.employee_code = a.transacted_by
 							LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS c ON c.employee_code = a.assigned_pic_employee_no
 							LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS d ON d.employee_code = a.administrator_assignor_emp_no 
-							LEFT JOIN t_TicketHeader AS e ON e.ticket_stage_id = a.ticket_stage_id  
+							LEFT JOIN t_TicketHeader AS e ON e.ticket_code = a.ticket_code  
 							LEFT JOIN m_Section AS f ON f.section_id = e.section_id
 							LEFT JOIN m_Category AS g ON g.category_id = e.category_id
 							LEFT JOIN m_NatureOfProblem AS h ON h.nature_of_prob_id = e.nature_of_problem_id

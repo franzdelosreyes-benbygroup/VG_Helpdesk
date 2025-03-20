@@ -79,7 +79,7 @@
                     </div>
                 </form>
                 <div class="text-end text-secondary mt-3">
-                    <a href="https://portal.benby.com/BEIPasswordChange" tabindex="-1">Forgot Password? Click me</a>
+                    <a href="https://vgsciportal.com/VG_HR/ChangePassword.aspx" tabindex="-1">Forgot Password? Click me</a>
                 </div>
             </div>
         </div>

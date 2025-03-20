@@ -503,7 +503,7 @@
                     <div class="tab-pane active show" id="myCreatedTicket" role="tabpanel">
                         <asp:Label ID="lblMyCreatedTicket" runat="server" CssClass="h4" Text="Ny Created Tickets"></asp:Label>
                         <div class="table-responsive">
-                            <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketList_PageIndexChanging" EmptyDataTe="No Data Found">
+                            <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" PagerStyle-CssClass="GridPager" OnPageIndexChanging="gvMyTicketList_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                     <asp:BoundField DataField="status" HeaderText="Status" />
@@ -549,7 +549,7 @@
                     <div class="tab-pane fade" id="pendingApprovalTickets" role="tabpanel">
                         <asp:Label ID="lblforPendingApproval" runat="server" CssClass="h4" Text="Pending List of Resolved Tickets."></asp:Label>
                         <div class="table-responsive">
-                            <asp:GridView ID="gvMyTicketPendingApproval" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketPendingApproval_PageIndexChanging" EmptyDataTe="No Data Found">
+                            <asp:GridView ID="gvMyTicketPendingApproval" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" PagerStyle-CssClass="GridPager" OnPageIndexChanging="gvMyTicketPendingApproval_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                     <asp:BoundField DataField="status" HeaderText="Status" />
@@ -587,7 +587,7 @@
                     <div class="tab-pane fade" id="rejectedTicketByAdmin" role="tabpanel">
                         <asp:Label ID="Label9" runat="server" CssClass="h4" Text="Rejected Tickets due to incomplete details."></asp:Label>
                         <div class="table-responsive">
-                            <asp:GridView ID="gvMyTicketRejectedByAdmin" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvMyTicketRejectedByAdmin_PageIndexChanging" EmptyDataTe="No Data Found">
+                            <asp:GridView ID="gvMyTicketRejectedByAdmin" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" PagerStyle-CssClass="GridPager" OnPageIndexChanging="gvMyTicketRejectedByAdmin_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                     <asp:BoundField DataField="status" HeaderText="Status" />
@@ -622,7 +622,7 @@
                     <div class="tab-pane fade" id="acceptorrejectTicketsITPIC" role="tabpanel">
                         <asp:Label ID="lblITPIC" runat="server" CssClass="h4" Text="Accept Or Reject Tickets"></asp:Label>
                         <div class="table-responsive">
-                            <asp:GridView ID="gvITPICAcceptOrRejectList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICAcceptOrRejectList_PageIndexChanging" EmptyDataTe="No Data Found">
+                            <asp:GridView ID="gvITPICAcceptOrRejectList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" PagerStyle-CssClass="GridPager" OnPageIndexChanging="gvITPICAcceptOrRejectList_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                     <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                     <asp:TemplateField HeaderText="Priority">
@@ -656,7 +656,7 @@
                         <div class="tab-pane fade" id="acceptedTicketsITPIC" role="tabpanel">
                             <asp:Label ID="lblForReassignITPIC" runat="server" CssClass="h4" Text="Accepted Tickets."></asp:Label>
                           <div class="table-responsive">
-                            <asp:GridView ID="gvITPICAcceptedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICAcceptedTickets_PageIndexChanging" EmptyDataTe="No Data Found">
+                            <asp:GridView ID="gvITPICAcceptedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" PagerStyle-CssClass="GridPager" OnPageIndexChanging="gvITPICAcceptedTickets_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
                                <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                     <asp:TemplateField HeaderText="Priority">
@@ -684,7 +684,7 @@
                                                  <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                                 Ticket Details
                                             </asp:LinkButton>
-                                            <asp:LinkButton ID="lnkViewHistory3rdParty" runat="server" OnClick="lnkViewHistory3rdParty_Click" CssClass="btn btn-warning position-relative w-50">
+                                            <asp:LinkButton ID="lnkViewHistory3rdParty" runat="server" OnClick="lnkViewHistory3rdParty_Click" CssClass="btn btn-warning position-relative">
                                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  
                                                         class="icon icon-tabler icons-tabler-outline icon-tabler-history">
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 8l0 4l2 2" />
@@ -702,7 +702,7 @@
                         <div class="tab-pane fade" id="rejectedTicketITPIC" role="tabpanel">
                             <asp:Label ID="Label1" runat="server" CssClass="h4" Text="Rejected Tickets due to incomplete details."></asp:Label>
                             <div class="table-responsive">
-                                <asp:GridView ID="gvITPICRejectedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvITPICRejectedTickets_PageIndexChanging" EmptyDataTe="No Data Found">
+                                <asp:GridView ID="gvITPICRejectedTickets" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" PagerStyle-CssClass="GridPager" OnPageIndexChanging="gvITPICRejectedTickets_PageIndexChanging" EmptyDataTe="No Data Found">
                                     <Columns>
                                         <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                         <asp:BoundField DataField="third_party_name" HeaderText="Third Party" />
@@ -736,7 +736,7 @@
                         <div class="tab-pane fade" id="rejectedSolutionByUser" role="tabpanel">
                             <asp:Label ID="Label2" runat="server" CssClass="h4" Text="Rejected Solution"></asp:Label>
                             <div class="table-responsive">
-                                <asp:GridView ID="gvRejectedSolution" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" OnPageIndexChanging="gvRejectedSolution_PageIndexChanging" EmptyDataTe="No Data Found">
+                                <asp:GridView ID="gvRejectedSolution" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" PagerStyle-CssClass="GridPager" OnPageIndexChanging="gvRejectedSolution_PageIndexChanging" EmptyDataTe="No Data Found">
                                     <Columns>
                                         <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                         <asp:BoundField DataField="third_party_name" HeaderText="Third Party" />
@@ -860,7 +860,7 @@
                                       <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                                      
                                            </asp:LinkButton>--%>
-                                                    <asp:LinkButton ID="lnkDownloadFile" OnClick="lnkDownloadFile_Click" CommandName="DownloadFile" CommandArgument='<%# Eval("attachment_id") %>' Text="Download" CssClass="btn btn-success" runat="server">
+                                                    <asp:LinkButton ID="lnkDownloadFile1" OnClick="lnkDownloadFile1_Click" CommandName="DownloadFile" CommandArgument='<%# Eval("attachment_id") %>' Text="Download" CssClass="btn btn-success" runat="server">
                                       <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
                                       Download</asp:LinkButton>
                                                 </div>
