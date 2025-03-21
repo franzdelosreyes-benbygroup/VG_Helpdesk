@@ -405,6 +405,18 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
+                                    <asp:Label ID="lblCreatedAt" runat="server" CssClass="form-label status status-primary">Created At:</asp:Label>
+                                    <asp:TextBox ID="txtCreatedAt" runat="server" CssClass="form-control text-reset mt-2" TextMode="Date"></asp:TextBox>
+                                </div>
+                                <script type="text/javascript">
+                                    // Automatically set the maximum date to today
+                                    var txtBox = document.getElementById('<%= txtCreatedAt.ClientID %>');
+                                    var today = new Date().toISOString().split('T')[0];
+                                    txtBox.max = today;
+                                </script>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
                                     <label class="form-label status status-primary mb-2 required">Subject:</label>
                                     <asp:TextBox ID="txtSubjectMd" runat="server" CssClass="form-control text-reset" Value='<%# Eval("subject") %>'></asp:TextBox>
                                 </div>

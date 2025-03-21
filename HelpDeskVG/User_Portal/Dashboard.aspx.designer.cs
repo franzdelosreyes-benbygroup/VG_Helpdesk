@@ -303,6 +303,24 @@ namespace HelpDeskVG.User_Portal
         protected global::System.Web.UI.WebControls.DropDownList ddlCreatedForMd;
 
         /// <summary>
+        /// lblCreatedAt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCreatedAt;
+
+        /// <summary>
+        /// txtCreatedAt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCreatedAt;
+
+        /// <summary>
         /// txtSubjectMd control.
         /// </summary>
         /// <remarks>
