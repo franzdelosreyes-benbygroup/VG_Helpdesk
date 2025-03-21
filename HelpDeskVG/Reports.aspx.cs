@@ -157,9 +157,9 @@ namespace HelpDeskVG
 
                 ws.Column(3).Style.WrapText = false;
                 ws.Column(4).Style.WrapText = false;
-                ws.Column(8).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
-                ws.Column(11).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
-                ws.Column(12).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
+                ws.Column(10).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; // Column H (created_at)
+                ws.Column(13).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
+                ws.Column(14).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
                 ws.Column(15).Style.WrapText = false;
 
                 System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
@@ -186,6 +186,7 @@ namespace HelpDeskVG
                 DataTable _dt = new DataTable();
 
                 string sql = @"SELECT a.ticket_code, a.[status], i.created_max, h.max_created_at,CONCAT(DATEDIFF(hour, MAX(i.created_max),MAX(h.max_created_at)), ' hours') AS DateAged,
+                                a.subject, a.description,
                                 b.description_section, c.description_category, d.description_natureofprob, 
                                 e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
                                 a.created_at, a.is_with_third_party, a.third_party_name, 
@@ -212,6 +213,7 @@ namespace HelpDeskVG
                                 ) AS i ON i.ticket_code = a.ticket_code
 
                                 GROUP BY a.ticket_code, a.approval_transactional_level, a.[status], 
+                                a.subject, a.description,
                                 b.description_section, c.description_category, d.description_natureofprob, 
                                 e.[description],
                                 CONCAT(f.employee_first_name, ' ', f.employee_last_name),
@@ -308,6 +310,7 @@ namespace HelpDeskVG
 							CONCAT (b.employee_first_name, ' ', b.employee_last_name) as transacted_by,
 							CONCAT (c.employee_first_name, ' ', c.employee_last_name) as assigned_pic,
 							CONCAT (d.employee_first_name, ' ', d.employee_last_name) as admin_assignor,
+							e.subject, e.description,
 							f.description_section, g.description_category, h.description_natureofprob, i.description AS priority_description,
 							e.is_with_third_party, e.third_party_date_given, e.third_party_date_received,
 							a.itpic_recent_solution_remarks, a.itpic_previous_solution_remarks, a.itpic_recent_reject_ticket_remarks, a.itpic_previous_reject_ticket_remarks,

@@ -532,14 +532,12 @@ namespace HelpDeskVG
                     sql += " @EmployeeNo='" + hfAdminEmpId.Value.ToString() + "'";
 
                     clsQueries.executeQuery(sql);
+                    Session["ToastrMessage"] = "Successfully Deleted Role to the User!";
+                    Session["ToastrType"] = "success";
+
+                    Response.Redirect("Maintenance.aspx");
                 }
             }
-            
-            Session["ToastrMessage"] = "Successfully Deleted Role to the User!";
-            Session["ToastrType"] = "success";
-
-            Response.Redirect("Maintenance.aspx");
-
         }
 
         protected void lnkActivate_Click(object sender, EventArgs e)
