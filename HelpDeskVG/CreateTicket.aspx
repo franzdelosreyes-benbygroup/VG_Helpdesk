@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-8">
+                                        <div class="col-md-6">
                                             <div class="mt-2 mb-2">
                                                 <asp:Label ID="lblSubject" runat="server" CssClass="form-label status status-primary required-label">Subject</asp:Label>
                                             </div>
@@ -92,6 +92,18 @@
                                             </div>
                                             <asp:DropDownList ID="ddlEmployee" runat="server" CssClass="form-select text-reset" AutoPostBack="false"></asp:DropDownList>
                                         </div>
+                                        <div class="col-md-2">
+                                            <div class="mt-2 mb-2">
+                                                <asp:Label ID="lblCreatedAt" runat="server" CssClass="form-label status status-primary">Created At:</asp:Label>
+                                            </div>
+                                            <asp:TextBox ID="txtCreatedAt" runat="server" CssClass="form-control text-reset" AutoPostBack="false" TextMode="Date"></asp:TextBox>
+                                        </div>
+                                        <script type="text/javascript">
+                                            // Automatically set the maximum date to today
+                                            var txtBox = document.getElementById('<%= txtCreatedAt.ClientID %>');
+                                            var today = new Date().toISOString().split('T')[0];
+                                            txtBox.max = today;
+                                        </script>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

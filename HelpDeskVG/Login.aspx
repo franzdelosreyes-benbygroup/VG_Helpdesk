@@ -47,6 +47,15 @@
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgba(178, 34, 34, 0.25); /* Lighter Firebrick for the box shadow */
 }
+    .container-tight {
+    margin-top: -70px !important; /* Adjust as needed */
+    padding-top: 0 !important;
+}
+    .d-flex.flex-column {
+    justify-content: flex-start !important;
+}
+
+
     </style>
 </head>
 <body class=" d-flex flex-column bg-white">
@@ -86,7 +95,7 @@
     <div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
         <!-- Photo -->
         <div class="bg-cover h-75 min-vh-50 d-flex justify-content-center align-items-center">
-<img src="img/vghelpdesk_login_bg.svg" class="img-fluid" style="width: auto; margin-top:100px;max-width: 90vw; height: auto; max-height: 90vh; object-fit: contain;">        </div>
+<img src="img/vghelpdesk_login_bg.svg" class="img-fluid" style="width: auto; margin-top:90px;max-width: 90vw; height: auto; max-height: 90vh; object-fit: contain;">        </div>
     </div>
     </div>
     <!-- Tabler Core -->

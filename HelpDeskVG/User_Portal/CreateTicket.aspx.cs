@@ -270,7 +270,6 @@ namespace HelpDeskVG.User_Portal
 
             clsQueries.executeQuery(sql);
             clsUtil.ShowToastr(this.Page, "Ticket Successfully Saved!", "success");
-            Response.Redirect("../User_Portal/Dashboard.aspx");
         }
 
         protected void lnkSaveTicket_Click1(object sender, EventArgs e)

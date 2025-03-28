@@ -150,6 +150,24 @@ namespace HelpDeskVG
         protected global::System.Web.UI.WebControls.DropDownList ddlEmployee;
 
         /// <summary>
+        /// lblCreatedAt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCreatedAt;
+
+        /// <summary>
+        /// txtCreatedAt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCreatedAt;
+
+        /// <summary>
         /// lblDescription control.
         /// </summary>
         /// <remarks>

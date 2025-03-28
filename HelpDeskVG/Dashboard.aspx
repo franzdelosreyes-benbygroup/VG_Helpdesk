@@ -388,7 +388,7 @@
                                 <asp:Label ID="lblMyCreatedTicket" runat="server" CssClass="h4" Text="My Created Tickets"></asp:Label>
                             </div>
                                 <div class="table-responsive">
-                                <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" OnPageIndexChanging="gvMyTicketList_PageIndexChanging" PageSize="10" PagerStyle-CssClass="GridPager" EmptyDataTe="No Data Found">
+                                <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" OnPageIndexChanging="gvMyTicketList_PageIndexChanging" PageSize="10" PagerStyle-CssClass="GridPager" EmptyData="No Data Found">
                                     <Columns>
                                         <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                         <asp:BoundField DataField="status" HeaderText="Status" />
@@ -596,6 +596,7 @@
                                                     </asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
+                                            <asp:BoundField DataField="ticket_age" HeaderText="Ticket's Age Up to (Resolved)" />
                                             <asp:BoundField DataField="description_section" HeaderText="Section" />
                                             <asp:BoundField DataField="description_category" HeaderText="Category" />
                                             <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />

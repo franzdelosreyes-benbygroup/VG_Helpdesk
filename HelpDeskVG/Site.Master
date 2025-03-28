@@ -39,7 +39,7 @@
 
           // Set "Home" as default if no active button is stored
           if (!activeNav) {
-              navItems[0].classList.add("active"); // Set "Home" as default active
+              navItems[0].classList.add("active"); 
               localStorage.setItem("activeNav", navItems[0].id); // Store it
           } else {
               // Remove active class from all
@@ -380,7 +380,6 @@
        </div>
      </header>
             <!-- Header-->
-
             <!-- Navbar Header -->
             <header class="navbar-expand-md custom-navbar">
                 <div class="collapse navbar-collapse">
@@ -442,7 +441,7 @@
             </header>
             <!--Navbar Hedaer -->
             <div class="page-wrapper">
-                <div class="page-header d-print-none">
+<%--                <div class="page-header d-print-none">
                     <div class="container-fluid">
                         <div class="row g-2 align-items-center justify-content-end">
                             <div class="col-auto text-end">
@@ -456,7 +455,7 @@
                             </div>     
                         </div>
                     </div>
-                </div>
+                </div>--%>
                 <!--Body -->
                    <div class="page-body">
                        <div class="container-fluid">

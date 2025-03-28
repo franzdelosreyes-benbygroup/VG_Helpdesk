@@ -235,7 +235,7 @@ namespace HelpDeskVG.Classes
             string sql = "";
             sql = @"SELECT a.employee_code, CONCAT(a.employee_first_name, ' ', a.employee_last_name) AS EmployeeName 
                     FROM dbVG_EmployeeMaster.dbo.m_employee AS a
-                    WHERE a.is_active = '1' AND a.department_id = '6' AND a.employee_code NOT IN (SELECT employee_no FROM m_Admin);";
+                    WHERE a.is_active = '1' AND a.department_id IN ('6','24') AND a.employee_code NOT IN (SELECT employee_no FROM m_Admin);";
 
 
             DataTable dt = new DataTable();

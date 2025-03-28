@@ -40,62 +40,104 @@ namespace HelpDeskVG
 
             if (dt.Rows.Count > 0)
             {
+
                 bool isActive = Convert.ToBoolean(dt.Rows[0]["is_active"]);
                 if (isActive)
                 {
+                    string sqlCheckAccess = "";
+                    sqlCheckAccess = " EXEC sp_vgHelpDesk_Login_CheckIfHasAccess @EmployeeNo='" + txtEmployeeNo.Value + "'";
+                    DataTable dtCheckAccess = new DataTable();
+                    dtCheckAccess = clsQueries.fetchData(sqlCheckAccess);
 
-                    string roleStatus = dt.Rows[0]["RoleStatus"].ToString();
-
-                    if (roleStatus == "ADMINISTRATOR")
+                    if (dtCheckAccess.Rows.Count > 0)
                     {
-                        Session["EmployeeNo"] = dt.Rows[0]["employee_code"].ToString();
-                        Session["EmployeePosition"] = dt.Rows[0]["employee_position"].ToString();
-                        Session["EmployeeEmail"] = dt.Rows[0]["employee_email"].ToString();
-                        Session["FirstName"] = dt.Rows[0]["employee_first_name"].ToString();
-                        Session["LocationId"] = dt.Rows[0]["location_id"].ToString();
-                        Session["LevelId"] = dt.Rows[0]["level_id"].ToString();
-                        Session["RoleStatus"] = dt.Rows[0]["RoleStatus"].ToString();
+                        string sqlAuditLogin = "";
+                        string roleStatus = dt.Rows[0]["RoleStatus"].ToString();
 
-                        Response.Redirect("Dashboard.aspx");
-                    }
-                    else if (roleStatus == "IT PIC")
-                    {
-                        Session["EmployeeNo"] = dt.Rows[0]["employee_code"].ToString();
-                        Session["EmployeePosition"] = dt.Rows[0]["employee_position"].ToString();
-                        Session["EmployeeEmail"] = dt.Rows[0]["employee_email"].ToString();
-                        Session["FirstName"] = dt.Rows[0]["employee_first_name"].ToString();
-                        Session["LocationId"] = dt.Rows[0]["location_id"].ToString();
-                        Session["LevelId"] = dt.Rows[0]["level_id"].ToString();
-                        Session["RoleStatus"] = dt.Rows[0]["RoleStatus"].ToString();
+                        if (roleStatus == "ADMINISTRATOR")
+                        {
+                            Session["EmployeeNo"] = dt.Rows[0]["employee_code"].ToString();
+                            Session["EmployeePosition"] = dt.Rows[0]["employee_position"].ToString();
+                            Session["EmployeeEmail"] = dt.Rows[0]["employee_email"].ToString();
+                            Session["FirstName"] = dt.Rows[0]["employee_first_name"].ToString();
+                            Session["LocationId"] = dt.Rows[0]["location_id"].ToString();
+                            Session["LevelId"] = dt.Rows[0]["level_id"].ToString();
+                            Session["RoleStatus"] = dt.Rows[0]["RoleStatus"].ToString();
 
-                        Response.Redirect("~/IT_PIC_Portal/Dashboard.aspx");
-                    }
-                    else if(roleStatus == "DUAL ROLE")
-                    {
-                        Session["EmployeeNo"] = dt.Rows[0]["employee_code"].ToString();
-                        Session["EmployeePosition"] = dt.Rows[0]["employee_position"].ToString();
-                        Session["EmployeeEmail"] = dt.Rows[0]["employee_email"].ToString();
-                        Session["FirstName"] = dt.Rows[0]["employee_first_name"].ToString();
-                        Session["LocationId"] = dt.Rows[0]["location_id"].ToString();
-                        Session["LevelId"] = dt.Rows[0]["level_id"].ToString();
-                        Session["RoleStatus"] = dt.Rows[0]["RoleStatus"].ToString();
-                        Response.Redirect("Dashboard.aspx");
-                    }
+                            clsQueries.executeQuery(sql);
 
-                    else if (roleStatus == "" || roleStatus == null)
-                    {
-                        Session["EmployeeNo"] = dt.Rows[0]["employee_code"].ToString();
-                        Session["EmployeePosition"] = dt.Rows[0]["employee_position"].ToString();
-                        Session["EmployeeEmail"] = dt.Rows[0]["employee_email"].ToString();
-                        Session["FirstName"] = dt.Rows[0]["employee_first_name"].ToString();
-                        Session["LocationId"] = dt.Rows[0]["location_id"].ToString();
-                        Session["LevelId"] = dt.Rows[0]["level_id"].ToString();
-                        Response.Redirect("~/User_Portal/Dashboard.aspx");
+
+
+                            sqlAuditLogin = " EXEC sp_auditlogs_login ";
+                            sqlAuditLogin += "@LoginBy ='" + Session["EmployeeNo"].ToString() + "'";
+
+                            clsQueries.executeQuery(sqlAuditLogin);
+
+                            Response.Redirect("Dashboard.aspx");
+
+                        }
+                        else if (roleStatus == "IT PIC")
+                        {
+                            Session["EmployeeNo"] = dt.Rows[0]["employee_code"].ToString();
+                            Session["EmployeePosition"] = dt.Rows[0]["employee_position"].ToString();
+                            Session["EmployeeEmail"] = dt.Rows[0]["employee_email"].ToString();
+                            Session["FirstName"] = dt.Rows[0]["employee_first_name"].ToString();
+                            Session["LocationId"] = dt.Rows[0]["location_id"].ToString();
+                            Session["LevelId"] = dt.Rows[0]["level_id"].ToString();
+                            Session["RoleStatus"] = dt.Rows[0]["RoleStatus"].ToString();
+
+                            clsQueries.executeQuery(sql);
+
+                            sqlAuditLogin = " EXEC sp_auditlogs_login ";
+                            sqlAuditLogin += "@LoginBy ='" + Session["EmployeeNo"].ToString() + "'";
+
+                            clsQueries.executeQuery(sqlAuditLogin);
+
+                            Response.Redirect("~/IT_PIC_Portal/Dashboard.aspx");
+                        }
+                        else if (roleStatus == "DUAL ROLE")
+                        {
+                            Session["EmployeeNo"] = dt.Rows[0]["employee_code"].ToString();
+                            Session["EmployeePosition"] = dt.Rows[0]["employee_position"].ToString();
+                            Session["EmployeeEmail"] = dt.Rows[0]["employee_email"].ToString();
+                            Session["FirstName"] = dt.Rows[0]["employee_first_name"].ToString();
+                            Session["LocationId"] = dt.Rows[0]["location_id"].ToString();
+                            Session["LevelId"] = dt.Rows[0]["level_id"].ToString();
+                            Session["RoleStatus"] = dt.Rows[0]["RoleStatus"].ToString();
+
+                            clsQueries.executeQuery(sql);
+
+                            sqlAuditLogin = " EXEC sp_auditlogs_login ";
+                            sqlAuditLogin += "@LoginBy ='" + Session["EmployeeNo"].ToString() + "'";
+
+                            clsQueries.executeQuery(sqlAuditLogin);
+
+                            Response.Redirect("Dashboard.aspx");
+                        }
+
+                        else if (roleStatus == "" || roleStatus == null)
+                        {
+                            Session["EmployeeNo"] = dt.Rows[0]["employee_code"].ToString();
+                            Session["EmployeePosition"] = dt.Rows[0]["employee_position"].ToString();
+                            Session["EmployeeEmail"] = dt.Rows[0]["employee_email"].ToString();
+                            Session["FirstName"] = dt.Rows[0]["employee_first_name"].ToString();
+                            Session["LocationId"] = dt.Rows[0]["location_id"].ToString();
+                            Session["LevelId"] = dt.Rows[0]["level_id"].ToString();
+
+                            clsQueries.executeQuery(sql);
+                            sqlAuditLogin = " EXEC sp_auditlogs_login ";
+                            sqlAuditLogin += "@LoginBy ='" + Session["EmployeeNo"].ToString() + "'";
+
+                            clsQueries.executeQuery(sqlAuditLogin);
+
+                            Response.Redirect("~/User_Portal/Dashboard.aspx");
+
+                        }
                     }
-                }
-                else
-                {
-                    clsUtil.ShowToastr(this.Page, "Invalid Employee No. or Password", "error");
+                    else
+                    {
+                        clsUtil.ShowToastr(this.Page, "You are not allowed to access this portal. Please contact HR", "error");
+                    }
                 }
             }
             else

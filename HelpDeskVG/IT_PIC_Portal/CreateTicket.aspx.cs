@@ -170,37 +170,77 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected void insertDetailsTicket()
         {
             string sql = "";
-            if (ddlEmployee.SelectedValue == "")
-            {
-                sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
-                sql += "@Ticket_Header_Id='" + Request.QueryString["Id"] + "',";
-                sql += "@Description='" + clsUtil.replaceQuote(txtDescription.Text) + "',";
-                sql += "@Subject='" + clsUtil.replaceQuote(txtSubject.Text) + "',";
-                sql += "@Section= '" + ddlSection.SelectedValue + "',";
-                sql += "@Category= '" + ddlCategory.SelectedValue + "',";
-                sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
-                sql += "@NatureOfProblem='" + ddlNatureOfProblem.SelectedValue + "',";
-                sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "',";
-                sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
-                clsQueries.executeQuery(sql);
+            if (txtCreatedAt.Text != "")
+            {
+                if (ddlEmployee.SelectedValue == "")
+                {
+                    sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
+                    sql += "@Ticket_Header_Id='" + Request.QueryString["Id"] + "',";
+                    sql += "@Description='" + clsUtil.replaceQuote(txtDescription.Text) + "',";
+                    sql += "@Subject='" + clsUtil.replaceQuote(txtSubject.Text) + "',";
+                    sql += "@Section= '" + ddlSection.SelectedValue + "',";
+                    sql += "@Category= '" + ddlCategory.SelectedValue + "',";
+                    sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
+                    sql += "@NatureOfProblem='" + ddlNatureOfProblem.SelectedValue + "',";
+                    sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "',";
+                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
+
+                }
+                else
+                {
+                    sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
+                    sql += "@Ticket_Header_Id='" + Request.QueryString["Id"] + "',";
+                    sql += "@Description='" + clsUtil.replaceQuote(txtDescription.Text) + "',";
+                    sql += "@Subject='" + clsUtil.replaceQuote(txtSubject.Text) + "',";
+                    sql += "@Section= '" + ddlSection.SelectedValue + "',";
+                    sql += "@Category= '" + ddlCategory.SelectedValue + "',";
+                    sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
+                    sql += "@NatureOfProblem ='" + ddlNatureOfProblem.SelectedValue + "',";
+                    sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "',";
+                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
+
+                }
             }
+
             else
             {
-                sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
-                sql += "@Ticket_Header_Id='" + Request.QueryString["Id"] + "',";
-                sql += "@Description='" + clsUtil.replaceQuote(txtDescription.Text) + "',";
-                sql += "@Subject='" + clsUtil.replaceQuote(txtSubject.Text) + "',";
-                sql += "@Section= '" + ddlSection.SelectedValue + "',";
-                sql += "@Category= '" + ddlCategory.SelectedValue + "',";
-                sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
-                sql += "@NatureOfProblem ='" + ddlNatureOfProblem.SelectedValue + "',";
-                sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "',";
-                sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
+                if (ddlEmployee.SelectedValue == "")
+                {
+                    sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
+                    sql += "@Ticket_Header_Id='" + Request.QueryString["Id"] + "',";
+                    sql += "@Description='" + clsUtil.replaceQuote(txtDescription.Text) + "',";
+                    sql += "@Subject='" + clsUtil.replaceQuote(txtSubject.Text) + "',";
+                    sql += "@Section= '" + ddlSection.SelectedValue + "',";
+                    sql += "@Category= '" + ddlCategory.SelectedValue + "',";
+                    sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
+                    sql += "@NatureOfProblem='" + ddlNatureOfProblem.SelectedValue + "',";
+                    sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "',";
+                    sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
+                    sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
-                clsQueries.executeQuery(sql);
+                }
+                else
+                {
+                    sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
+                    sql += "@Ticket_Header_Id='" + Request.QueryString["Id"] + "',";
+                    sql += "@Description='" + clsUtil.replaceQuote(txtDescription.Text) + "',";
+                    sql += "@Subject='" + clsUtil.replaceQuote(txtSubject.Text) + "',";
+                    sql += "@Section= '" + ddlSection.SelectedValue + "',";
+                    sql += "@Category= '" + ddlCategory.SelectedValue + "',";
+                    sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
+                    sql += "@NatureOfProblem ='" + ddlNatureOfProblem.SelectedValue + "',";
+                    sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "',";
+                    sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
+                    sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
+
+                }
             }
 
+            clsQueries.executeQuery(sql);
+            clsUtil.ShowToastr(this.Page, "Ticket Successfully Saved!", "success");
         }
 
         protected void ddlSection_SelectedIndexChanged(object sender, EventArgs e)
