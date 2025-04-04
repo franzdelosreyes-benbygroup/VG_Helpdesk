@@ -13,6 +13,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using HelpDeskVG.Classes;
+using Microsoft.AspNet.FriendlyUrls;
 using WebGrease.Css.Ast.Selectors;
 using static System.Collections.Specialized.BitVector32;
 
@@ -24,7 +25,10 @@ namespace HelpDeskVG
         {
             if (!IsPostBack)
             {
-
+                if (Session["EmployeeNo"] == null)
+                {
+                    Response.Redirect("Login.aspx");
+                }
                 if (Session["ToastrMessage"] != null)
                 {
                     string message = Session["ToastrMessage"].ToString();
@@ -528,6 +532,7 @@ namespace HelpDeskVG
 
                 }
 
+                ddlSectionMd.Enabled = true;
                 ddlCategoryMd.Enabled = true;
                 ddlNatureofprobMd.Enabled = true;
                 lnkRejectTicketProposal.Visible = false;

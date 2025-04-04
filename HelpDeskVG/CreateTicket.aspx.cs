@@ -18,6 +18,10 @@ namespace HelpDeskVG
         {
             if (!IsPostBack) 
             {
+                if (Session["EmployeeNo"] == null)
+                {
+                    Response.Redirect("Login.aspx");
+                }
                 if (ddlSection.SelectedValue == "" || ddlSection.SelectedValue == "0")
                 {
                     ddlCategory.Enabled = false;

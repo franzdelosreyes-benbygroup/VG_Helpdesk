@@ -22,6 +22,10 @@ namespace HelpDeskVG
         {
             if(!IsPostBack)
             {
+                if (Session["EmployeeNo"] == null)
+                {
+                    Response.Redirect("Login.aspx");
+                }
                 CountClosedTicket();
                 CountFullyResolved();
                 CountAutoClose();

@@ -24,9 +24,10 @@
     <script src="../tabler/dist/js/tabler.min.js"></script>
     <script src="../tabler/dist/js/demo.min.js"></script>
     <link href="../Content/toastr.css" rel="stylesheet"/>
-
+    <link href="../dist/css/select2.css" rel="stylesheet" />
+    <script src="../dist/js/select2.min.js"></script>
     <script src="../Scripts/toastr.js"></script>
-    <script>
+   <%-- <script>
         document.addEventListener("DOMContentLoaded", function () {
             let navItems = document.querySelectorAll(".custom-navbar .nav-item");
 
@@ -62,7 +63,9 @@
                 });
             });
         });
-    </script>
+
+
+    </script>--%>
    <style>
         @import url('https://rsms.me/inter/inter.css');
 
@@ -367,7 +370,7 @@
                     <div class="navbar bg-red nav-fill">
                         <div class="container-fluid">
                             <ul class="navbar-nav">
-                                <li class="nav-item active" id="navHome">
+                                <li class="nav-item" id="navHome">
                                     <asp:LinkButton ID="lnkHome" runat="server" OnClick="lnkHome_Click" CssClass="custom-nav-link" role="button">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->

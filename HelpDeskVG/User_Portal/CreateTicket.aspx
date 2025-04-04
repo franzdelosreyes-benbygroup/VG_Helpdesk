@@ -20,7 +20,12 @@
         }
 
         return confirm("Do you want to proceed?");
-    }
+        }
+
+        $(document).ready(function () {
+            $('.custom-select').select2({ width: '100%' });
+
+        });
     </script>
 
     </asp:Content>
@@ -83,7 +88,7 @@
                                         <div class="mt-2 mb-2">
                                             <asp:Label ID="lblCreatedFor" runat="server" CssClass="form-label status status-primary">Created For:</asp:Label>
                                         </div>
-                                        <asp:DropDownList ID="ddlEmployee" runat="server" CssClass="form-control text-reset" AutoPostBack="false"></asp:DropDownList>
+                                        <asp:DropDownList ID="ddlEmployee" runat="server" CssClass="custom-select text-reset" AutoPostBack="false"></asp:DropDownList>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="mt-2 mb-2">

@@ -24,7 +24,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
                     Response.Cache.SetCacheability(HttpCacheability.NoCache);
                     Response.Cache.SetNoStore();
-                    Response.Redirect("Login.aspx");
+                    Response.Redirect("../Login.aspx");
                 }
                 else
                 {
@@ -33,6 +33,14 @@ namespace HelpDeskVG.IT_PIC_Portal
             }
             else 
             {
+                if (Session["EmployeeNo"] == null)
+                {
+                    Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
+                    Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                    Response.Cache.SetNoStore();
+                    Response.Redirect("../Login.aspx");
+                }
+
                 lnkSwitchRole.Visible = false;
             }
         }

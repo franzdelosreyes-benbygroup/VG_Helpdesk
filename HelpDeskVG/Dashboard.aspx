@@ -131,12 +131,7 @@
             $('.custom-select').select2({width:'100%'});
 
         });
-
-
-
     </script>
-    <link href="dist/css/select2.css" rel="stylesheet" />
-    <script src="dist/js/select2.min.js"></script>
 
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">

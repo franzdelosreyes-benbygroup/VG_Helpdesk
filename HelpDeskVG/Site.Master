@@ -24,55 +24,20 @@
     <link href="tabler/dist/css/tabler-vendors.min.css" rel="stylesheet" />
 
     <link href="Content/toastr.css" rel="stylesheet"/>
-
+    <link href="dist/css/select2.css" rel="stylesheet" />
+    <script src="dist/js/select2.min.js"></script>
     <script src="Scripts/toastr.js"></script>
   
         <!-- Tabler Core -->
     <script src="tabler/dist/js/tabler.min.js"></script>
+    <script src="tabler/dist/js/demo.min.js"></script>
 
       <script>
-      document.addEventListener("DOMContentLoaded", function () {
-          let navItems = document.querySelectorAll(".custom-navbar .nav-item");
 
-          // Get last active button from localStorage
-          let activeNav = localStorage.getItem("activeNav");
-
-          // Set "Home" as default if no active button is stored
-          if (!activeNav) {
-              navItems[0].classList.add("active"); 
-              localStorage.setItem("activeNav", navItems[0].id); // Store it
-          } else {
-              // Remove active class from all
-              navItems.forEach((nav) => nav.classList.remove("active"));
-
-              // Set the stored active button
-              let activeElement = document.getElementById(activeNav);
-              if (activeElement) {
-                  activeElement.classList.add("active");
-              }
-          }
-
-          // Add click event listener to all nav items
-          navItems.forEach((item) => {
-              item.addEventListener("click", function () {
-                  // Remove "active" from all buttons
-                  navItems.forEach((nav) => nav.classList.remove("active"));
-
-                  // Add "active" to the clicked button
-                  this.classList.add("active");
-
-                  // Store active button in localStorage
-                  localStorage.setItem("activeNav", this.id);
-              });
-          });
-      });
 
         function CallLoadScreen() {
             $('#loadscreen').modal({ backdrop: 'static' });
         }
-        //function CloseLoadScreen() {
-        //    $('#loadscreen').modal('hide');
-        //}
 
       </script>
    <%-- <script src="../tabler/dist/js/demo.min.js"></script>--%>
@@ -314,10 +279,10 @@
            border: 1px solid #007bff;
        }
 
-           .GridPager a:hover {
-               background-color: #007bff;
-               color: #fff;
-           }
+        .GridPager a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
 
        /*Disabled Buttons*/
        .GridPager .disabled {
@@ -386,8 +351,8 @@
                     <div class="navbar bg-red nav-fill">
                         <div class="container-fluid">
                             <ul class="navbar-nav">
-                                <li class="nav-item active" id="navHome">
-                                    <asp:LinkButton ID="lnkHome" runat="server" OnClick="lnkHome_Click" OnClientClick="return CallLoadScreen();" CssClass="custom-nav-link" role="button">
+                                <li class="nav-item" id="navHome">
+                                    <asp:LinkButton ID="lnkHome" runat="server" OnClick="lnkHome_Click" data-page="dashboard.aspx" OnClientClick="return CallLoadScreen();" CssClass="custom-nav-link" role="button">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -398,7 +363,7 @@
                                     </asp:Linkbutton>
                                 </li>
                                 <li class="nav-item" id="navCreateTicket">
-                                    <asp:LinkButton ID="lnkCreateTicket" runat="server" OnClick="lnkCreateTicket_Click" OnClientClick="CallLoadScreen();" CssClass="custom-nav-link" role="button">
+                                    <asp:LinkButton ID="lnkCreateTicket" runat="server" OnClick="lnkCreateTicket_Click" data-page="createticket.aspx" OnClientClick="CallLoadScreen();" CssClass="custom-nav-link" role="button">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                                             <!-- Download SVG icon from http://tabler-icons.io/i/package -->
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -409,7 +374,7 @@
                                         </asp:LinkButton>
                                 </li>
                                     <li class="nav-item" id="navReport">
-                                        <asp:LinkButton ID="lnkReports" OnClick="lnkReports_Click" OnClientClick="CallLoadScreen();" CssClass="custom-nav-link" role="button" runat="server">
+                                        <asp:LinkButton ID="lnkReports" OnClick="lnkReports_Click" data-page="reports.aspx" OnClientClick="CallLoadScreen();" CssClass="custom-nav-link" role="button" runat="server">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                 <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-clipboard-data"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
@@ -421,7 +386,7 @@
                                             </asp:LinkButton>
                                     </li>
                                 <li class="nav-item" id="navMaintenance">
-                                    <asp:LinkButton ID="lnkMaintenance" OnClick="lnkMaintenance_Click" OnClientClick="CallLoadScreen();" CssClass="custom-nav-link" role="button" runat="server">
+                                    <asp:LinkButton ID="lnkMaintenance" OnClick="lnkMaintenance_Click" data-page="maintenance.aspx" OnClientClick="CallLoadScreen();" CssClass="custom-nav-link" role="button" runat="server">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-barrier-block">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7m0 1a1 1 0 0 1 1 -1h14a1 1 0 0 1 1 1v7a1 1 0 0 1 -1 1h-14a1 1 0 0 1 -1 -1z" />

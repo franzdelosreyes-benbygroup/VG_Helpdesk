@@ -501,7 +501,7 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="tab-pane active show" id="myCreatedTicket" role="tabpanel">
-                        <asp:Label ID="lblMyCreatedTicket" runat="server" CssClass="h4" Text="Ny Created Tickets"></asp:Label>
+                        <asp:Label ID="lblMyCreatedTicket" runat="server" CssClass="h4" Text="My Created Tickets"></asp:Label>
                         <div class="table-responsive">
                             <asp:GridView ID="gvMyTicketList" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" PagerStyle-CssClass="GridPager" OnPageIndexChanging="gvMyTicketList_PageIndexChanging" EmptyDataTe="No Data Found">
                                 <Columns>
@@ -800,7 +800,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label status status-primary">Created For:</label>
-                                    <asp:TextBox ID="txtCreatedFor" runat="server" CssClass="form-control text-reset mt-2" Visible="false" Value='<%# Eval("created_for")%>' Enabled="false"></asp:TextBox>
+                                    <asp:TextBox ID="txtCreatedFor" runat="server" CssClass="custom-select text-reset mt-2" Visible="false" Value='<%# Eval("created_for")%>' Enabled="false"></asp:TextBox>
                                     <asp:DropDownList ID="ddlCreatedForMd" runat="server" CssClass="form-select text-reset mt-2" Enabled="false"></asp:DropDownList>
                                 </div>
                             </div>

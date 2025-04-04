@@ -18,7 +18,7 @@ namespace HelpDeskVG.User_Portal
                 Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
                 Response.Cache.SetNoStore();
-                Response.Redirect("Login.aspx");
+                Response.Redirect("../Login.aspx");
             }
             else
             {

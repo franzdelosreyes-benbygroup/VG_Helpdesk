@@ -20,6 +20,10 @@ namespace HelpDeskVG.IT_PIC_Portal
         {
             if (!IsPostBack)
             {
+                if (Session["EmployeeNo"] == null)
+                {
+                    Response.Redirect("../Login.aspx");
+                }
 
                 if (Session["ToastrMessage"] != null)
                 {
@@ -44,7 +48,10 @@ namespace HelpDeskVG.IT_PIC_Portal
                 DisplayMyTickets();
                 DisplayPendingApprovalResolved();
                 DisplayRejectedTicketsByAdmin();
+
             }
+
+
         }
 
         protected void DisplayMyTickets()

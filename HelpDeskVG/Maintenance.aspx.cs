@@ -16,6 +16,10 @@ namespace HelpDeskVG
         {
             if (!IsPostBack)
             {
+                if (Session["EmployeeNo"] == null)
+                {
+                    Response.Redirect("Login.aspx");
+                }
                 if (Session["ToastrMessage"] != null)
                 {
                     string message = Session["ToastrMessage"].ToString();
