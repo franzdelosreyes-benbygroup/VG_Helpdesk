@@ -20,7 +20,12 @@
                 return false; // Prevent form submission
             }
 
-            return confirm("Do you like to proceed?");
+            return confirm("Do you like to Submit the Ticket?");
+        }
+
+        function validateDraftForm() {
+            return confirm("Do you like to Save as Draft??");
+
         }
 
         $(document).ready(function () {
@@ -50,9 +55,10 @@
                         <div class="card-header">
 
                             <h3 class="card-title">Create New Ticket</h3>
-                            <div class="card-actions">
-                                <asp:LinkButton ID="lnkSaveTicket" runat="server" OnClick="lnkSaveTicket_Click" OnClientClick="return validateForm();" CssClass="btn btn-success w-100"> Save Ticket</asp:LinkButton>
-
+                            <div class="card-actions d-flex gap-2">
+                                <%--<asp:LinkButton ID="lnkSaveTicket" runat="server" OnClick="lnkSaveTicket_Click" OnClientClick="return validateForm();" CssClass="btn btn-success"> Submit Ticket Entry </asp:LinkButton>--%>
+                                <asp:LinkButton ID="lnkSaveDraftTicket" runat="server" OnClick="lnkSaveDraftTicket_Click" OnClientClick="return validateDraftForm();" CssClass="btn btn-primary">Save as Draft</asp:LinkButton>
+                                <asp:LinkButton ID="lnkSaveTicket" runat="server" OnClick="lnkSaveTicket_Click" OnClientClick="return validateForm();" CssClass="btn btn-success">Submit Ticket Entry</asp:LinkButton>
                             </div>
                         </div>
                         <div class="card-body p-0">

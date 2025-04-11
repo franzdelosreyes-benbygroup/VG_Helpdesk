@@ -33,7 +33,9 @@
     <script src="tabler/dist/js/demo.min.js"></script>
 
       <script>
-
+          function validateCreateNewTicket() {
+              return confirm("Are you sure, you want to Create New Ticket?");
+          }
 
         function CallLoadScreen() {
             $('#loadscreen').modal({ backdrop: 'static' });
@@ -363,7 +365,7 @@
                                     </asp:Linkbutton>
                                 </li>
                                 <li class="nav-item" id="navCreateTicket">
-                                    <asp:LinkButton ID="lnkCreateTicket" runat="server" OnClick="lnkCreateTicket_Click" data-page="createticket.aspx" OnClientClick="CallLoadScreen();" CssClass="custom-nav-link" role="button">
+                                    <asp:LinkButton ID="lnkCreateTicket" runat="server" OnClick="lnkCreateTicket_Click" data-page="createticket.aspx" OnClientClick="validateCreateNewTicket();" CssClass="custom-nav-link" role="button">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                                             <!-- Download SVG icon from http://tabler-icons.io/i/package -->
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">

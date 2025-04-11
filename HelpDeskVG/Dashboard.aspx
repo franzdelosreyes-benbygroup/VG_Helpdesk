@@ -595,6 +595,7 @@
                                             <asp:BoundField DataField="description_section" HeaderText="Section" />
                                             <asp:BoundField DataField="description_category" HeaderText="Category" />
                                             <asp:BoundField DataField="description_natureofprob" HeaderText="Nature of Problem" />
+                                            <asp:BoundField DataField="itpic" HeaderText="IT PIC" />
                                             <asp:BoundField DataField="created_at" HeaderText="Created At" />
                                             <asp:BoundField DataField="created_for" HeaderText="Ticket Owner" />
                                             <asp:TemplateField HeaderText="Actions">
