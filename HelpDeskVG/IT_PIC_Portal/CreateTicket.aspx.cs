@@ -359,6 +359,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
                     sql += "@NatureOfProblem='" + ddlNatureOfProblem.SelectedValue + "',";
                     sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
                 }
@@ -374,6 +375,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
                     sql += "@NatureOfProblem ='" + ddlNatureOfProblem.SelectedValue + "',";
                     sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@CreatedFor='" + ddlEmployee.SelectedValue + "',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
                 }
@@ -392,6 +394,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
                     sql += "@NatureOfProblem='" + ddlNatureOfProblem.SelectedValue + "',";
                     sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
+                    sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
                 }
@@ -407,6 +410,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
                     sql += "@NatureOfProblem ='" + ddlNatureOfProblem.SelectedValue + "',";
                     sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
+                    sql += "@CreatedFor='" + ddlEmployee.SelectedValue + "',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
                 }
@@ -429,7 +433,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             }
 
             clsUtil.ShowToastr(this.Page, "Ticket Successfully Saved as Draft!", "success");
-            Response.Redirect("../Dashboard.aspx");
+            Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
         }
     }
 }

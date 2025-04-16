@@ -2275,7 +2275,7 @@ namespace HelpDeskVG
 
                     sql = "EXEC sp_vgHelpDesk_Admin_InsertDetailsDraftTicket ";
                     sql += "@TicketHeaderId ='" + ticketHeader + "',";
-                    sql += "@Admin_Emp_No='" + Session["EmployeeNo"].ToString() + "',";
+                    sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
                     sql += "@Assigned_Emp_no='" + ddlAssignToEmpITMd.SelectedValue + "',";
                     sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
                     sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
@@ -2299,7 +2299,7 @@ namespace HelpDeskVG
                     {
                         sql = "EXEC sp_vgHelpDesk_Admin_InsertDetailsDraftTicket ";
                         sql += "@TicketHeaderId ='" + ticketHeader + "',";
-                        sql += "@Admin_Emp_No='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
                         sql += "@Assigned_Emp_no='" + ddlAssignToEmpITMd.SelectedValue + "',";
                         sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
                         sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
@@ -2327,7 +2327,7 @@ namespace HelpDeskVG
 
                         sql = "EXEC sp_vgHelpDesk_Admin_InsertDetailsDraftTicket ";
                         sql += "@TicketHeaderId ='" + ticketHeader + "',";
-                        sql += "@Admin_Emp_No='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
                         sql += "@Assigned_Emp_no='" + ddlAssignToEmpITMd.SelectedValue + "',";
                         sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
                         sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
@@ -2351,7 +2351,7 @@ namespace HelpDeskVG
                     {
                         sql = "EXEC sp_vgHelpDesk_Admin_InsertDetailsDraftTicket ";
                         sql += "@TicketHeaderId ='" + ticketHeader + "',";
-                        sql += "@Admin_Emp_No='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
                         sql += "@Assigned_Emp_no='" + ddlAssignToEmpITMd.SelectedValue + "',";
                         sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
                         sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
@@ -2381,7 +2381,7 @@ namespace HelpDeskVG
 
                         sql = "EXEC sp_vgHelpDesk_Admin_InsertDetailsDraftTicket ";
                         sql += "@TicketHeaderId ='" + ticketHeader + "',";
-                        sql += "@Admin_Emp_No='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
                         sql += "@Assigned_Emp_no='" + ddlAssignToEmpITMd.SelectedValue + "',";
                         sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
                         sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
@@ -2405,7 +2405,7 @@ namespace HelpDeskVG
                     {
                         sql = "EXEC sp_vgHelpDesk_Admin_InsertDetailsDraftTicket ";
                         sql += "@TicketHeaderId ='" + ticketHeader + "',";
-                        sql += "@Admin_Emp_No='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
                         sql += "@Assigned_Emp_no='" + ddlAssignToEmpITMd.SelectedValue + "',";
                         sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
                         sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
@@ -2434,7 +2434,7 @@ namespace HelpDeskVG
 
                         sql = "EXEC sp_vgHelpDesk_Admin_InsertDetailsDraftTicket ";
                         sql += "@TicketHeaderId ='" + ticketHeader + "',";
-                        sql += "@Admin_Emp_No='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
                         sql += "@Assigned_Emp_no='" + ddlAssignToEmpITMd.SelectedValue + "',";
                         sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
                         sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
@@ -2458,7 +2458,7 @@ namespace HelpDeskVG
                     {
                         sql = "EXEC sp_vgHelpDesk_Admin_InsertDetailsDraftTicket ";
                         sql += "@TicketHeaderId ='" + ticketHeader + "',";
-                        sql += "@Admin_Emp_No='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
                         sql += "@Assigned_Emp_no='" + ddlAssignToEmpITMd.SelectedValue + "',";
                         sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
                         sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
