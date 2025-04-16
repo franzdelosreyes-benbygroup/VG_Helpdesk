@@ -24,7 +24,7 @@
         }
 
         function validateDraftForm() {
-            return confirm("Do you like to Save as Draft??");
+            return confirm("Do you like it to Save as Draft??");
 
         }
 

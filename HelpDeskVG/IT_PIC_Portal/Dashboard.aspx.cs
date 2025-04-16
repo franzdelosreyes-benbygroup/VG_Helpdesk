@@ -338,7 +338,7 @@ namespace HelpDeskVG.IT_PIC_Portal
 
             sql = "EXEC sp_vgHelpDesk_ITPIC_AcceptTicket ";
             sql += "@TicketHeaderId ='" + ticketHeader + "',";
-            sql += "@Transacted_By ='" + Session["EmployeeNo"].ToString() +"'";
+            sql += "@Transacted_By ='" + Session["EmployeeNo"].ToString() + "'";
 
             clsQueries.executeQuery(sql);
 
@@ -455,6 +455,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     lnkEditDetails.Visible = false;
                     lnkReject3rdParty.Visible = false;
                     lnkITPICReject3rdParty.Visible = false;
+                    lnkSaveAsDraft.Visible = false;
 
                     lnkTagThisToThirdParty.Visible = false;
                     lblAttachNewAttachment.Visible = false;
@@ -570,7 +571,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     try
                     {
                         ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
-                        ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString(); 
+                        ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
                         ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
                         ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
                         ddlCreatedForMd.SelectedValue = dt.Rows[0]["created_for"].ToString();
@@ -624,10 +625,11 @@ namespace HelpDeskVG.IT_PIC_Portal
                     lnkTagThisToThirdParty.Visible = false;
                     lnkSaveReceivedDate.Visible = false;
                     lnkProposedTicketResolution.Visible = false;
+                    lnkSaveAsDraft.Visible = false;
 
 
 
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);        
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "detailsModal();", true);
                 }
             }
 
@@ -650,7 +652,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             sql += "@TicketHeaderId = '" + ticketHeader + "',";
             sql += "@ThirdParty_Name = '" + txt3rdPartyName.Text + "',";
             sql += "@ThirdPartyDateGiven = '" + txtCalendarGivenTo.Text + "',";
-            sql += "@Transacted_By = '" + Session["EmployeeNo"].ToString() +"'";
+            sql += "@Transacted_By = '" + Session["EmployeeNo"].ToString() + "'";
 
             clsQueries.executeQuery(sql);
 
@@ -687,61 +689,61 @@ namespace HelpDeskVG.IT_PIC_Portal
                     LEFT JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_for
                     LEFT JOIN t_AttachmentReport AS g ON a.ticket_id  =  g.ticket_header_id
 					LEFT JOIN m_Priority AS h ON h.priority_id = a.priority_id
-                    WHERE a.approval_transactional_level = '4' AND a.[assigned_emp_no] =" + Session["EmployeeNo"].ToString() + " AND a.ticket_id =" +hfTicketHeaderId.Value.ToString();
+                    WHERE a.approval_transactional_level = '4' AND a.[assigned_emp_no] =" + Session["EmployeeNo"].ToString() + " AND a.ticket_id =" + hfTicketHeaderId.Value.ToString();
 
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
 
 
-                if (hfTicketHeaderId.ToString() == "")
+            if (hfTicketHeaderId.ToString() == "")
+            {
+                clsUtil.ShowToastr(this.Page, "There is no Transaction Existing", "warning");
+            }
+            else
+            {
+                txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
+                txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
+                txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
+                txtAttachmentDescriptionMd.Text = dt.Rows[0]["descriptionreport"].ToString();
+                string iswithThirdParty = dt.Rows[0]["is_with_third_party"].ToString();
+                string iswithReceivedDateFromThirdParty = dt.Rows[0]["third_party_date_received"].ToString();
+                hfMdTicketDateGiven3rdParty.Value = dt.Rows[0]["third_party_date_given"].ToString();
+
+                try
                 {
-                    clsUtil.ShowToastr(this.Page, "There is no Transaction Existing", "warning");
+                    ddlCreatedForMd.SelectedValue = dt.Rows[0]["created_for"].ToString();
+                    ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString();
+                    ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
+                    ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
+                    ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
+
                 }
-                else
+                catch
                 {
-                    txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
-                    txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
-                    txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
-                    txtAttachmentDescriptionMd.Text = dt.Rows[0]["descriptionreport"].ToString();
-                    string iswithThirdParty = dt.Rows[0]["is_with_third_party"].ToString();
-                    string iswithReceivedDateFromThirdParty = dt.Rows[0]["third_party_date_received"].ToString();
-                    hfMdTicketDateGiven3rdParty.Value = dt.Rows[0]["third_party_date_given"].ToString();
-
-                    try
-                    {
-                        ddlCreatedForMd.SelectedValue = dt.Rows[0]["created_for"].ToString();
-                        ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString(); 
-                        ddlCategoryMd.SelectedValue = dt.Rows[0]["category_id"].ToString();
-                        ddlNatureofprobMd.SelectedValue = dt.Rows[0]["nature_of_prob_id"].ToString();
-                        ddlPriorityMd.SelectedValue = dt.Rows[0]["priority_id"].ToString();
-
-                    }
-                    catch
-                    {
-                        ddlCreatedForMd.SelectedValue = "";
-                        ddlSectionMd.SelectedValue = "";
-                        ddlCategoryMd.SelectedValue = "";
-                        ddlNatureofprobMd.SelectedValue = "";
-                        ddlPriorityMd.SelectedValue = "";
-                    }
+                    ddlCreatedForMd.SelectedValue = "";
+                    ddlSectionMd.SelectedValue = "";
+                    ddlCategoryMd.SelectedValue = "";
+                    ddlNatureofprobMd.SelectedValue = "";
+                    ddlPriorityMd.SelectedValue = "";
+                }
 
 
-                    hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
+                hfMdTicketHeaderId.Value = hfTicketHeaderId.Value;
 
-                    string ticketHeader = hfMdTicketHeaderId.Value.ToString();
+                string ticketHeader = hfMdTicketHeaderId.Value.ToString();
 
-                    sql = "EXEC sp_vgHelpDesk_Admin_GetAttachmentDetails ";
-                    sql += "@TicketHeaderId ='" + ticketHeader + "'";
+                sql = "EXEC sp_vgHelpDesk_Admin_GetAttachmentDetails ";
+                sql += "@TicketHeaderId ='" + ticketHeader + "'";
 
-                    clsQueries.executeQuery(sql);
+                clsQueries.executeQuery(sql);
 
-                    DataTable dtAttachment = new DataTable();
-                    dtAttachment = clsQueries.fetchData(sql);
+                DataTable dtAttachment = new DataTable();
+                dtAttachment = clsQueries.fetchData(sql);
 
 
-                    gvDownloadableAttachment.DataSource = dtAttachment;
-                    gvDownloadableAttachment.DataBind();
+                gvDownloadableAttachment.DataSource = dtAttachment;
+                gvDownloadableAttachment.DataBind();
 
                 if (iswithThirdParty == "False")
                 {
@@ -769,10 +771,11 @@ namespace HelpDeskVG.IT_PIC_Portal
                     txtAttachmentDescriptionMd.Visible = false;
                     lblAttachDesccc.Visible = false;
                     lnkITPICReject3rdParty.Visible = false;
+                    lnkSaveAsDraft.Visible = false;
 
                 }
 
-                else if (iswithThirdParty == "True") 
+                else if (iswithThirdParty == "True")
                 {
                     txtSubjectMd.Enabled = false;
                     txtDescriptionMd.Enabled = false;
@@ -827,7 +830,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             string sql = "";
 
             sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsProposedSolution ";
-            sql += " @TicketHeaderId='" + ticketHeader +"',";
+            sql += " @TicketHeaderId='" + ticketHeader + "',";
             sql += " @ProposedRemarks='" + txtRemarksProposedSolution.Text + "',";
             sql += " @Transacted_By='" + Session["EmployeeNo"].ToString() + "'";
 
@@ -974,13 +977,13 @@ namespace HelpDeskVG.IT_PIC_Portal
                 string iswithThirdParty = dt.Rows[0]["is_with_third_party"].ToString();
                 string iswithReceivedDateThirdParty = dt.Rows[0]["third_party_date_received"].ToString();
 
-                if(iswithThirdParty == "False")
+                if (iswithThirdParty == "False")
                 {
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "resolvedTicket();", true);
 
                 }
 
-                else if(iswithThirdParty == "True")
+                else if (iswithThirdParty == "True")
                 {
                     if (iswithReceivedDateThirdParty == "")
                     {
@@ -1251,6 +1254,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     ddlCategoryMd.Enabled = false;
                     ddlNatureofprobMd.Enabled = false;
 
+                    lnkSaveAsDraft.Visible = false;
                     lnkAcceptTicket.Visible = false;
                     lnkRejectTicketUser.Visible = false;
                     lnkAcceptWithThirdParty.Visible = false;
@@ -1300,7 +1304,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             HiddenField hfMyTicketITPIC = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderMyTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.approval_transactional_level, a.ticket_code, b.category_id, a.created_for, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.approval_transactional_level, a.created_at, a.ticket_code, b.category_id, a.created_for, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -1325,6 +1329,8 @@ namespace HelpDeskVG.IT_PIC_Portal
 
                     txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
                     txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
+                    DateTime createdAt = Convert.ToDateTime(dt.Rows[0]["created_at"]);
+                    txtCreatedAt.Text = createdAt.ToString("yyyy-MM-dd");
                     try
                     {
                         ddlCreatedForMd.SelectedValue = dt.Rows[0]["created_for"].ToString();
@@ -1355,7 +1361,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     txtSubjectMd.Enabled = true;
                     txtDescriptionMd.Enabled = true;
                     ddlCreatedForMd.Enabled = true;
-         
+
 
                     if (approvalLevel == "0")
                     {
@@ -1364,6 +1370,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                         lblNewAttachmentInEdit.Visible = true;
                         txtNewAttachmentInEdit.Visible = true;
                         lnkEditDetails.Visible = true;
+                        lnkSaveAsDraft.Visible = true;
 
 
                         ddlCreatedForMd.Enabled = true;
@@ -1384,6 +1391,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                         lblNewAttachmentInEdit.Visible = true;
                         txtNewAttachmentInEdit.Visible = true;
                         lnkEditDetails.Visible = true;
+                        lnkSaveAsDraft.Visible = false;
+
 
                         ddlCreatedForMd.Enabled = true;
                         txtSubjectMd.Enabled = true;
@@ -1398,18 +1407,19 @@ namespace HelpDeskVG.IT_PIC_Portal
 
                     }
 
-                    else if(approvalLevel == "6")
+                    else if (approvalLevel == "6")
                     {
 
                         lnkEditDetails.Visible = false;
-                        clsUtil.ShowToastr(this.Page, "Check Pending List of Resolved Ticket to Accept the Proposed Solution!", "info");       
+                        clsUtil.ShowToastr(this.Page, "Check Pending List of Resolved Ticket to Accept the Proposed Solution!", "info");
                     }
-     
+
                     else
                     {
                         fuUploadAttachmentInEdit.Visible = false;
                         lblAttachNewAttachment.Visible = false;
                         lnkEditDetails.Visible = false;
+                        lnkSaveAsDraft.Visible = false;
                         lblNewAttachmentInEdit.Visible = false;
                         txtNewAttachmentInEdit.Visible = false;
 
@@ -1511,44 +1521,98 @@ namespace HelpDeskVG.IT_PIC_Portal
                         }
                     }
                 }
+                if (txtCreatedAt.Text != "")
+                {
+                    sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
+                    sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
+                    sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                    sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue + "',";
+                    sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                    sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                    sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                    sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                    sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
+                    sql += "@Employee_No='" + Session["EmployeeNo"] + "',";
+                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@Priority='" + ddlPriorityMd.SelectedValue + "'";
 
-                sql = "EXEC sp_vgHelpDesk_ITPIC_UpdateDetailsTicket ";
-                sql += "@TicketHeaderId ='" + ticketHeader + "',";
-                sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
-                sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue + "',";
-                sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
-                sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
-                sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
-                sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
-                sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
-                sql += "@Priority='" + ddlPriorityMd.SelectedValue + "'";
+                    clsQueries.executeQuery(sql);
 
-                clsQueries.executeQuery(sql);
+                    Session["ToastrMessage"] = "Successfully Edited Details!";
+                    Session["ToastrType"] = "success";
 
-                Session["ToastrMessage"] = "Successfully Edited Details!";
-                Session["ToastrType"] = "success";
+                    Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                }
+                else
+                {
+                    sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
+                    sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
+                    sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                    sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue + "',";
+                    sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                    sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                    sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                    sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                    sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
+                    sql += "@Employee_No='" + Session["EmployeeNo"] + "',";
+                    sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
+                    sql += "@Priority='" + ddlPriorityMd.SelectedValue + "'";
 
-                Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    clsQueries.executeQuery(sql);
+
+                    Session["ToastrMessage"] = "Successfully Edited Details!";
+                    Session["ToastrType"] = "success";
+
+                    Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                }
             }
+
             else
             {
-                sql = "EXEC sp_vgHelpDesk_ITPIC_UpdateDetailsTicket ";
-                sql += "@TicketHeaderId ='" + ticketHeader + "',";
-                sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
-                sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue + "',";
-                sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
-                sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
-                sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
-                sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
-                sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
-                sql += "@Priority='" + ddlPriorityMd.SelectedValue + "'";
+                if (txtCreatedAt.Text != "")
+                {
+                    sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
+                    sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
+                    sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                    sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue + "',";
+                    sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                    sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                    sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                    sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                    sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
+                    sql += "@Employee_No='" + Session["EmployeeNo"] + "',";
+                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@Priority='" + ddlPriorityMd.SelectedValue + "'";
 
-                clsQueries.executeQuery(sql);
+                    clsQueries.executeQuery(sql);
 
-                Session["ToastrMessage"] = "Successfully Edited Details!";
-                Session["ToastrType"] = "success";
+                    Session["ToastrMessage"] = "Successfully Edited Details!";
+                    Session["ToastrType"] = "success";
 
-                Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                }
+                else
+                {
+                    sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
+                    sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
+                    sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                    sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue + "',";
+                    sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                    sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                    sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                    sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                    sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
+                    sql += "@Employee_No='" + Session["EmployeeNo"] + "',";
+                    sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
+                    sql += "@Priority='" + ddlPriorityMd.SelectedValue + "'";
+
+                    clsQueries.executeQuery(sql);
+
+                    Session["ToastrMessage"] = "Successfully Edited Details!";
+                    Session["ToastrType"] = "success";
+
+                    Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                }
             }
             clsUtil.ShowToastr(this.Page, "Please Try Again!", "warning");
         }
@@ -1883,6 +1947,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             lnkITPICReject3rdParty.Visible = false;
             lnkAcceptTicket.Visible = false;
             lnkRejectTicketUser.Visible = false;
+            lnkSaveAsDraft.Visible = false;
 
             lblAttachmentDescription.Visible = false;
             lblAttachDesccc.Visible = false;
@@ -2154,7 +2219,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                 ddlPriorityMd.Enabled = true;
                 ddlCreatedForMd.Enabled = true;
 
-
+                lnkSaveAsDraft.Visible = false;
                 lnkAcceptTicket.Visible = false;
                 lnkRejectTicketUser.Visible = false;
                 lnkAcceptWithThirdParty.Visible = false;
@@ -2415,6 +2480,249 @@ namespace HelpDeskVG.IT_PIC_Portal
             Response.BinaryWrite(bytes);
             Response.Flush();
             Response.End();
+        }
+
+        protected void lnkSaveAsDraft_Click(object sender, EventArgs e)
+        {
+            string ticketHeader = hfMdTicketHeaderId.Value.ToString();
+            string sql = "";
+
+            if (fuUploadAttachmentInEdit.HasFile)
+            {
+                int iFileSize = fuUploadAttachmentInEdit.PostedFile.ContentLength;
+
+                if (iFileSize > 5048576)
+                {
+                    clsUtil.ShowToastr(this.Page, "The file uploaded is less than 5mb, Please Upload again!", "warning");
+                }
+
+                using (Stream fs = fuUploadAttachmentInEdit.PostedFile.InputStream)
+                {
+                    using (BinaryReader br = new BinaryReader(fs))
+                    {
+                        byte[] bytes = br.ReadBytes((Int32)fs.Length);
+                        string constr = ConfigurationManager.ConnectionStrings["con_VG_Helpdesk"].ConnectionString;
+
+                        using (SqlConnection con = new SqlConnection(constr))
+                        {
+
+                            string query = "insert into t_AttachmentReport(ticket_header_id,file_name,description,content_type,data,uploaded_by,created_at) values (@HDheaderId ,@FileName,@Description,@FileContentType,@FileBin,@Uploaded_By,CURRENT_TIMESTAMP)";
+                            using (SqlCommand cmd = new SqlCommand(query))
+                            {
+                                string filename = fuUploadAttachmentInEdit.PostedFile.FileName.Replace(",", "");
+                                string contentType = fuUploadAttachmentInEdit.PostedFile.ContentType;
+
+                                cmd.Connection = con;
+                                cmd.Parameters.AddWithValue("@FileName", filename);
+                                cmd.Parameters.AddWithValue("@FileContentType", contentType);
+                                cmd.Parameters.AddWithValue("@Description", clsUtil.replaceQuote(txtNewAttachmentInEdit.Text));
+                                cmd.Parameters.AddWithValue("@HDheaderId", ticketHeader);
+                                cmd.Parameters.AddWithValue("@Uploaded_By", Session["EmployeeNo"].ToString());
+                                cmd.Parameters.AddWithValue("@FileBin", bytes);
+
+                                con.Open();
+                                cmd.CommandTimeout = 600;
+                                cmd.ExecuteNonQuery();
+                                con.Close();
+                            }
+                        }
+                    }
+                }
+                if (txtCreatedAt.Text != "")
+                {
+                    if (ddlCreatedForMd.SelectedValue == "")
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsDraftTicket ";
+                        sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@CreatedFor= '" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
+                        sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "'";
+
+                        clsQueries.executeQuery(sql);
+
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
+
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
+                    else
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsDraftTicket ";
+                        sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
+                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
+                        sql += "@Employee_No='" + ddlCreatedForMd.SelectedValue + "'";
+
+                        clsQueries.executeQuery(sql);
+
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
+
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
+                }
+
+                else
+                {
+                    if (ddlCreatedForMd.SelectedValue == "")
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsDraftTicket ";
+                        sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@CreatedFor= '" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
+                        sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "'";
+
+                        clsQueries.executeQuery(sql);
+
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
+
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
+                    else
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsDraftTicket ";
+                        sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
+                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
+                        sql += "@Employee_No='" + ddlCreatedForMd.SelectedValue + "'";
+
+                        clsQueries.executeQuery(sql);
+
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
+
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
+                }
+                clsUtil.ShowToastr(this.Page, "Please Try Again!", "warning");
+            }
+            else
+            {
+                if (txtCreatedAt.Text != "")
+                {
+                    if (ddlCreatedForMd.SelectedValue == "")
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsDraftTicket ";
+                        sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@CreatedFor= '" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
+                        sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "'";
+
+                        clsQueries.executeQuery(sql);
+
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
+
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
+                    else
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsDraftTicket ";
+                        sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
+                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
+                        sql += "@Employee_No='" + ddlCreatedForMd.SelectedValue + "'";
+
+                        clsQueries.executeQuery(sql);
+
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
+
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
+                }
+
+                else
+                {
+                    if (ddlCreatedForMd.SelectedValue == "")
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsDraftTicket ";
+                        sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@CreatedFor= '" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
+                        sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "'";
+
+                        clsQueries.executeQuery(sql);
+
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
+
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
+                    else
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsDraftTicket ";
+                        sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
+                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
+                        sql += "@Employee_No='" + ddlCreatedForMd.SelectedValue + "'";
+
+                        clsQueries.executeQuery(sql);
+
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
+
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
+                }
+            }
         }
     }
 }

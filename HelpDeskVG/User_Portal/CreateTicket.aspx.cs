@@ -481,8 +481,7 @@ namespace HelpDeskVG.User_Portal
             }
 
             clsUtil.ShowToastr(this.Page, "Ticket Successfully Saved as Draft!", "success");
-            Response.Redirect("../Dashboard.aspx");
-
+            Response.Redirect("../User_Portal/Dashboard.aspx");
         }
     }
 }

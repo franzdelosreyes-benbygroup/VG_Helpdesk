@@ -52,7 +52,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Create New Ticket</h3>
-                        <div class="card-actions">
+                            <div class="card-actions d-flex gap-2">
                             <asp:LinkButton ID="lnkSaveDraftTicket" runat="server" OnClick="lnkSaveDraftTicket_Click" OnClientClick="return validateDraftForm();" CssClass="btn btn-success">Save as Draft</asp:LinkButton>
                          <asp:LinkButton ID="lnkSaveTicket" runat="server" OnClick="lnkSaveTicket_Click" OnClientClick="return validateForm();" CssClass="btn btn-primary w-100 end-0">Submit as Ticket</asp:LinkButton>
                         </div>
