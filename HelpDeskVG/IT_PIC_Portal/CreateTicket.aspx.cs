@@ -53,7 +53,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             }
 
             clsUtil.ShowToastr(this.Page, "Ticket Successfully Saved!", "success");
-            Response.Redirect("Dashboard.aspx");
+            Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
         }
 
         private void fx_LoadUserAttachment()
@@ -188,6 +188,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
                     sql += "@NatureOfProblem='" + ddlNatureOfProblem.SelectedValue + "',";
                     sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "',";
+                    sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "',";
                     sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
@@ -202,6 +203,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     sql += "@Category= '" + ddlCategory.SelectedValue + "',";
                     sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
                     sql += "@NatureOfProblem ='" + ddlNatureOfProblem.SelectedValue + "',";
+                    sql += "@CreatedFor='" + ddlEmployee.SelectedValue + "',";
                     sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "',";
                     sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
@@ -222,6 +224,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
                     sql += "@NatureOfProblem='" + ddlNatureOfProblem.SelectedValue + "',";
                     sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "',";
+                    sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "',";
                     sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
@@ -238,6 +241,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     sql += "@NatureOfProblem ='" + ddlNatureOfProblem.SelectedValue + "',";
                     sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "',";
                     sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
+                    sql += "@CreatedFor='" + ddlEmployee.SelectedValue + "',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
                 }
