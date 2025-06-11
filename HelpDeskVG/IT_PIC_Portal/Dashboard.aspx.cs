@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Antlr.Runtime.Misc;
 using HelpDeskVG.Classes;
 
 namespace HelpDeskVG.IT_PIC_Portal
@@ -377,7 +378,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             HiddenField hfTicketHeaderIdITPIC = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdITPIC") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.ticket_code, b.category_id, a.created_for, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.description AS description_attachmentreport, g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.ticket_code, a.created_at, b.category_id, a.created_for, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.description AS description_attachmentreport, g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -399,6 +400,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                 }
                 else
                 {
+                    DateTime createdAt = Convert.ToDateTime(dt.Rows[0]["created_at"]);
+                    txtCreatedAt.Text = createdAt.ToString("yyyy-MM-ddTHH:mm");
                     txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
                     txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
                     try
@@ -538,7 +541,7 @@ namespace HelpDeskVG.IT_PIC_Portal
 
 
             string sql = "";
-            sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, a.created_for, c.description_section, c.section_id, d.description_category, d.category_id, e.description_natureofprob, e.nature_of_prob_id, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_by, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS created_for_text, h.attachment_id, h.[data], h.[file_name], h.content_type, i.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, a.created_at, a.created_for, c.description_section, c.section_id, d.description_category, d.category_id, e.description_natureofprob, e.nature_of_prob_id, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_by, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS created_for_text, h.attachment_id, h.[data], h.[file_name], h.content_type, i.priority_id FROM t_TicketHeader AS a
                     INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id
                     INNER JOIN m_Section AS c ON c.section_id = a.section_id
                     INNER JOIN m_Category AS d ON d.category_id = a.category_id
@@ -563,6 +566,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                 }
                 else
                 {
+                    DateTime createdAt = Convert.ToDateTime(dt.Rows[0]["created_at"]);
+                    txtCreatedAt.Text = createdAt.ToString("yyyy-MM-ddTHH:mm");
                     txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
                     txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
@@ -681,7 +686,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptedTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.[subject], a.is_with_third_party, a.third_party_date_received, a.created_for, CONVERT(varchar, a.third_party_date_given, 120) AS third_party_date_given ,a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.description AS descriptionreport, g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.[subject], a.created_at, a.is_with_third_party, a.third_party_date_received, a.created_for, CONVERT(varchar, a.third_party_date_given, 120) AS third_party_date_given ,a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.description AS descriptionreport, g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -709,6 +714,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                 string iswithThirdParty = dt.Rows[0]["is_with_third_party"].ToString();
                 string iswithReceivedDateFromThirdParty = dt.Rows[0]["third_party_date_received"].ToString();
                 hfMdTicketDateGiven3rdParty.Value = dt.Rows[0]["third_party_date_given"].ToString();
+                DateTime createdAt = Convert.ToDateTime(dt.Rows[0]["created_at"]);
+                txtCreatedAt.Text = createdAt.ToString("yyyy-MM-ddTHH:mm");
 
                 try
                 {
@@ -803,6 +810,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                     lnkTagThisToThirdParty.Visible = false;
                     lnkSaveReceivedDate.Visible = true;
                     lnkITPICReject3rdParty.Visible = true;
+                    lnkSaveAsDraft.Visible = false;
+
 
                     if (iswithReceivedDateFromThirdParty != "")
                     {
@@ -1040,7 +1049,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             clsQueries.DisplayPriority(ddlPriorityMd);
 
             string sql = "";
-            sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, c.description_section, c.section_id, d.description_category, d.category_id, e.description_natureofprob, e.nature_of_prob_id, b.others, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_by, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS created_for, h.attachment_id, h.[data], h.[file_name], h.content_type, i.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.subject, a.description, a.created_at, a.ticket_id, a.ticket_code, c.description_section, c.section_id, d.description_category, d.category_id, e.description_natureofprob, e.nature_of_prob_id, b.others, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_by, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS created_for, h.attachment_id, h.[data], h.[file_name], h.content_type, i.priority_id FROM t_TicketHeader AS a
                     INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id
                     INNER JOIN m_Section AS c ON c.section_id = b.section_id
                     INNER JOIN m_Category AS d ON d.category_id = b.category_id
@@ -1069,6 +1078,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                     txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
                     txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
+                    DateTime createdAt = Convert.ToDateTime(dt.Rows[0]["created_at"]);
+                    txtCreatedAt.Text = createdAt.ToString("yyyy-MM-ddTHH:mm");
 
                     try
                     {
@@ -1188,7 +1199,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdITPICRejectedSolution") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, c.description_section, c.section_id, d.description_category, d.category_id, e.description_natureofprob, e.nature_of_prob_id, b.others, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_by, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS created_for, h.attachment_id, h.[data], h.[file_name], h.content_type, i.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, a.created_at, c.description_section, c.section_id, d.description_category, d.category_id, e.description_natureofprob, e.nature_of_prob_id, b.others, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_by, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS created_for, h.attachment_id, h.[data], h.[file_name], h.content_type, i.priority_id FROM t_TicketHeader AS a
                     INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id
                     INNER JOIN m_Section AS c ON c.section_id = b.section_id
                     INNER JOIN m_Category AS d ON d.category_id = b.category_id
@@ -1216,6 +1227,9 @@ namespace HelpDeskVG.IT_PIC_Portal
                     txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
                     txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
                     txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
+                    DateTime createdAt = Convert.ToDateTime(dt.Rows[0]["created_at"]);
+                    txtCreatedAt.Text = createdAt.ToString("yyyy-MM-ddTHH:mm");
+
                     try
                     {
                         ddlSectionMd.SelectedValue = dt.Rows[0]["section_id"].ToString(); //all ddl pa try catch
@@ -1330,7 +1344,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
                     txtCreatedFor.Text = dt.Rows[0]["created_for"].ToString();
                     DateTime createdAt = Convert.ToDateTime(dt.Rows[0]["created_at"]);
-                    txtCreatedAt.Text = createdAt.ToString("yyyy-MM-dd");
+                    txtCreatedAt.Text = createdAt.ToString("yyyy-MM-ddTHH:mm");
                     try
                     {
                         ddlCreatedForMd.SelectedValue = dt.Rows[0]["created_for"].ToString();
@@ -1371,6 +1385,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                         txtNewAttachmentInEdit.Visible = true;
                         lnkEditDetails.Visible = true;
                         lnkSaveAsDraft.Visible = true;
+                        txtCreatedAt.Enabled = true;
+
 
 
                         ddlCreatedForMd.Enabled = true;
@@ -1392,6 +1408,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                         txtNewAttachmentInEdit.Visible = true;
                         lnkEditDetails.Visible = true;
                         lnkSaveAsDraft.Visible = false;
+                        txtCreatedAt.Enabled = true;
 
 
                         ddlCreatedForMd.Enabled = true;
@@ -1432,6 +1449,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                         lblAttachDesccc.Visible = false;
                         txtAttachmentDescriptionMd.Visible = false;
                         ddlPriorityMd.Enabled = false;
+                        txtCreatedAt.Enabled = false;
+
 
                     }
 
@@ -1479,6 +1498,8 @@ namespace HelpDeskVG.IT_PIC_Portal
         {
             string ticketHeader = hfMdTicketHeaderId.Value.ToString();
             string sql = "";
+            DateTime createdAt = DateTime.Parse(txtCreatedAt.Text);
+
 
             if (fuUploadAttachmentInEdit.HasFile)
             {
@@ -1523,98 +1544,189 @@ namespace HelpDeskVG.IT_PIC_Portal
                 }
                 if (txtCreatedAt.Text != "")
                 {
-                    sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
-                    sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
-                    sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
-                    sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue + "',";
-                    sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
-                    sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
-                    sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
-                    sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
-                    sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
-                    sql += "@Employee_No='" + Session["EmployeeNo"] + "',";
-                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
-                    sql += "@Priority='" + ddlPriorityMd.SelectedValue + "'";
+                    if (ddlCreatedForMd.SelectedValue == "")
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_UpdateDetailsTicket ";
+                        sql += "@TicketHeaderId ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedFor= '" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "'";
+                        clsQueries.executeQuery(sql);
 
-                    clsQueries.executeQuery(sql);
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
 
-                    Session["ToastrMessage"] = "Successfully Edited Details!";
-                    Session["ToastrType"] = "success";
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
 
-                    Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    else
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_UpdateDetailsTicket ";
+                        sql += "@TicketHeaderId ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
+                        sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "'";
+                        clsQueries.executeQuery(sql);
+
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
+
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
                 }
                 else
                 {
-                    sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
-                    sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
-                    sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
-                    sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue + "',";
-                    sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
-                    sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
-                    sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
-                    sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
-                    sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
-                    sql += "@Employee_No='" + Session["EmployeeNo"] + "',";
-                    sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
-                    sql += "@Priority='" + ddlPriorityMd.SelectedValue + "'";
+                    if (ddlCreatedForMd.SelectedValue == "")
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_UpdateDetailsTicket ";
+                        sql += "@TicketHeaderId ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedFor= '" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "'";
+                        clsQueries.executeQuery(sql);
 
-                    clsQueries.executeQuery(sql);
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
 
-                    Session["ToastrMessage"] = "Successfully Edited Details!";
-                    Session["ToastrType"] = "success";
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
+                    else
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_UpdateDetailsTicket ";
+                        sql += "@TicketHeaderId ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
+                        sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "'";
+                        clsQueries.executeQuery(sql);
 
-                    Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
+
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
                 }
             }
-
             else
             {
                 if (txtCreatedAt.Text != "")
                 {
-                    sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
-                    sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
-                    sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
-                    sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue + "',";
-                    sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
-                    sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
-                    sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
-                    sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
-                    sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
-                    sql += "@Employee_No='" + Session["EmployeeNo"] + "',";
-                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
-                    sql += "@Priority='" + ddlPriorityMd.SelectedValue + "'";
+                    if (ddlCreatedForMd.SelectedValue == "")
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_UpdateDetailsTicket ";
+                        sql += "@TicketHeaderId ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedFor= '" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "'";
+                        clsQueries.executeQuery(sql);
 
-                    clsQueries.executeQuery(sql);
 
-                    Session["ToastrMessage"] = "Successfully Edited Details!";
-                    Session["ToastrType"] = "success";
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
 
-                    Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
+
+                    else
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_UpdateDetailsTicket ";
+                        sql += "@TicketHeaderId ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
+                        sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "'";
+                        clsQueries.executeQuery(sql);
+
+
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
+
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
                 }
+
                 else
                 {
-                    sql = "EXEC sp_vgHelpDesk_ITPIC_InsertDetailsTicket ";
-                    sql += "@Ticket_Header_Id ='" + ticketHeader + "',";
-                    sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
-                    sql += "@CreatedFor='" + ddlCreatedForMd.SelectedValue + "',";
-                    sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
-                    sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
-                    sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
-                    sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
-                    sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
-                    sql += "@Employee_No='" + Session["EmployeeNo"] + "',";
-                    sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
-                    sql += "@Priority='" + ddlPriorityMd.SelectedValue + "'";
+                    if (ddlCreatedForMd.SelectedValue == "")
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_UpdateDetailsTicket ";
+                        sql += "@TicketHeaderId ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedFor= '" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "'";
+                        clsQueries.executeQuery(sql);
 
-                    clsQueries.executeQuery(sql);
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
 
-                    Session["ToastrMessage"] = "Successfully Edited Details!";
-                    Session["ToastrType"] = "success";
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
+                    else
+                    {
+                        sql = "EXEC sp_vgHelpDesk_ITPIC_UpdateDetailsTicket ";
+                        sql += "@TicketHeaderId ='" + ticketHeader + "',";
+                        sql += "@TransactedBy='" + Session["EmployeeNo"].ToString() + "',";
+                        sql += "@Description='" + clsUtil.replaceQuote(txtDescriptionMd.Text) + "',";
+                        sql += "@Subject='" + clsUtil.replaceQuote(txtSubjectMd.Text) + "',";
+                        sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
+                        sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
+                        sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
+                        sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
+                        sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
+                        sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "'";
+                        clsQueries.executeQuery(sql);
 
-                    Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                        Session["ToastrMessage"] = "Successfully Edited Details!";
+                        Session["ToastrType"] = "success";
+
+                        Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
+                    }
                 }
             }
+
+            Response.Redirect("../IT_PIC_Portal/Dashboard.aspx");
             clsUtil.ShowToastr(this.Page, "Please Try Again!", "warning");
+
         }
 
         protected void lnkTagThisToThirdParty_Click(object sender, EventArgs e)
@@ -1871,7 +1983,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.approval_transactional_level ,a.[subject], a.created_for, a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.approval_transactional_level ,a.[subject], a.created_at ,a.created_for, a.[description], a.ticket_code, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -1902,7 +2014,8 @@ namespace HelpDeskVG.IT_PIC_Portal
                 ddlNatureofprobMd.SelectedValue = "";
                 ddlPriorityMd.SelectedValue = "";
             }
-
+            DateTime createdAt = Convert.ToDateTime(dt.Rows[0]["created_at"]);
+            txtCreatedAt.Text = createdAt.ToString("yyyy-MM-ddTHH:mm");
             txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
             txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
             txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
@@ -1973,13 +2086,15 @@ namespace HelpDeskVG.IT_PIC_Portal
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdAcceptTicket") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.subject, a.description, a.ticket_id, a.created_for, a.ticket_code, a.proposed_remarks, h.attachment_proposed_id, h.[data], h.description AS description_attachment, h.[file_name], h.content_type FROM t_TicketHeader AS a 
+            sql = @"SELECT a.subject, a.description, a.ticket_id, a.created_for, a.created_at, a.ticket_code, a.proposed_remarks, h.attachment_proposed_id, h.[data], h.description AS description_attachment, h.[file_name], h.content_type FROM t_TicketHeader AS a 
                     INNER JOIN t_TicketStages AS b ON b.ticket_stage_id = a.ticket_stage_id
 					LEFT JOIN t_ProposedAttachment AS h ON a.ticket_id  =  h.ticket_header_id
 					WHERE a.approval_transactional_level = '6' AND a.created_for =" + Session["EmployeeNo"].ToString() + " AND a.ticket_id=" + hfTicketHeaderId.Value.ToString();
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
+
+
             txtDescriptionAttachmentProposed.Text = dt.Rows[0]["description_attachment"].ToString();
             txtProposedRemarksMd.Text = dt.Rows[0]["proposed_remarks"].ToString();
 
@@ -2165,7 +2280,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdRejectedList") as HiddenField;
 
             string sql = "";
-            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.ticket_code, a.created_for, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
+            sql = @"SELECT a.ticket_id, a.[subject], a.[description], a.ticket_code, a.created_at ,a.created_for, b.category_id, c.section_id, d.nature_of_prob_id, a.others, CONCAT(e.employee_first_name, ' ', e.employee_last_name) AS created_by, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_for_text, g.attachment_id, g.[data], g.[file_name], g.content_type, h.priority_id FROM t_TicketHeader AS a
                     LEFT JOIN m_Category AS b ON b.category_id = a.category_id
                     LEFT JOIN m_Section AS c ON c.section_id = a.section_id
                     LEFT JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
@@ -2207,6 +2322,9 @@ namespace HelpDeskVG.IT_PIC_Portal
                 txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
                 txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
                 txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
+                DateTime createdAt = Convert.ToDateTime(dt.Rows[0]["created_at"]);
+                txtCreatedAt.Text = createdAt.ToString("yyyy-MM-ddTHH:mm");
+
 
                 txtCreatedBy.Enabled = false;
                 txtCreatedFor.Enabled = true;
@@ -2486,6 +2604,8 @@ namespace HelpDeskVG.IT_PIC_Portal
         {
             string ticketHeader = hfMdTicketHeaderId.Value.ToString();
             string sql = "";
+            DateTime createdAt = DateTime.Parse(txtCreatedAt.Text);
+
 
             if (fuUploadAttachmentInEdit.HasFile)
             {
@@ -2540,7 +2660,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                         sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
                         sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
                         sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
-                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
                         sql += "@CreatedFor= '" + Session["EmployeeNo"].ToString() + "',";
                         sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
                         sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "'";
@@ -2563,7 +2683,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                         sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
                         sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
                         sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
-                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
                         sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
                         sql += "@Employee_No='" + ddlCreatedForMd.SelectedValue + "'";
 
@@ -2588,7 +2708,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                         sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
                         sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
                         sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
-                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
                         sql += "@CreatedFor= '" + Session["EmployeeNo"].ToString() + "',";
                         sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
                         sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "'";
@@ -2611,7 +2731,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                         sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
                         sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
                         sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
-                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
                         sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
                         sql += "@Employee_No='" + ddlCreatedForMd.SelectedValue + "'";
 
@@ -2639,7 +2759,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                         sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
                         sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
                         sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
-                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
                         sql += "@CreatedFor= '" + Session["EmployeeNo"].ToString() + "',";
                         sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
                         sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "'";
@@ -2662,7 +2782,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                         sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
                         sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
                         sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
-                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
                         sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
                         sql += "@Employee_No='" + ddlCreatedForMd.SelectedValue + "'";
 
@@ -2687,7 +2807,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                         sql += "@Section= '" + ddlSectionMd.SelectedValue + "',";
                         sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
                         sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
-                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
                         sql += "@CreatedFor= '" + Session["EmployeeNo"].ToString() + "',";
                         sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
                         sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "'";
@@ -2710,7 +2830,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                         sql += "@Category= '" + ddlCategoryMd.SelectedValue + "',";
                         sql += "@Priority= '" + ddlPriorityMd.SelectedValue + "',";
                         sql += "@CreatedFor= '" + ddlCreatedForMd.SelectedValue + "',";
-                        sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                        sql += "@CreatedAt= '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',";
                         sql += "@NatureOfProblem='" + ddlNatureofprobMd.SelectedValue + "',";
                         sql += "@Employee_No='" + ddlCreatedForMd.SelectedValue + "'";
 

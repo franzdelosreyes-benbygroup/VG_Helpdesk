@@ -107,7 +107,7 @@
                                             <div class="mt-2 mb-2">
                                                 <asp:Label ID="lblCreatedAt" runat="server" CssClass="form-label status status-primary">Created At:</asp:Label>
                                             </div>
-                                            <asp:TextBox ID="txtCreatedAt" runat="server" CssClass="form-control text-reset" AutoPostBack="false" TextMode="Date"></asp:TextBox>
+                                            <asp:TextBox ID="txtCreatedAt" runat="server" CssClass="form-control text-reset" AutoPostBack="false" TextMode="DateTimeLocal"></asp:TextBox>
                                         </div>
                                         <script type="text/javascript">
                                             // Automatically set the maximum date to today

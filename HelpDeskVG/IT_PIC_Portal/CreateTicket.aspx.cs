@@ -174,6 +174,8 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected void insertDetailsTicket()
         {
             string sql = "";
+            //DateTime createdAt = DateTime.Parse(txtCreatedAt.Text);
+            DateTime createdAt = DateTime.Parse(txtCreatedAt.Text);
 
             if (txtCreatedAt.Text != "")
             {
@@ -189,7 +191,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     sql += "@NatureOfProblem='" + ddlNatureOfProblem.SelectedValue + "',";
                     sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "',";
                     sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "',";
-                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
                 }
@@ -205,7 +207,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     sql += "@NatureOfProblem ='" + ddlNatureOfProblem.SelectedValue + "',";
                     sql += "@CreatedFor='" + ddlEmployee.SelectedValue + "',";
                     sql += "@Employee_No='" + Session["EmployeeNo"].ToString() + "',";
-                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
                 }
@@ -349,6 +351,8 @@ namespace HelpDeskVG.IT_PIC_Portal
         protected void insertDetailsDraft()
         {
             string sql = "";
+            DateTime createdAt = DateTime.Parse(txtCreatedAt.Text);
+
             if (txtCreatedAt.Text != "")
             {
                 if (ddlEmployee.SelectedValue == "")
@@ -362,7 +366,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     sql += "@Category= '" + ddlCategory.SelectedValue + "',";
                     sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
                     sql += "@NatureOfProblem='" + ddlNatureOfProblem.SelectedValue + "',";
-                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
                     sql += "@CreatedFor='" + Session["EmployeeNo"].ToString() + "',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
@@ -378,7 +382,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                     sql += "@Category= '" + ddlCategory.SelectedValue + "',";
                     sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
                     sql += "@NatureOfProblem ='" + ddlNatureOfProblem.SelectedValue + "',";
-                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
                     sql += "@CreatedFor='" + ddlEmployee.SelectedValue + "',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 

@@ -50,13 +50,30 @@ namespace HelpDeskVG
                 string sql = @"SELECT  a.ticket_code, a.[status], a.subject, a.description, b.description_section, c.description_category, d.description_natureofprob, 
                             e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
                             a.created_at, a.is_with_third_party, a.third_party_name, 
-                            a.third_party_date_given, a.third_party_date_received, a.proposed_remarks FROM t_TicketHeader AS a
+                            a.third_party_date_given, a.third_party_date_received, a.proposed_remarks, CONCAT(h.employee_first_name, ' ', h.employee_last_name) AS assigned_itpic,
+							(SELECT TOP 1 ts.created_at FROM t_TicketStages ts WHERE ts.ticket_code = a.ticket_code AND ts.status = 'ASSIGNMENT CONFIRMATION' ORDER BY ts.created_at DESC) AS AssignedDateTime,
+							(SELECT TOP 1 ts1.created_at FROM t_TicketStages ts1 WHERE ts1.ticket_code = a.ticket_code AND ts1.status = 'RESOLVED' ORDER BY ts1.created_at DESC) AS ResolvedDateTime,
+							e.alloted_hour AS SLAHours,
+							DATEDIFF(HOUR,
+								(SELECT TOP 1 ts.created_at FROM t_TicketStages ts WHERE ts.ticket_code = a.ticket_code AND ts.status = 'ASSIGNMENT CONFIRMATION' ORDER BY ts.created_at DESC),
+								(SELECT TOP 1 ts1.created_at FROM t_TicketStages ts1 WHERE ts1.ticket_code = a.ticket_code AND ts1.status = 'RESOLVED' ORDER BY ts1.created_at DESC)
+							) AS HoursToResolve,
+							CASE
+								WHEN DATEDIFF(HOUR,
+									(SELECT TOP 1 ts.created_at FROM t_TicketStages ts WHERE ts.ticket_code = a.ticket_code AND ts.status = 'ASSIGNED' ORDER BY ts.created_at DESC),
+									(SELECT TOP 1 ts1.created_at FROM t_TicketStages ts1 WHERE ts1.ticket_code = a.ticket_code AND ts1.status = 'RESOLVED' ORDER BY ts1.created_at DESC)
+								) > e.alloted_hour THEN 'Miss'
+								ELSE 'Hit'
+							END AS HITorMISS
+							
+							FROM t_TicketHeader AS a
 
                             INNER JOIN m_Section AS b ON b.section_id = a.section_id
                             INNER JOIN m_Category AS c ON c.category_id = a.category_id
                             INNER JOIN m_NatureOfProblem AS d ON d.nature_of_prob_id = a.nature_of_problem_id
                             INNER JOIN m_Priority AS e ON e.priority_id = a.priority_id
                             INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS g ON g.employee_code = a.created_for
+							INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS h ON h.employee_code = a.assigned_emp_no
                             WHERE a.approval_transactional_level = '8' AND a.[status] = 'CLOSED' ORDER BY a.ticket_code ASC";
 
                 _dt = clsQueries.fetchData(sql);
@@ -70,6 +87,10 @@ namespace HelpDeskVG
                 ws.Column(13).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
                 ws.Column(14).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
                 ws.Column(15).Style.WrapText = false;
+                ws.Column(16).Style.WrapText = false;
+                ws.Column(17).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; 
+                ws.Column(18).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM"; 
+
 
 
                 System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
@@ -98,7 +119,23 @@ namespace HelpDeskVG
                 string sql = @"SELECT a.ticket_code, a.[status], a.subject, a.description, b.description_section, c.description_category, d.description_natureofprob, 
                               e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
                               a.created_at, a.is_with_third_party, a.third_party_name, 
-                              a.third_party_date_given, a.third_party_date_received, a.proposed_remarks FROM t_TicketHeader AS a
+                              a.third_party_date_given, a.third_party_date_received, a.proposed_remarks, CONCAT(h.employee_first_name, ' ', h.employee_last_name) AS assigned_itpic,
+							(SELECT TOP 1 ts.created_at FROM t_TicketStages ts WHERE ts.ticket_code = a.ticket_code AND ts.status = 'ASSIGNMENT CONFIRMATION' ORDER BY ts.created_at DESC) AS AssignedDateTime,
+							(SELECT TOP 1 ts1.created_at FROM t_TicketStages ts1 WHERE ts1.ticket_code = a.ticket_code AND ts1.status = 'RESOLVED' ORDER BY ts1.created_at DESC) AS ResolvedDateTime,
+							e.alloted_hour AS SLAHours,
+							DATEDIFF(HOUR,
+								(SELECT TOP 1 ts.created_at FROM t_TicketStages ts WHERE ts.ticket_code = a.ticket_code AND ts.status = 'ASSIGNMENT CONFIRMATION' ORDER BY ts.created_at DESC),
+								(SELECT TOP 1 ts1.created_at FROM t_TicketStages ts1 WHERE ts1.ticket_code = a.ticket_code AND ts1.status = 'RESOLVED' ORDER BY ts1.created_at DESC)
+							) AS HoursToResolve,
+							CASE
+								WHEN DATEDIFF(HOUR,
+									(SELECT TOP 1 ts.created_at FROM t_TicketStages ts WHERE ts.ticket_code = a.ticket_code AND ts.status = 'ASSIGNED' ORDER BY ts.created_at DESC),
+									(SELECT TOP 1 ts1.created_at FROM t_TicketStages ts1 WHERE ts1.ticket_code = a.ticket_code AND ts1.status = 'RESOLVED' ORDER BY ts1.created_at DESC)
+								) > e.alloted_hour THEN 'Miss'
+								ELSE 'Hit'
+							END AS HITorMISS
+								
+							  FROM t_TicketHeader AS a
 
                               INNER JOIN m_Section AS b ON b.section_id = a.section_id
                               INNER JOIN m_Category AS c ON c.category_id = a.category_id
@@ -106,7 +143,9 @@ namespace HelpDeskVG
                               INNER JOIN m_Priority AS e ON e.priority_id = a.priority_id
                               INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_by
                               INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS g ON g.employee_code = a.created_for
-                              WHERE a.approval_transactional_level = '6' AND a.[status] = 'RESOLVED' ORDER BY a.ticket_code ASC";
+							  INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS h ON h.employee_code = a.assigned_emp_no
+
+                              WHERE a.approval_transactional_level IN ('9','8','6') ORDER BY a.ticket_code ASC";
 
                 _dt = clsQueries.fetchData(sql);
 
@@ -118,6 +157,10 @@ namespace HelpDeskVG
                 ws.Column(13).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
                 ws.Column(14).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
                 ws.Column(15).Style.WrapText = false;
+                ws.Column(16).Style.WrapText = false;
+                ws.Column(17).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM";
+                ws.Column(18).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM";
+
 
                 System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
                 response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -145,7 +188,23 @@ namespace HelpDeskVG
                 string sql = @"SELECT  a.ticket_code, a.[status], a.subject, a.description, b.description_section, c.description_category, d.description_natureofprob, 
                               e.[description] AS priority_desc, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS ticket_owner, 
                               a.created_at, a.is_with_third_party, a.third_party_name, 
-                              a.third_party_date_given, a.third_party_date_received, a.proposed_remarks FROM t_TicketHeader AS a
+                              a.third_party_date_given, a.third_party_date_received, a.proposed_remarks, CONCAT(h.employee_first_name, ' ', h.employee_last_name) AS assigned_itpic,
+							(SELECT TOP 1 ts.created_at FROM t_TicketStages ts WHERE ts.ticket_code = a.ticket_code AND ts.status = 'ASSIGNMENT CONFIRMATION' ORDER BY ts.created_at DESC) AS AssignedDateTime,
+							(SELECT TOP 1 ts1.created_at FROM t_TicketStages ts1 WHERE ts1.ticket_code = a.ticket_code AND ts1.status = 'RESOLVED' ORDER BY ts1.created_at DESC) AS ResolvedDateTime,
+							e.alloted_hour AS SLAHours,
+							DATEDIFF(HOUR,
+								(SELECT TOP 1 ts.created_at FROM t_TicketStages ts WHERE ts.ticket_code = a.ticket_code AND ts.status = 'ASSIGNMENT CONFIRMATION' ORDER BY ts.created_at DESC),
+								(SELECT TOP 1 ts1.created_at FROM t_TicketStages ts1 WHERE ts1.ticket_code = a.ticket_code AND ts1.status = 'RESOLVED' ORDER BY ts1.created_at DESC)
+							) AS HoursToResolve,
+							CASE
+								WHEN DATEDIFF(HOUR,
+									(SELECT TOP 1 ts.created_at FROM t_TicketStages ts WHERE ts.ticket_code = a.ticket_code AND ts.status = 'ASSIGNED' ORDER BY ts.created_at DESC),
+									(SELECT TOP 1 ts1.created_at FROM t_TicketStages ts1 WHERE ts1.ticket_code = a.ticket_code AND ts1.status = 'RESOLVED' ORDER BY ts1.created_at DESC)
+								) > e.alloted_hour THEN 'Miss'
+								ELSE 'Hit'
+							END AS HITorMISS
+							  
+							  FROM t_TicketHeader AS a
 
                               INNER JOIN m_Section AS b ON b.section_id = a.section_id
                               INNER JOIN m_Category AS c ON c.category_id = a.category_id
@@ -153,6 +212,8 @@ namespace HelpDeskVG
                               INNER JOIN m_Priority AS e ON e.priority_id = a.priority_id
                               INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS f ON f.employee_code = a.created_by
                               INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS g ON g.employee_code = a.created_for
+							  INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS h ON h.employee_code = a.assigned_emp_no
+
                               WHERE a.approval_transactional_level = '9' ORDER BY a.ticket_code ASC";
 
                 _dt = clsQueries.fetchData(sql);
@@ -165,6 +226,9 @@ namespace HelpDeskVG
                 ws.Column(13).Style.Numberformat.Format = "MM/dd/yyyy"; // Column J (third_party_date_given)
                 ws.Column(14).Style.Numberformat.Format = "MM/dd/yyyy"; // Column K (third_party_date_received)
                 ws.Column(15).Style.WrapText = false;
+                ws.Column(16).Style.WrapText = false;
+                ws.Column(17).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM";
+                ws.Column(18).Style.Numberformat.Format = "MM/dd/yyyy hh:mm AM/PM";
 
                 System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
                 response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -318,8 +382,15 @@ namespace HelpDeskVG
 							f.description_section, g.description_category, h.description_natureofprob, i.description AS priority_description,
 							e.is_with_third_party, e.third_party_date_given, e.third_party_date_received,
 							a.itpic_recent_solution_remarks, a.itpic_previous_solution_remarks, a.itpic_recent_reject_ticket_remarks, a.itpic_previous_reject_ticket_remarks,
-							a.user_reject_solution_remarks, a.user_reject_previous_solution_remarks, a.admin_recent_reject_ticket_remarks, a.admin_previous_reject_ticket_remarks
-
+							a.user_reject_solution_remarks, a.user_reject_previous_solution_remarks, a.admin_recent_reject_ticket_remarks, a.admin_previous_reject_ticket_remarks,
+							CASE
+								WHEN DATEDIFF(HOUR,
+									(SELECT TOP 1 h1.created_at FROM t_TicketStages AS h1 WHERE h1.status = 'ASSIGNMENT CONFIRMATION' AND h1.ticket_code = a.ticket_code),
+									(SELECT TOP 1 h2.created_at FROM t_TicketStages h2 WHERE h2.status = 'RESOLVED' AND h2.ticket_code = a.ticket_code)
+								) > i.alloted_hour
+								THEN 'Miss'
+								ELSE 'Hit'
+							END AS TimeTakenResolvedToClosed
 
 							FROM t_TicketStages AS a
 
@@ -379,7 +450,7 @@ namespace HelpDeskVG
 
         protected void CountFullyResolved()
         {
-            string sql = " SELECT COUNT(a.ticket_code) FROM t_TicketHeader AS a WHERE a.approval_transactional_level = '6' AND a.[status] = 'RESOLVED' ";
+            string sql = " SELECT COUNT(a.ticket_code) FROM t_TicketHeader AS a WHERE a.approval_transactional_level IN ('9','8','6') ";
             clsQueries.fetchData(sql);
             DataTable dt = new DataTable();
 

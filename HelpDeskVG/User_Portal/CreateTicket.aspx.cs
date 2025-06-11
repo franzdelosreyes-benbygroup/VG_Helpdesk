@@ -209,6 +209,7 @@ namespace HelpDeskVG.User_Portal
         protected void insertDetailsTicket()
         {
             string sql = "";
+            DateTime createdAt = DateTime.Parse(txtCreatedAt.Text);
 
             if (txtCreatedAt.Text != "")
             {
@@ -223,7 +224,7 @@ namespace HelpDeskVG.User_Portal
                     sql += "@Section= '" + ddlSection.SelectedValue + "',";
                     sql += "@Category= '" + ddlCategory.SelectedValue + "',";
                     sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
-                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
                     sql += "@NatureOfProblem='" + ddlNatureOfProblem.SelectedValue + "'";
                 }
                 else
@@ -236,7 +237,7 @@ namespace HelpDeskVG.User_Portal
                     sql += "@Section= '" + ddlSection.SelectedValue + "',";
                     sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
                     sql += "@Category= '" + ddlCategory.SelectedValue + "',";
-                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
                     sql += "@NatureOfProblem ='" + ddlNatureOfProblem.SelectedValue + "'";
                 }
 
@@ -397,6 +398,9 @@ namespace HelpDeskVG.User_Portal
         protected void insertDetailsDraft()
         {
             string sql = "";
+            //DateTime createdAt = DateTime.Parse(txtCreatedAt.Text);
+            DateTime createdAt = DateTime.Parse(txtCreatedAt.Text);
+
             if (txtCreatedAt.Text != "")
             {
                 if (ddlEmployee.SelectedValue == "")
@@ -410,7 +414,7 @@ namespace HelpDeskVG.User_Portal
                     sql += "@Category= '" + ddlCategory.SelectedValue + "',";
                     sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
                     sql += "@NatureOfProblem='" + ddlNatureOfProblem.SelectedValue + "',";
-                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
                 }
@@ -425,7 +429,7 @@ namespace HelpDeskVG.User_Portal
                     sql += "@Category= '" + ddlCategory.SelectedValue + "',";
                     sql += "@Priority= '" + ddlPriority.SelectedValue + "',";
                     sql += "@NatureOfProblem ='" + ddlNatureOfProblem.SelectedValue + "',";
-                    sql += "@CreatedAt= '" + txtCreatedAt.Text + " 00:00:00',";
+                    sql += "@CreatedAt= '" + createdAt.ToString("yyyy-MM-dd HH:mm:ss tt") + "',";
                     sql += "@TransactedBy ='" + Session["EmployeeNo"].ToString() + "'";
 
                 }

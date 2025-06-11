@@ -438,7 +438,7 @@
                         <div class="tab-pane fade" id="pendingApprovalTickets" role="tabpanel">                          
                             <asp:Label ID="lblforPendingApproval" runat="server" CssClass="h4" Text="Pending List of Resolved Tickets."></asp:Label>
                                 <div class="table-responsive">
-                                <asp:GridView ID="gvMyTicketPendingApproval" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" PagerStyle-CssClass="GridPager" OnPageIndexChanging="gvMyTicketPendingApproval_PageIndexChanging" EmptyDataTe="No Data Found">
+                                <asp:GridView ID="gvMyTicketPendingApproval" runat="server" AutoGenerateColumns="false" CssClass="table table-hover card-table table-vcenter text-nowrap datatable mt-4" AllowPaging="true" PageSize="10" PagerStyle-CssClass="GridPager" OnPageIndexChanging="gvMyTicketPendingApproval_PageIndexChanging" EmptyData="No Data Found">
                                     <Columns>
                                         <asp:BoundField DataField="ticket_code" HeaderText="Ticket Code" />
                                         <asp:BoundField DataField="status" HeaderText="Status" />
@@ -684,7 +684,7 @@
                     <div class="col-md-12">
                         <div class="mb-3">
                             <asp:Label ID="lblCreatedAt" runat="server" CssClass="form-label status status-primary">Created At:</asp:Label>
-                            <asp:TextBox ID="txtCreatedAt" runat="server" CssClass="form-control text-reset mt-2" TextMode="Date"></asp:TextBox>
+                            <asp:TextBox ID="txtCreatedAt" runat="server" CssClass="form-control text-reset mt-2" TextMode="DateTimeLocal"></asp:TextBox>
                         </div>
                         <script type="text/javascript">
                             // Automatically set the maximum date to today
