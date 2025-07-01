@@ -673,9 +673,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label status status-primary">Created For:</label>
+                                    <label class="form-label status status-primary mb-2">Created For:</label>
                                     <asp:TextBox ID="txtCreatedFor" runat="server" CssClass="form-control text-reset" Visible="false" Value='<%# Eval("created_for")%>' Enabled="true"></asp:TextBox>
-                                    <asp:DropDownList ID="ddlCreatedForMd" runat="server" CssClass="form-select text-reset mt-2">
+                                    <asp:DropDownList ID="ddlCreatedForMd" runat="server" CssClass="form-select text text-reset">
                                     </asp:DropDownList>
                                 </div>
                            </div>

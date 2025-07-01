@@ -538,7 +538,7 @@ namespace HelpDeskVG.IT_PIC_Portal
             clsQueries.DisplayPriority(ddlPriorityMd);
             clsQueries.DisplayEmployee(ddlCreatedForMd);
 
-
+            HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdITPICRejectedList") as HiddenField;
 
             string sql = "";
             sql = @"SELECT a.subject, a.description, a.ticket_id, a.ticket_code, a.created_at, a.created_for, c.description_section, c.section_id, d.description_category, d.category_id, e.description_natureofprob, e.nature_of_prob_id, CONCAT(f.employee_first_name, ' ', f.employee_last_name) AS created_by, CONCAT(g.employee_first_name, ' ', g.employee_last_name) AS created_for_text, h.attachment_id, h.[data], h.[file_name], h.content_type, i.priority_id FROM t_TicketHeader AS a
@@ -550,14 +550,13 @@ namespace HelpDeskVG.IT_PIC_Portal
 					INNER JOIN dbVG_EmployeeMaster.dbo.m_employee AS g ON g.employee_code = a.created_for
                     LEFT JOIN t_AttachmentReport AS h ON a.ticket_id = h.ticket_header_id
 					LEFT JOIN m_Priority AS i ON i.priority_id = a.priority_id
-                    WHERE a.approval_transactional_level = '5' AND a.[assigned_emp_no_log] =" + Session["EmployeeNo"].ToString();
+                    WHERE a.approval_transactional_level = '5' AND a.[assigned_emp_no_log] =" + Session["EmployeeNo"].ToString() + " AND a.ticket_id =" + hfTicketHeaderId.Value.ToString();
 
             DataTable dt = new DataTable();
             dt = clsQueries.fetchData(sql);
 
             if (dt.Rows.Count > 0)
             {
-                HiddenField hfTicketHeaderId = (((LinkButton)sender).NamingContainer as GridViewRow).FindControl("hfTicketHeaderIdITPICRejectedList") as HiddenField;
 
                 if (hfTicketHeaderId.ToString() == "")
                 {
@@ -710,6 +709,7 @@ namespace HelpDeskVG.IT_PIC_Portal
                 txtCreatedBy.Text = dt.Rows[0]["created_by"].ToString();
                 txtCreatedFor.Text = dt.Rows[0]["created_for_text"].ToString();
                 txtSubjectMd.Text = dt.Rows[0]["subject"].ToString();
+                txtDescriptionMd.Text = dt.Rows[0]["description"].ToString();
                 txtAttachmentDescriptionMd.Text = dt.Rows[0]["descriptionreport"].ToString();
                 string iswithThirdParty = dt.Rows[0]["is_with_third_party"].ToString();
                 string iswithReceivedDateFromThirdParty = dt.Rows[0]["third_party_date_received"].ToString();

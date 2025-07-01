@@ -103,11 +103,28 @@
                                         <asp:TextBox ID="txtCreatedAt" runat="server" CssClass="form-control text-reset" AutoPostBack="false" TextMode="DateTimeLocal"></asp:TextBox>
                                     </div>
                                     <script type="text/javascript">
-                                        // Automatically set the maximum date to today
-                                        var txtBox = document.getElementById('<%= txtCreatedAt.ClientID %>');
-                                        var today = new Date().toISOString().split('T')[0];
-                                        txtBox.max = today;
-                                     </script>
+                                        window.onload = function () {
+                                            var txtBox = document.getElementById('<%= txtCreatedAt.ClientID %>');
+
+                                            // Build Local Date in format YYYY-MM-DDTHH:mm (for datetime-local input)
+                                            var now = new Date();
+                                            var year = now.getFullYear();
+                                            var month = String(now.getMonth() + 1).padStart(2, '0');
+                                            var day = String(now.getDate()).padStart(2, '0');
+                                            var hours = String(now.getHours()).padStart(2, '0');
+                                            var minutes = String(now.getMinutes()).padStart(2, '0');
+
+                                            var localDateTime = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+
+                                            // If empty, set value to now
+                                            if (!txtBox.value) {
+                                                txtBox.value = localDateTime;
+                                            }
+
+                                            // Optional: Max should be today and current time
+                                            txtBox.max = localDateTime;
+                                        }
+                                    </script>
                                 </div>
                             <div class="col-md-12">
                                 <div class="row">
