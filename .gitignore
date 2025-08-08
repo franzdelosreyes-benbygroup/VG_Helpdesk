@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/HelpdeskVG/bin/HelpDeskVG.dll
+/HelpdeskVG/bin/HelpDeskVG.pdb
+/HelpdeskVG/Web.Debug.config
+/HelpdeskVG/Web.Release.config
+/HelpdeskVG/Schema_Compare.scmp
